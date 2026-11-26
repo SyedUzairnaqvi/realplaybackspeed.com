@@ -9,7 +9,8 @@ import Layout from '../layouts/Layout.astro';
   <!-- Hero Section -->
   <section class="hero-band">
     <div class="section-container hero-content" style="text-align: center; position: relative; z-index: 1;">
-      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-md);">CALCULATOR</div>
+      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-xs);">Calculate</div>
+      <h2 class="hero-subheading" style="font-size: var(--font-size-body-lg); font-weight: var(--font-weight-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md); text-transform: uppercase; letter-spacing: 1px;">Playback Speed Calculator</h2>
       <h1 class="hero-title" data-i18n="hero.title" style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
         Playback Speed Calculator
       </h1>
@@ -20,6 +21,16 @@ import Layout from '../layouts/Layout.astro';
       <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
         <a href="#calculator" class="btn-primary" data-i18n="hero.cta-calc" style="text-decoration: none;">Start Calculating</a>
         <a href="/features" class="btn-secondary" data-i18n="hero.cta-features" style="text-decoration: none;">See Features</a>
+      </div>
+
+      <!-- Choose file upload (local video duration auto-detect) -->
+      <div style="margin-top: var(--spacing-xl); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-sm);">
+        <label for="hero-file-input" style="display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: pointer; font-size: var(--font-size-body-md); color: var(--color-body);">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Choose file
+        </label>
+        <input type="file" id="hero-file-input" accept="video/*" style="display: none;" />
+        <div id="hero-file-status" style="font-size: var(--font-size-body-sm); color: var(--color-mute); min-height: 1.25rem;"></div>
       </div>
     </div>
   </section>
@@ -118,7 +129,16 @@ import Layout from '../layouts/Layout.astro';
               <div class="result-value" id="std-percentage">0%</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
             </div>
-          </div>
+            </div>
+
+            <!-- Shareable URL (Mode 1) -->
+            <div style="margin-bottom: var(--spacing-lg);">
+              <div class="label" style="margin-bottom: var(--spacing-xs);">Shareable link</div>
+              <div style="display: flex; gap: var(--spacing-sm);">
+                <input type="text" id="std-share-url" class="input-field" readonly style="flex: 1;" />
+                <button class="btn-ghost" id="std-copy-url-btn" style="white-space: nowrap;">Copy link</button>
+              </div>
+            </div>
 
             <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
               <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
@@ -268,25 +288,27 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <div class="label" data-i18n="calculator.mode3.label.add" style="margin-bottom: var(--spacing-sm);">Add Video/Episode</div>
-            <div class="batch-add-row" style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: flex-end;">
-              <div style="flex: 2; min-width: 150px;">
-                <label class="label" data-i18n="calculator.mode3.label.title" for="batch-title">Title (optional)</label>
-                <input type="text" id="batch-title" class="input-field" placeholder="Video 1" />
+            <div class="label" data-i18n="calculator.mode3.label.add" style="margin-bottom: var(--spacing-sm);">Add Video / Episode</div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+              <div class="batch-entry-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--spacing-sm); align-items: end;">
+                <div>
+                  <label class="label" data-i18n="calculator.mode3.label.title" for="batch-title">Title (optional)</label>
+                  <input type="text" id="batch-title" class="input-field" placeholder="Video 1" />
+                </div>
+                <div>
+                  <label class="label" for="batch-hours">Hours</label>
+                  <input type="number" id="batch-hours" class="input-field" inputmode="numeric" autocomplete="off" name="batch-hours" min="0" max="999" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-minutes">Minutes</label>
+                  <input type="number" id="batch-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="batch-minutes" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-seconds">Seconds</label>
+                  <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <button class="btn-primary" id="batch-add-btn" data-i18n="calculator.mode3.btn.add">Add</button>
               </div>
-              <div style="flex: 1; min-width: 80px;">
-                <label class="label" for="batch-hours">Hours</label>
-                <input type="number" id="batch-hours" class="input-field" inputmode="numeric" autocomplete="off" name="batch-hours" min="0" max="999" placeholder="0" value="0" />
-              </div>
-              <div style="flex: 1; min-width: 80px;">
-                <label class="label" for="batch-minutes">Minutes</label>
-                <input type="number" id="batch-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="batch-minutes" min="0" max="59" placeholder="0" value="0" />
-              </div>
-              <div style="flex: 1; min-width: 80px;">
-                <label class="label" for="batch-seconds">Seconds</label>
-                <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
-              </div>
-              <button class="btn-primary" id="batch-add-btn" data-i18n="calculator.mode3.btn.add" style="height: 40px; padding: 0 20px; white-space: nowrap;">Add</button>
             </div>
           </div>
 
@@ -470,24 +492,74 @@ import Layout from '../layouts/Layout.astro';
       return h * 3600 + min * 60 + s;
     }
 
+    function extractLengthSeconds(html) {
+      if (!html) return 0;
+      // Try multiple patterns YouTube embeds lengthSeconds in
+      const patterns = [
+        /"lengthSeconds"\s*:\s*(\d+)/,
+        /lengthSeconds["']?\s*:\s*["']?(\d+)["']?/,
+        /"length_seconds"\s*:\s*(\d+)/,
+        /length_seconds["']?\s*:\s*["']?(\d+)["']?/
+      ];
+      for (const re of patterns) {
+        const m = html.match(re);
+        if (m) return parseInt(m[1], 10);
+      }
+      return 0;
+    }
+
+    function extractTitle(html) {
+      if (!html) return '';
+      const m = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)
+        || html.match(/<title>([^<]+)<\/title>/i);
+      if (m) return m[1].replace(/\s*-\s*YouTube\s*$/i, '').trim();
+      return '';
+    }
+
+    async function fetchViaProxy(proxyUrl, signal) {
+      const res = await fetch(proxyUrl, { signal, headers: { 'Accept': 'text/html' } });
+      if (!res.ok) throw new Error('proxy responded ' + res.status);
+      return await res.text();
+    }
+
     async function fetchYouTubeMetadata(videoId) {
-      // Try public page metadata via a CORS proxy (no API key required)
       const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(watchUrl)}`;
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
+      const timeout = setTimeout(() => controller.abort(), 15000);
+
       try {
-        const res = await fetch(proxyUrl, { signal: controller.signal, headers: { 'Accept': 'text/html' } });
-        if (!res.ok) throw new Error('proxy responded ' + res.status);
-        const html = await res.text();
-        const titleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)
-          || html.match(/<title>([^<]+)<\/title>/i);
-        const durationMatch = html.match(/<meta[^>]+itemprop=["']duration["'][^>]+content=["']([^"']+)["']/i);
-        const title = titleMatch ? titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, '').trim() : 'YouTube Video';
-        const durationSeconds = durationMatch ? parseISO8601Duration(durationMatch[1]) : 0;
-        return { title, durationSeconds };
-      } catch (err) {
-        // Fallback: try oEmbed for title only (no duration)
+        let lastErr = null;
+
+        // Multiple public CORS proxy endpoints (no API key required)
+        const proxies = [
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(watchUrl)}`,
+          `https://api.allorigins.win/get?url=${encodeURIComponent(watchUrl)}`,
+          `https://corsproxy.io/?url=${encodeURIComponent(watchUrl)}`
+        ];
+
+        for (const proxyUrl of proxies) {
+          try {
+            const html = await fetchViaProxy(proxyUrl, controller.signal);
+
+            // Try parsed JSON if the proxy wraps it (allorigins /get returns {contents: "..."})
+            let parsedHtml = html;
+            try {
+              const wrapped = JSON.parse(html);
+              if (wrapped && wrapped.contents && typeof wrapped.contents === 'string') {
+                parsedHtml = wrapped.contents;
+              }
+            } catch (e) { /* not JSON, use as-is */ }
+
+            const durationSeconds = extractLengthSeconds(parsedHtml) || 0;
+            const title = extractTitle(parsedHtml) || 'YouTube Video';
+            return { title, durationSeconds };
+          } catch (err) {
+            lastErr = err;
+            continue;
+          }
+        }
+
+        // All proxies failed — try oEmbed for title only (direct, no CORS proxy needed)
         try {
           const oembed = `https://www.youtube.com/oembed?url=${encodeURIComponent(watchUrl)}&format=json`;
           const res2 = await fetch(oembed, { signal: controller.signal });
@@ -496,7 +568,8 @@ import Layout from '../layouts/Layout.astro';
             return { title: data.title || 'YouTube Video', durationSeconds: 0 };
           }
         } catch (e) { /* ignore */ }
-        throw err;
+
+        throw lastErr || new Error('Unable to fetch video info');
       } finally {
         clearTimeout(timeout);
       }
@@ -652,6 +725,13 @@ import Layout from '../layouts/Layout.astro';
       }
 
       document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
+
+      // Update shareable URL
+      const shareUrlEl = document.getElementById('std-share-url');
+      if (shareUrlEl) {
+        shareUrlEl.value = `https://realplaybackspeed.com?mode=standard&h=${stdState.hours}&m=${stdState.minutes}&s=${stdState.seconds}&speed=${stdState.speed}`;
+      }
+
       updateStdPresetButtons();
     }
 
@@ -708,6 +788,20 @@ import Layout from '../layouts/Layout.astro';
       const text = `Original: ${formatSeconds(originalSeconds)} | Speed: ${stdState.speed}x | New Duration: ${formatSeconds(result.adjustedSeconds)} | Time Saved: ${formatSeconds(result.timeSaved)} (${result.percentageSaved.toFixed(1)}%)`;
       const url = `https://realplaybackspeed.com?mode=standard&h=${stdState.hours}&m=${stdState.minutes}&s=${stdState.seconds}&speed=${stdState.speed}`;
       shareResults(text, url);
+    });
+
+    document.getElementById('std-copy-url-btn').addEventListener('click', () => {
+      const urlEl = document.getElementById('std-share-url');
+      if (urlEl) {
+        urlEl.select();
+        try {
+          navigator.clipboard.writeText(urlEl.value);
+          showToast('Link copied!');
+        } catch (e) {
+          document.execCommand('copy');
+          showToast('Link copied!');
+        }
+      }
     });
 
     document.getElementById('std-reset-btn').addEventListener('click', () => {
@@ -1152,30 +1246,89 @@ import Layout from '../layouts/Layout.astro';
     }
 
     // ============================================
-    // THEME TOGGLE
+    // CHOOSE FILE - LOCAL VIDEO DURATION AUTO-DETECT
     // ============================================
-    function updateThemeIcon(theme) {
-      var sun = document.querySelectorAll('.sun-icon');
-      var moon = document.querySelectorAll('.moon-icon');
-      sun.forEach(function(el) { el.style.display = theme === 'dark' ? 'none' : 'block'; });
-      moon.forEach(function(el) { el.style.display = theme === 'dark' ? 'block' : 'none'; });
-    }
+    (function() {
+      var fileInput = document.getElementById('hero-file-input');
+      var statusEl = document.getElementById('hero-file-status');
+      if (!fileInput || !statusEl) return;
 
-    function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      var meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fafafa');
-      updateThemeIcon(theme);
-    }
+      fileInput.addEventListener('change', function() {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        if (!/^video\//i.test(file.type || '')) {
+          statusEl.textContent = 'Please select a video file.';
+          statusEl.style.color = 'var(--color-warning-deep)';
+          return;
+        }
 
-    document.getElementById('theme-toggle').addEventListener('click', function() {
-      var current = document.documentElement.getAttribute('data-theme') || 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    });
+        var url = URL.createObjectURL(file);
+        var video = document.createElement('video');
+        video.preload = 'metadata';
+        video.playsInline = true;
+        video.src = url;
+        var loaded = false;
+
+        function cleanup() {
+          try { URL.revokeObjectURL(url); } catch (e) {}
+          video.remove();
+          video = null;
+        }
+
+        function onLoaded() {
+          if (loaded) return;
+          loaded = true;
+          var seconds = video.duration || 0;
+          if (seconds <= 0 || !isFinite(seconds)) {
+            statusEl.textContent = 'Could not read duration from ' + file.name + ' — enter time manually below.';
+            statusEl.style.color = 'var(--color-warning-deep)';
+            cleanup();
+            return;
+          }
+          var h = Math.floor(seconds / 3600);
+          var m = Math.floor((seconds % 3600) / 60);
+          var s = Math.floor(seconds % 60);
+          setStdDuration(h, m, s);
+          statusEl.textContent = file.name + ' — ' + formatSeconds(seconds) + ' detected';
+          statusEl.style.color = 'var(--color-success-deep)';
+          showToast(file.name + ' duration detected (' + formatSeconds(seconds) + ')');
+          cleanup();
+        }
+
+        video.addEventListener('loadedmetadata', onLoaded);
+        video.addEventListener('loadeddata', onLoaded);
+        video.addEventListener('canplay', onLoaded);
+        video.addEventListener('error', function() {
+          if (loaded) return;
+          loaded = true;
+          statusEl.textContent = 'Could not read ' + file.name + ' — enter time manually below.';
+          statusEl.style.color = 'var(--color-warning-deep)';
+          cleanup();
+        });
+
+        setTimeout(function() {
+          if (!loaded) {
+            loaded = true;
+            var seconds = video.duration || 0;
+            if (seconds > 0 && isFinite(seconds)) {
+              var h = Math.floor(seconds / 3600);
+              var m = Math.floor((seconds % 3600) / 60);
+              var s = Math.floor(seconds % 60);
+              setStdDuration(h, m, s);
+              statusEl.textContent = file.name + ' — ' + formatSeconds(seconds) + ' detected';
+              statusEl.style.color = 'var(--color-success-deep)';
+              showToast(file.name + ' duration detected (' + formatSeconds(seconds) + ')');
+            } else {
+              statusEl.textContent = 'Timed out reading ' + file.name + ' — enter time manually below.';
+              statusEl.style.color = 'var(--color-warning-deep)';
+            }
+            cleanup();
+          }
+        }, 10000);
+      });
+    })();
 
     // Initialize
-    updateThemeIcon(document.documentElement.getAttribute('data-theme') || 'light');
     parseUrlParams();
     calculateStd();
     calculateRev();

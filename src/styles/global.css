@@ -495,7 +495,7 @@
 
   .hero-band {
     background-color: var(--color-canvas);
-    padding: var(--spacing-3xl) var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-lg);
     position: relative;
     overflow: hidden;
   }
@@ -505,7 +505,7 @@
     position: absolute;
     inset: 0;
     background: var(--gradient-mesh);
-    opacity: 0.15;
+    opacity: 0.06;
     filter: blur(100px);
     pointer-events: none;
   }
@@ -681,8 +681,8 @@
   }
 
   .hero-band {
-    padding-top: var(--spacing-2xl);
-    padding-bottom: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
   }
 
   .hero-eyebrow {
@@ -765,6 +765,45 @@
   }
   #shortcuts-modal > .card {
     padding: var(--spacing-md) !important;
+  }
+}
+
+/* Fullscreen calculator */
+html.is-fullscreen .nav-bar,
+html.is-fullscreen footer,
+html.is-fullscreen .toast {
+  display: none !important;
+}
+html.is-fullscreen #calculator {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 2147483647 !important;
+  background: var(--color-canvas-elevated) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+/* Batch entry grid: stack on mobile */
+#panel-batch .batch-entry-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: var(--spacing-sm);
+  align-items: end;
+}
+@media (max-width: 640px) {
+  #panel-batch .batch-entry-grid {
+    grid-template-columns: 1fr;
+  }
+  #panel-batch .batch-entry-grid > * {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  #panel-batch .batch-entry-grid #batch-add-btn {
+    width: 100% !important;
   }
 }
 

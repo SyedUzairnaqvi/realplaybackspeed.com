@@ -31,21 +31,17 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <meta name="color-scheme" content="light dark" />
-    <script is:inline>
-      (function() {
-        var stored = localStorage.getItem('theme');
-        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fafafa');
-      })();
-    </script>
+    <script is:inline src="/i18n.js"></script>
   </head>
   <body>
     <nav class="nav-bar">
-      <div class="section-container nav-inner" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-lg); flex-wrap: wrap; gap: var(--spacing-md);">
-        <a href="/" style="display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none;">
-          <span style="font-family: var(--font-family-sans); font-weight: 600; font-size: 18px; color: var(--color-ink); letter-spacing: -0.5px;">
+      <div class="section-container nav-inner" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-md);">
+        <a href="/" style="display: flex; align-items: center; gap: var(--spacing-sm); text-decoration: none;">
+          <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span style="font-family: var(--font-family-sans); font-weight: 700; font-size: 19px; color: var(--color-ink); letter-spacing: -0.5px;">
             Real Playback Speed
           </span>
         </a>
@@ -74,6 +70,11 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
               <path class="sun-icon" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
               <circle class="sun-icon" cx="12" cy="12" r="5" />
               <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <button class="btn-icon" id="fullscreen-toggle" style="width: 36px; height: 36px;" aria-label="Toggle fullscreen calculator" title="Fullscreen calculator">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3M21 3h-3a2 2 0 0 0-2 2v3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
             </svg>
           </button>
         </div>
@@ -180,6 +181,103 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
         if (langSel) langSel.addEventListener('change', function() { setLang(this.value); });
         var devSel = document.getElementById('device-select');
         if (devSel) devSel.addEventListener('change', function() { setDevice(this.value); });
+      })();
+    </script>
+
+    <script is:inline>
+      (function() {
+        // ---------- Theme toggle ----------
+        var themeBtn = document.getElementById('theme-toggle');
+        var root = document.documentElement;
+        var meta = document.querySelector('meta[name="theme-color"]');
+
+        function applyTheme(theme) {
+          root.setAttribute('data-theme', theme);
+          try { localStorage.setItem('theme', theme); } catch (e) {}
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fafafa');
+          updateThemeIcons(theme);
+        }
+
+        function updateThemeIcons(theme) {
+          var suns = document.querySelectorAll('.sun-icon');
+          var moons = document.querySelectorAll('.moon-icon');
+          suns.forEach(function(el) { el.style.display = theme === 'dark' ? 'none' : 'block'; });
+          moons.forEach(function(el) { el.style.display = theme === 'dark' ? 'block' : 'none'; });
+        }
+
+        var storedTheme = null;
+        try { storedTheme = localStorage.getItem('theme'); } catch (e) {}
+        var initialTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(initialTheme);
+
+        if (themeBtn) {
+          themeBtn.addEventListener('click', function() {
+            var current = root.getAttribute('data-theme') || 'light';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+          });
+        }
+
+        // ---------- Fullscreen ----------
+        var fsBtn = document.getElementById('fullscreen-toggle');
+        var calc = document.getElementById('calculator');
+        if (!fsBtn || !calc) return;
+
+        function isFullscreen() {
+          return !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement
+          );
+        }
+
+        function updateFsIcon(fs) {
+          var svg = fsBtn.querySelector('svg');
+          if (!svg) return;
+          if (fs) {
+            svg.innerHTML = '<path d="M20 3H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7h-4z" /><path d="M8 3H5a2 2 0 0 0-2 2v3M21 3h-3a2 2 0 0 0-2 2v3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />';
+            fsBtn.setAttribute('aria-label', 'Exit fullscreen');
+            fsBtn.setAttribute('title', 'Exit fullscreen');
+          } else {
+            svg.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3M21 3h-3a2 2 0 0 0-2 2v3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />';
+            fsBtn.setAttribute('aria-label', 'Fullscreen calculator');
+            fsBtn.setAttribute('title', 'Fullscreen calculator');
+          }
+        }
+
+        function requestFS() {
+          var m = calc.requestFullscreen || calc.webkitRequestFullscreen || calc.msRequestFullscreen;
+          if (m) {
+            var p = m.call(calc);
+            if (p && typeof p.then === 'function') {
+              p.catch(function() {});
+            }
+          }
+        }
+        function exitFS() {
+          var m = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+          if (m) {
+            var p = m.call(document);
+            if (p && typeof p.then === 'function') {
+              p.catch(function() {});
+            }
+          }
+        }
+
+        fsBtn.addEventListener('click', function() {
+          if (isFullscreen()) exitFS();
+          else requestFS();
+        });
+
+        ['fullscreenchange', 'webkitfullscreenchange', 'msfullscreenchange'].forEach(function(ev) {
+          document.addEventListener(ev, function() {
+            var fs = isFullscreen();
+            updateFsIcon(fs);
+            if (fs) root.classList.add('is-fullscreen');
+            else root.classList.remove('is-fullscreen');
+          });
+        });
+
+        updateFsIcon(false);
       })();
     </script>
   </body>
