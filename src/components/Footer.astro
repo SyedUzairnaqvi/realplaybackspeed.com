@@ -1,0 +1,63 @@
+---
+export interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+<footer class={`footer ${className}`} style="margin-top: var(--spacing-2xl);">
+  <div class="section-container">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-sm);">
+        <a href="/" style="display: flex; align-items: center; gap: var(--spacing-sm); text-decoration: none;">
+          <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span style="font-family: var(--font-family-sans); font-weight: 700; font-size: 19px; color: var(--color-ink); letter-spacing: -0.5px;">
+            Real Playback Speed
+          </span>
+        </a>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin: 0;">Free online playback speed calculator. Calculate exact watch time, time saved, and required speed for any media.</p>
+      </div>
+      <div>
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Calculators</div>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Speed Calculator</a>
+          <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Target Time</a>
+          <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Playlist Batch</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Resources</div>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <a href="/how-it-works" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">How it works</a>
+          <a href="/examples" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Examples</a>
+          <a href="/features" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Features</a>
+          <a href="/guide" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Calculator Guide & FAQ</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Legal</div>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <a href="/privacy-policy" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Privacy Policy</a>
+          <a href="/about" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">About Us</a>
+          <a href="/terms" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Terms and Conditions</a>
+          <a href="/contact" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid var(--color-hairline); padding-top: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
+      <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">© 2026 Real Playback Speed. All rights reserved.</div>
+      <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">Built with Astro + Tailwind CSS</div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer a {
+    transition: color 0.2s ease;
+  }
+  .footer a:hover {
+    color: var(--color-link);
+  }
+</style>

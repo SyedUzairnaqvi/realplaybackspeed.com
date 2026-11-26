@@ -1,0 +1,118 @@
+---
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  device?: string;
+  ogImage?: string;
+}
+
+const { title = 'Real Playback Speed', description = 'Free online playback speed calculator.', lang = 'en', device = 'desktop', ogImage } = Astro.props;
+---
+<!doctype html>
+<html lang={lang} data-theme="light" data-device={device} data-lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="PBspeed" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafafa" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="playback speed, playback speed calculator, youtube playback speed, spotify playback speed, spotify playback speed extension, playback speed extension, netflix playback speed, audiobook playback speed, video playback speed extension" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://realplaybackspeed.com" />
+    <meta property="og:image" content={ogImage || '/favicon-96x96.png'} />
+    <meta property="og:site_name" content="Real Playback Speed" />
+    <meta property="og:locale" content={lang} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage || '/favicon-96x96.png'} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline src="/i18n.js"></script>
+  </head>
+  <body>
+    <!-- Sticky navbar -->
+    <nav class="nav-bar" style="position: sticky; top: 0; z-index: 50; background: var(--color-canvas-elevated); border-bottom: 1px solid var(--color-hairline); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+      <div class="section-container nav-inner" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-md);">
+        <a href="/" style="display: flex; align-items: center; gap: var(--spacing-sm); text-decoration: none;">
+          <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span style="font-family: var(--font-family-sans); font-weight: 700; font-size: 19px; color: var(--color-ink); letter-spacing: -0.5px;">
+            Real Playback Speed
+          </span>
+        </a>
+        <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap;">
+          <a href="/" class="btn-primary" style="text-decoration: none;">Open Calculator</a>
+          <button class="btn-icon" id="theme-toggle" style="width: 36px; height: 36px;" aria-label="Toggle dark mode">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path class="sun-icon" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              <circle class="sun-icon" cx="12" cy="12" r="5" />
+              <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <slot />
+
+    <Footer />
+
+    <script is:inline src="/i18n.js"></script>
+    <script is:inline>
+      (function() {
+        var themeBtn = document.getElementById('theme-toggle');
+        var root = document.documentElement;
+        var meta = document.querySelector('meta[name="theme-color"]');
+
+        function applyTheme(theme) {
+          root.setAttribute('data-theme', theme);
+          try { localStorage.setItem('theme', theme); } catch (e) {}
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fafafa');
+          updateThemeIcons(theme);
+        }
+
+        function updateThemeIcons(theme) {
+          var suns = document.querySelectorAll('.sun-icon');
+          var moons = document.querySelectorAll('.moon-icon');
+          suns.forEach(function(el) { el.style.display = theme === 'dark' ? 'none' : 'block'; });
+          moons.forEach(function(el) { el.style.display = theme === 'dark' ? 'block' : 'none'; });
+        }
+
+        var storedTheme = null;
+        try { storedTheme = localStorage.getItem('theme'); } catch (e) {}
+        var initialTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(initialTheme);
+
+        if (themeBtn) {
+          themeBtn.addEventListener('click', function() {
+            var current = root.getAttribute('data-theme') || 'light';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

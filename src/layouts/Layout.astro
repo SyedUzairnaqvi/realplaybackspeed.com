@@ -1,5 +1,6 @@
 ---
 import { locales, defaultLocale, translations } from '../lib/i18n.js';
+import Footer from '../components/Footer.astro';
 
 export interface Props {
   title?: string;
@@ -96,48 +97,7 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
 
     <slot />
 
-    <footer class="footer">
-      <div class="section-container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
-          <div>
-            <div data-i18n="footer.title" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Real Playback Speed</div>
-            <p data-i18n="footer.desc" style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin: 0;">Free online playback speed calculator. Calculate exact watch time, time saved, and required speed for any media.</p>
-          </div>
-          <div>
-            <div data-i18n="footer.calculators" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Calculators</div>
-            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.calculator">Speed Calculator</a>
-              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="calculator.tab-reverse">Target Time</a>
-              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="calculator.tab-batch">Playlist Batch</a>
-            </div>
-          </div>
-          <div>
-            <div data-i18n="footer.resources" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Resources</div>
-            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <a href="/how-it-works" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.how-it-works">How it works</a>
-              <a href="/examples" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.examples">Examples</a>
-              <a href="/features" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.features">Features</a>
-              <a href="/guide" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Calculator Guide & FAQ</a>
-            </div>
-          </div>
-          <div>
-            <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Legal</div>
-            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <a href="/privacy" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Privacy Policy</a>
-              <a href="/about" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">About Us</a>
-              <a href="/terms" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Terms and Conditions</a>
-              <a href="/contact" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Contact Us</a>
-            </div>
-          </div>
-        </div>
-        <div style="border-top: 1px solid var(--color-hairline); padding-top: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
-          <div data-i18n="footer.copyright" style="font-size: var(--font-size-body-sm); color: var(--color-mute);">© 2026 Real Playback Speed. All rights reserved.</div>
-          <div data-i18n="footer.built-with" style="font-size: var(--font-size-body-sm); color: var(--color-mute);">
-            Built with Astro + Tailwind CSS
-          </div>
-        </div>
-      </div>
-    </footer>
+    <Footer />
 
     <!-- Toast Notification -->
     <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
