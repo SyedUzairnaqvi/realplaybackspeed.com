@@ -1,11 +1,1207 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <!-- Skip Link -->
+  <a href="#calculator" style="position: absolute; left: -9999px; z-index: 999; padding: 8px 16px; background: var(--color-ink); color: var(--color-on-primary); text-decoration: none; border-radius: var(--radius-sm);" on:focus="this.style.left='8px'; this.style.top='8px';" on:blur="this.style.left='-9999px';">Skip to calculator</a>
+  
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <div class="section-container" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-lg);">
+      <a href="/" style="display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none;">
+        <span style="font-family: var(--font-family-sans); font-weight: 600; font-size: 18px; color: var(--color-ink); letter-spacing: -0.5px;">
+          Real Playback Speed
+        </span>
+      </a>
+      <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+        <a href="#how-it-works" class="btn-ghost" style="font-size: 14px;">How it works</a>
+        <a href="#examples" class="btn-ghost" style="font-size: 14px;">Examples</a>
+        <button class="btn-icon" id="theme-toggle" style="width: 36px; height: 36px;" aria-label="Toggle dark mode">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path class="sun-icon" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            <circle class="sun-icon" cx="12" cy="12" r="5" />
+            <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-band">
+    <div class="section-container" style="text-align: center; position: relative; z-index: 1;">
+      <div class="eyebrow" style="margin-bottom: var(--spacing-md);">CALCULATOR</div>
+      <h1 style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+        Playback Speed Calculator
+      </h1>
+      <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
+        Calculate exact watch or listen duration, time saved, and required speed in real time. 
+        No "Calculate" button needed — results update as you type.
+      </p>
+      <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+        <a href="#calculator" class="btn-primary" style="text-decoration: none;">Start Calculating</a>
+        <a href="#features" class="btn-secondary" style="text-decoration: none;">See Features</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section id="calculator" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <!-- Mode Tabs -->
+      <div class="mode-tabs" role="tablist" aria-label="Calculator modes">
+        <button role="tab" aria-selected="true" aria-controls="panel-standard" id="tab-standard" class="mode-tab active" data-mode="standard">
+          <span class="hidden sm:inline">Speed Calculator</span>
+          <span class="sm:hidden">Speed</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-reverse" id="tab-reverse" class="mode-tab" data-mode="reverse">
+          <span class="hidden sm:inline">Target Time</span>
+          <span class="sm:hidden">Target</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-batch" id="tab-batch" class="mode-tab" data-mode="batch">
+          <span class="hidden sm:inline">Playlist Batch</span>
+          <span class="sm:hidden">Batch</span>
+        </button>
+      </div>
+
+      <!-- Mode 1: Standard Playback Speed Calculator -->
+      <div id="panel-standard" role="tabpanel" aria-labelledby="tab-standard">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 1</div>
+            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Standard Playback Speed
+            </h2>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div>
+              <label class="label" for="std-hours">Hours</label>
+              <input type="number" id="std-hours" class="input-field" inputmode="numeric" autocomplete="off" name="std-hours" min="0" max="999" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" for="std-minutes">Minutes</label>
+              <input type="number" id="std-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="std-minutes" min="0" max="59" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" for="std-seconds">Seconds</label>
+              <input type="number" id="std-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="std-seconds" min="0" max="59" placeholder="0" value="0" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" for="std-speed">Playback Speed</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="std-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
+              <input type="number" id="std-speed" class="input-field" inputmode="decimal" autocomplete="off" name="std-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-sm);">Quick Presets</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.5">0.5x</button>
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">New Duration</div>
+              <div class="result-value" id="std-new-duration">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-new-duration-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Time Saved</div>
+              <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Percentage Saved</div>
+              <div class="result-value" id="std-percentage">0%</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+            <button class="btn-ghost" id="std-share-btn" aria-label="Share results">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              Share
+            </button>
+            <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode 2: Target Finish Time / Reverse Calculator -->
+      <div id="panel-reverse" role="tabpanel" aria-labelledby="tab-reverse" style="display: none;">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 2</div>
+            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Target Finish Time
+            </h2>
+            <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              Find the exact playback speed required to finish media within your available time window.
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-sm);">Original Media Length</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-orig-hours">Hours</label>
+                <input type="number" id="rev-orig-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-minutes">Minutes</label>
+                <input type="number" id="rev-orig-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-seconds">Seconds</label>
+                <input type="number" id="rev-orig-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-sm);">Available Time Window</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-target-hours">Hours</label>
+                <input type="number" id="rev-target-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-minutes">Minutes</label>
+                <input type="number" id="rev-target-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-seconds">Seconds</label>
+                <input type="number" id="rev-target-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Required Speed</div>
+              <div class="result-value" id="rev-required-speed">0.00x</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-speed-description">Enter durations above</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Time Saved</div>
+              <div class="result-value result-positive" id="rev-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-time-saved-human">0s</div>
+            </div>
+          </div>
+
+          <div id="rev-warning" style="display: none; padding: var(--spacing-md); background-color: var(--color-warning-soft); border: 1px solid var(--color-warning); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); color: var(--color-warning-deep); font-size: var(--font-size-body-md);">
+          </div>
+
+          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="rev-copy-btn" aria-label="Copy results to clipboard">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              Share
+            </button>
+            <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode 3: Multi-Video / Playlist Batch Calculator -->
+      <div id="panel-batch" role="tabpanel" aria-labelledby="tab-batch" style="display: none;">
+        <div class="card" style="max-width: 800px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 3</div>
+            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Playlist Batch Calculator
+            </h2>
+            <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              Add multiple videos, episodes, or chapters to calculate combined duration and total time saved.
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" for="batch-speed">Playback Speed</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="batch-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
+              <input type="number" id="batch-speed" class="input-field" inputmode="decimal" autocomplete="off" name="batch-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-sm);">Add Video/Episode</div>
+            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: flex-end;">
+              <div style="flex: 2; min-width: 150px;">
+                <label class="label" for="batch-title">Title (optional)</label>
+                <input type="text" id="batch-title" class="input-field" placeholder="Video 1" />
+              </div>
+              <div style="flex: 1; min-width: 80px;">
+                <label class="label" for="batch-hours">Hours</label>
+                <input type="number" id="batch-hours" class="input-field" inputmode="numeric" autocomplete="off" name="batch-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div style="flex: 1; min-width: 80px;">
+                <label class="label" for="batch-minutes">Minutes</label>
+                <input type="number" id="batch-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="batch-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div style="flex: 1; min-width: 80px;">
+                <label class="label" for="batch-seconds">Seconds</label>
+                <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <button class="btn-primary" id="batch-add-btn" style="height: 40px; padding: 0 20px; white-space: nowrap;">Add</button>
+            </div>
+          </div>
+
+          <div id="batch-list" style="margin-bottom: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Videos</div>
+              <div class="result-value" id="batch-count">0</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Original Total</div>
+              <div class="result-value" id="batch-original">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-original-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Adjusted Total</div>
+              <div class="result-value" id="batch-adjusted">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-adjusted-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label">Time Saved</div>
+              <div class="result-value result-positive" id="batch-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-saved-human">0s</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="batch-clear-btn" aria-label="Clear all videos">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+              Clear All
+            </button>
+            <button class="btn-ghost" id="batch-copy-btn" aria-label="Copy results to clipboard">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+            <button class="btn-ghost" id="batch-share-btn" aria-label="Share results">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas);">
+    <div class="section-container">
+      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">FEATURES</div>
+        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+          Built for speed
+        </h2>
+        <p style="font-size: var(--font-size-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto;">
+          Real-time calculations, keyboard shortcuts, and a clean interface that gets out of your way.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg);">
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">⚡</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Real-time Updates</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Results update instantly as you type. No "Calculate" button needed.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">🎯</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Target Time Reverse</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Enter your available time and find the exact speed needed to finish on time.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">📋</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Playlist Batch</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Add multiple videos, episodes, or chapters for combined calculations.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">⌨️</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Keyboard Shortcuts</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Numbers 1-8 for presets, C to copy, S to share, R to reset.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">📱</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Mobile Friendly</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Responsive design that works seamlessly on any device.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">🔗</div>
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Share Results</h3>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">One-click copy and shareable URLs with your calculations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">GUIDE</div>
+        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+          How to use the calculator
+        </h2>
+      </div>
+
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 1: Standard Playback Speed</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Enter the total length of the video/podcast in hours, minutes, and seconds.</li>
+            <li>Adjust the playback speed using the slider or type a custom value.</li>
+            <li>Or click one of the preset buttons (1.25x, 1.5x, 1.75x, 2.0x, 2.5x, 3.0x).</li>
+            <li>See the new duration, exact time saved, and percentage saved in real time.</li>
+          </ol>
+        </div>
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 2: Target Finish Time</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Enter the original media length.</li>
+            <li>Enter your available time window (deadline).</li>
+            <li>The calculator shows the exact playback speed required to finish on time.</li>
+            <li>Also shows how much time you'll save at that speed.</li>
+          </ol>
+        </div>
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 3: Playlist Batch</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Set a playback speed for the entire playlist.</li>
+            <li>Add multiple videos, episodes, or chapters with their durations.</li>
+            <li>See combined original duration, adjusted duration, and total time saved.</li>
+            <li>Remove individual items or clear all to start over.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section id="examples" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas);">
+    <div class="section-container">
+      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">EXAMPLES</div>
+        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+          Common scenarios
+        </h2>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: var(--font-size-body-md);">
+          <thead>
+            <tr>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Original Duration</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Speed</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">New Duration</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Time Saved</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:20:00 (33%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:45:30</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:30:20</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:15:10 (33%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">07:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">05:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">02:30:00 (33%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:08:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:06:24</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:01:36 (20%)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formula Section -->
+  <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">FORMULA</div>
+        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-lg);">
+          How it's calculated
+        </h2>
+        <div class="card" style="text-align: left; padding: var(--spacing-xl);">
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);">Total time in seconds</strong> = [(Hours × 3600) + (Minutes × 60) + Seconds] ÷ Playback Speed
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);">Time Saved</strong> = Original Duration − Adjusted Duration
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);">Percentage Saved</strong> = (Time Saved ÷ Original Duration) × 100
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">
+            <strong style="color: var(--color-ink);">Required Speed (Reverse)</strong> = Original Duration ÷ Target Duration
+          </p>
+        </div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: var(--spacing-md);">
+          Example: A 1-hour video at 1.5x speed takes 40 minutes, saving 20 minutes (33.3%).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+        <div>
+          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Real Playback Speed</div>
+          <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin: 0;">Free online playback speed calculator. Calculate exact watch time, time saved, and required speed for any media.</p>
+        </div>
+        <div>
+          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Calculators</div>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Speed Calculator</a>
+            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Target Time</a>
+            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Playlist Batch</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Resources</div>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+            <a href="#how-it-works" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">How it works</a>
+            <a href="#examples" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Examples</a>
+            <a href="#features" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Features</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--color-hairline); padding-top: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
+        <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">© 2026 Real Playback Speed. All rights reserved.</div>
+        <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">
+          Built with Astro + Tailwind CSS
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Keyboard Shortcuts Help Modal -->
+  <div id="shortcuts-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: var(--spacing-lg);">
+    <div class="card" style="max-width: 400px; width: 100%; box-shadow: var(--shadow-floating);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+        <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0;">Keyboard Shortcuts</h3>
+        <button class="btn-icon" id="close-shortcuts" style="width: 32px; height: 32px;" aria-label="Close shortcuts dialog">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Preset speeds 0.5x–3.0x</span>
+          <span><kbd class="kbd">1</kbd> <kbd class="kbd">2</kbd> <kbd class="kbd">3</kbd> <kbd class="kbd">4</kbd> <kbd class="kbd">5</kbd> <kbd class="kbd">6</kbd> <kbd class="kbd">7</kbd> <kbd class="kbd">8</kbd></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Copy results</span>
+          <span><kbd class="kbd">C</kbd></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Share results</span>
+          <span><kbd class="kbd">S</kbd></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Reset calculator</span>
+          <span><kbd class="kbd">R</kbd></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Switch modes</span>
+          <span><kbd class="kbd">Tab</kbd> / <kbd class="kbd">Shift+Tab</kbd></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--color-body);">Show shortcuts</span>
+          <span><kbd class="kbd">?</kbd></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Time formatting utilities (inlined for client-side)
+    function parseTimeToSeconds(timeInput) {
+      const trimmed = timeInput.trim();
+      if (!trimmed) return 0;
+      if (/^\d+(\.\d+)?$/.test(trimmed)) {
+        return parseFloat(trimmed);
+      }
+      const parts = trimmed.split(':').map(p => parseFloat(p));
+      if (parts.some(isNaN)) return 0;
+      if (parts.length === 3) {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      } else if (parts.length === 2) {
+        return parts[0] * 60 + parts[1];
+      } else if (parts.length === 1) {
+        return parts[0];
+      }
+      return 0;
+    }
+
+    function formatSeconds(seconds, showHours = true) {
+      const totalSeconds = Math.max(0, Math.round(seconds));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const secs = totalSeconds % 60;
+      if (showHours || hours > 0) {
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function formatDuration(seconds) {
+      const totalSeconds = Math.max(0, Math.round(seconds));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const secs = totalSeconds % 60;
+      const parts = [];
+      if (hours > 0) parts.push(`${hours}h`);
+      if (minutes > 0) parts.push(`${minutes}m`);
+      if (secs > 0 || parts.length === 0) parts.push(`${secs}s`);
+      return parts.join(' ');
+    }
+
+    function calculatePlayback(originalSeconds, speed) {
+      if (originalSeconds <= 0 || speed <= 0) {
+        return { originalSeconds, speed, adjustedSeconds: 0, timeSaved: 0, percentageSaved: 0 };
+      }
+      const adjustedSeconds = originalSeconds / speed;
+      const timeSaved = originalSeconds - adjustedSeconds;
+      const percentageSaved = (timeSaved / originalSeconds) * 100;
+      return { originalSeconds, speed, adjustedSeconds, timeSaved, percentageSaved };
+    }
+
+    function calculateRequiredSpeed(originalSeconds, targetSeconds) {
+      if (originalSeconds <= 0 || targetSeconds <= 0) {
+        return { originalSeconds, targetSeconds, requiredSpeed: 0, isPossible: false, message: 'Please enter valid durations' };
+      }
+      const requiredSpeed = originalSeconds / targetSeconds;
+      if (requiredSpeed < 0.1) {
+        return { originalSeconds, targetSeconds, requiredSpeed, isPossible: false, message: `Required speed (${requiredSpeed.toFixed(2)}x) is too slow. Minimum practical speed is 0.1x.` };
+      }
+      if (requiredSpeed > 16) {
+        return { originalSeconds, targetSeconds, requiredSpeed, isPossible: false, message: `Required speed (${requiredSpeed.toFixed(2)}x) is too fast. Maximum practical speed is 16x.` };
+      }
+      return { originalSeconds, targetSeconds, requiredSpeed, isPossible: true };
+    }
+
+    // Toast notification
+    function showToast(message, duration = 2000) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, duration);
+    }
+
+    // Copy to clipboard
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('Copied to clipboard!');
+        return true;
+      } catch (err) {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          showToast('Copied to clipboard!');
+          return true;
+        } catch (e) {
+          showToast('Failed to copy');
+          return false;
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      }
+    }
+
+    // Share results
+    async function shareResults(text, url) {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Real Playback Speed Calculator',
+            text: text,
+            url: url,
+          });
+          return true;
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            copyToClipboard(url);
+          }
+        }
+      } else {
+        copyToClipboard(url);
+      }
+    }
+
+    // ============================================
+    // MODE 1: STANDARD PLAYBACK SPEED CALCULATOR
+    // ============================================
+    let stdState = {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      speed: 1.5,
+    };
+
+    function getStdOriginalSeconds() {
+      return stdState.hours * 3600 + stdState.minutes * 60 + stdState.seconds;
+    }
+
+    function updateStdPresetButtons() {
+      const presetBtns = document.querySelectorAll('#panel-standard .preset-btn');
+      presetBtns.forEach(btn => {
+        const speed = parseFloat(btn.dataset.speed);
+        if (Math.abs(speed - stdState.speed) < 0.01) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function calculateStd() {
+      const originalSeconds = getStdOriginalSeconds();
+      const result = calculatePlayback(originalSeconds, stdState.speed);
+
+      document.getElementById('std-new-duration').textContent = formatSeconds(result.adjustedSeconds);
+      document.getElementById('std-new-duration-human').textContent = formatDuration(result.adjustedSeconds);
+      document.getElementById('std-time-saved').textContent = formatSeconds(result.timeSaved);
+      document.getElementById('std-time-saved-human').textContent = formatDuration(result.timeSaved);
+      document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
+
+      updateStdPresetButtons();
+    }
+
+    // Mode 1 event listeners
+    document.getElementById('std-hours').addEventListener('input', (e) => {
+      stdState.hours = parseInt(e.target.value) || 0;
+      calculateStd();
+    });
+    document.getElementById('std-minutes').addEventListener('input', (e) => {
+      stdState.minutes = parseInt(e.target.value) || 0;
+      calculateStd();
+    });
+    document.getElementById('std-seconds').addEventListener('input', (e) => {
+      stdState.seconds = parseInt(e.target.value) || 0;
+      calculateStd();
+    });
+    document.getElementById('std-speed').addEventListener('input', (e) => {
+      stdState.speed = parseFloat(e.target.value) || 1;
+      document.getElementById('std-speed-slider').value = stdState.speed;
+      calculateStd();
+    });
+    document.getElementById('std-speed-slider').addEventListener('input', (e) => {
+      stdState.speed = parseFloat(e.target.value);
+      document.getElementById('std-speed').value = stdState.speed.toFixed(2);
+      calculateStd();
+    });
+
+    // Preset buttons for Mode 1
+    document.querySelectorAll('#panel-standard .preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        stdState.speed = parseFloat(btn.dataset.speed);
+        document.getElementById('std-speed').value = stdState.speed.toFixed(2);
+        document.getElementById('std-speed-slider').value = stdState.speed;
+        calculateStd();
+      });
+    });
+
+    // Copy/Share/Reset for Mode 1
+    document.getElementById('std-copy-btn').addEventListener('click', () => {
+      const originalSeconds = getStdOriginalSeconds();
+      const result = calculatePlayback(originalSeconds, stdState.speed);
+      const text = `Original: ${formatSeconds(originalSeconds)} | Speed: ${stdState.speed}x | New Duration: ${formatSeconds(result.adjustedSeconds)} | Time Saved: ${formatSeconds(result.timeSaved)} (${result.percentageSaved.toFixed(1)}%)`;
+      copyToClipboard(text);
+    });
+
+    document.getElementById('std-share-btn').addEventListener('click', () => {
+      const originalSeconds = getStdOriginalSeconds();
+      const result = calculatePlayback(originalSeconds, stdState.speed);
+      const text = `Original: ${formatSeconds(originalSeconds)} | Speed: ${stdState.speed}x | New Duration: ${formatSeconds(result.adjustedSeconds)} | Time Saved: ${formatSeconds(result.timeSaved)} (${result.percentageSaved.toFixed(1)}%)`;
+      const url = `https://realplaybackspeed.com?mode=standard&h=${stdState.hours}&m=${stdState.minutes}&s=${stdState.seconds}&speed=${stdState.speed}`;
+      shareResults(text, url);
+    });
+
+    document.getElementById('std-reset-btn').addEventListener('click', () => {
+      stdState = { hours: 0, minutes: 0, seconds: 0, speed: 1.5 };
+      document.getElementById('std-hours').value = 0;
+      document.getElementById('std-minutes').value = 0;
+      document.getElementById('std-seconds').value = 0;
+      document.getElementById('std-speed').value = 1.5;
+      document.getElementById('std-speed-slider').value = 1.5;
+      calculateStd();
+    });
+
+    // ============================================
+    // MODE 2: TARGET FINISH TIME / REVERSE CALCULATOR
+    // ============================================
+    let revState = {
+      origHours: 0,
+      origMinutes: 0,
+      origSeconds: 0,
+      targetHours: 0,
+      targetMinutes: 0,
+      targetSeconds: 0,
+    };
+
+    function getRevOriginalSeconds() {
+      return revState.origHours * 3600 + revState.origMinutes * 60 + revState.origSeconds;
+    }
+
+    function getRevTargetSeconds() {
+      return revState.targetHours * 3600 + revState.targetMinutes * 60 + revState.targetSeconds;
+    }
+
+    function calculateRev() {
+      const originalSeconds = getRevOriginalSeconds();
+      const targetSeconds = getRevTargetSeconds();
+      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
+
+      const speedEl = document.getElementById('rev-required-speed');
+      const descEl = document.getElementById('rev-speed-description');
+      const savedEl = document.getElementById('rev-time-saved');
+      const savedHumanEl = document.getElementById('rev-time-saved-human');
+      const warningEl = document.getElementById('rev-warning');
+
+      if (originalSeconds <= 0 || targetSeconds <= 0) {
+        speedEl.textContent = '0.00x';
+        descEl.textContent = 'Enter durations above';
+        savedEl.textContent = '00:00:00';
+        savedHumanEl.textContent = '0s';
+        warningEl.style.display = 'none';
+        return;
+      }
+
+      if (!result.isPossible) {
+        speedEl.textContent = `${result.requiredSpeed.toFixed(2)}x`;
+        descEl.textContent = 'Not practical';
+        savedEl.textContent = '00:00:00';
+        savedHumanEl.textContent = '0s';
+        warningEl.style.display = 'block';
+        warningEl.textContent = result.message;
+        return;
+      }
+
+      speedEl.textContent = `${result.requiredSpeed.toFixed(2)}x`;
+      descEl.textContent = result.requiredSpeed > 1 ? 'Speed up to finish' : 'Slow down to finish';
+
+      const timeSaved = originalSeconds - targetSeconds;
+      savedEl.textContent = formatSeconds(timeSaved);
+      savedHumanEl.textContent = formatDuration(timeSaved);
+
+      warningEl.style.display = 'none';
+
+      // Color coding for speed
+      if (result.requiredSpeed > 2) {
+        speedEl.style.color = 'var(--color-warning-deep)';
+      } else if (result.requiredSpeed > 1) {
+        speedEl.style.color = 'var(--color-link)';
+      } else {
+        speedEl.style.color = 'var(--color-ink)';
+      }
+    }
+
+    // Mode 2 event listeners
+    ['orig-hours', 'orig-minutes', 'orig-seconds', 'target-hours', 'target-minutes', 'target-seconds'].forEach(id => {
+      const el = document.getElementById(`rev-${id}`);
+      if (el) {
+        el.addEventListener('input', (e) => {
+          const value = parseInt(e.target.value) || 0;
+          const key = id.replace(/-/g, '');
+          // Map id to state key
+          const stateMap = {
+            'orighours': 'origHours',
+            'origminutes': 'origMinutes',
+            'origseconds': 'origSeconds',
+            'targethours': 'targetHours',
+            'targetminutes': 'targetMinutes',
+            'targetseconds': 'targetSeconds',
+          };
+          revState[stateMap[id.replace(/-/g, '')]] = value;
+          calculateRev();
+        });
+      }
+    });
+
+    document.getElementById('rev-copy-btn').addEventListener('click', () => {
+      const originalSeconds = getRevOriginalSeconds();
+      const targetSeconds = getRevTargetSeconds();
+      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
+      const text = `Original: ${formatSeconds(originalSeconds)} | Target: ${formatSeconds(targetSeconds)} | Required Speed: ${result.requiredSpeed.toFixed(2)}x | Time Saved: ${formatSeconds(originalSeconds - targetSeconds)}`;
+      copyToClipboard(text);
+    });
+
+    document.getElementById('rev-share-btn').addEventListener('click', () => {
+      const originalSeconds = getRevOriginalSeconds();
+      const targetSeconds = getRevTargetSeconds();
+      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
+      const text = `Original: ${formatSeconds(originalSeconds)} | Target: ${formatSeconds(targetSeconds)} | Required Speed: ${result.requiredSpeed.toFixed(2)}x`;
+      const url = `https://realplaybackspeed.com?mode=reverse&oh=${revState.origHours}&om=${revState.origMinutes}&os=${revState.origSeconds}&th=${revState.targetHours}&tm=${revState.targetMinutes}&ts=${revState.targetSeconds}`;
+      shareResults(text, url);
+    });
+
+    document.getElementById('rev-reset-btn').addEventListener('click', () => {
+      revState = { origHours: 0, origMinutes: 0, origSeconds: 0, targetHours: 0, targetMinutes: 0, targetSeconds: 0 };
+      ['orig-hours', 'orig-minutes', 'orig-seconds', 'target-hours', 'target-minutes', 'target-seconds'].forEach(id => {
+        const el = document.getElementById(`rev-${id}`);
+        if (el) el.value = 0;
+      });
+      calculateRev();
+    });
+
+    // ============================================
+    // MODE 3: PLAYLIST BATCH CALCULATOR
+    // ============================================
+    let batchState = {
+      speed: 1.5,
+      items: [],
+      nextId: 1,
+    };
+
+    function getBatchOriginalSeconds() {
+      return batchState.items.reduce((sum, item) => sum + item.totalSeconds, 0);
+    }
+
+    function renderBatchList() {
+      const listEl = document.getElementById('batch-list');
+      if (batchState.items.length === 0) {
+        listEl.innerHTML = '<div style="text-align: center; padding: var(--spacing-lg); color: var(--color-mute); font-size: var(--font-size-body-md);">No videos added yet. Add one above.</div>';
+        return;
+      }
+
+      listEl.innerHTML = batchState.items.map((item, index) => `
+        <div class="playlist-item" data-id="${item.id}">
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-weight: 500; color: var(--color-ink); font-size: var(--font-size-body-md); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title || `Video ${index + 1}`}</div>
+            <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); font-family: var(--font-family-mono);">${formatSeconds(item.totalSeconds)}</div>
+          </div>
+          <button class="btn-icon" style="width: 32px; height: 32px; flex-shrink: 0;" data-remove="${item.id}" aria-label="Remove ${item.title || `Video ${index + 1}`}">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      `).join('');
+
+      // Add remove event listeners
+      listEl.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.remove;
+          batchState.items = batchState.items.filter(item => item.id !== id);
+          renderBatchList();
+          calculateBatch();
+        });
+      });
+    }
+
+    function calculateBatch() {
+      const totalOriginal = getBatchOriginalSeconds();
+      const speed = batchState.speed;
+
+      let totalAdjusted = 0;
+      let totalTimeSaved = 0;
+      let percentageSaved = 0;
+
+      if (totalOriginal > 0 && speed > 0) {
+        totalAdjusted = totalOriginal / speed;
+        totalTimeSaved = totalOriginal - totalAdjusted;
+        percentageSaved = (totalTimeSaved / totalOriginal) * 100;
+      }
+
+      document.getElementById('batch-count').textContent = batchState.items.length;
+      document.getElementById('batch-original').textContent = formatSeconds(totalOriginal);
+      document.getElementById('batch-original-human').textContent = formatDuration(totalOriginal);
+      document.getElementById('batch-adjusted').textContent = formatSeconds(totalAdjusted);
+      document.getElementById('batch-adjusted-human').textContent = formatDuration(totalAdjusted);
+      document.getElementById('batch-saved').textContent = formatSeconds(totalTimeSaved);
+      document.getElementById('batch-saved-human').textContent = formatDuration(totalTimeSaved);
+    }
+
+    // Batch event listeners
+    document.getElementById('batch-speed').addEventListener('input', (e) => {
+      batchState.speed = parseFloat(e.target.value) || 1;
+      document.getElementById('batch-speed-slider').value = batchState.speed;
+      calculateBatch();
+    });
+    document.getElementById('batch-speed-slider').addEventListener('input', (e) => {
+      batchState.speed = parseFloat(e.target.value);
+      document.getElementById('batch-speed').value = batchState.speed.toFixed(2);
+      calculateBatch();
+    });
+
+    // Enter key to add video
+    ['batch-title', 'batch-hours', 'batch-minutes', 'batch-seconds'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          document.getElementById('batch-add-btn').click();
+        }
+      });
+    });
+
+    document.getElementById('batch-add-btn').addEventListener('click', () => {
+      const hours = parseInt(document.getElementById('batch-hours').value) || 0;
+      const minutes = parseInt(document.getElementById('batch-minutes').value) || 0;
+      const seconds = parseInt(document.getElementById('batch-seconds').value) || 0;
+      const title = document.getElementById('batch-title').value.trim();
+
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+      if (totalSeconds <= 0) {
+        showToast('Please enter a valid duration');
+        return;
+      }
+
+      batchState.items.push({
+        id: `item-${batchState.nextId++}`,
+        title: title || `Video ${batchState.items.length + 1}`,
+        hours,
+        minutes,
+        seconds,
+        totalSeconds,
+      });
+
+      // Reset input fields
+      document.getElementById('batch-title').value = '';
+      document.getElementById('batch-hours').value = 0;
+      document.getElementById('batch-minutes').value = 0;
+      document.getElementById('batch-seconds').value = 0;
+
+      renderBatchList();
+      calculateBatch();
+    });
+
+    document.getElementById('batch-clear-btn').addEventListener('click', () => {
+      batchState.items = [];
+      renderBatchList();
+      calculateBatch();
+    });
+
+    document.getElementById('batch-copy-btn').addEventListener('click', () => {
+      const totalOriginal = getBatchOriginalSeconds();
+      const totalAdjusted = totalOriginal / batchState.speed;
+      const totalTimeSaved = totalOriginal - totalAdjusted;
+      const text = `Videos: ${batchState.items.length} | Original: ${formatSeconds(totalOriginal)} | Speed: ${batchState.speed}x | Adjusted: ${formatSeconds(totalAdjusted)} | Time Saved: ${formatSeconds(totalTimeSaved)}`;
+      copyToClipboard(text);
+    });
+
+    document.getElementById('batch-share-btn').addEventListener('click', () => {
+      const totalOriginal = getBatchOriginalSeconds();
+      const totalAdjusted = totalOriginal / batchState.speed;
+      const totalTimeSaved = totalOriginal - totalAdjusted;
+      const text = `Videos: ${batchState.items.length} | Original: ${formatSeconds(totalOriginal)} | Speed: ${batchState.speed}x | Adjusted: ${formatSeconds(totalAdjusted)} | Time Saved: ${formatSeconds(totalTimeSaved)}`;
+      const url = `https://realplaybackspeed.com?mode=batch&speed=${batchState.speed}`;
+      shareResults(text, url);
+    });
+
+    // ============================================
+    // MODE SWITCHING
+    // ============================================
+    const modes = ['standard', 'reverse', 'batch'];
+    let currentMode = 'standard';
+
+    function switchMode(mode) {
+      currentMode = mode;
+      modes.forEach(m => {
+        const tab = document.getElementById(`tab-${m}`);
+        const panel = document.getElementById(`panel-${m}`);
+        if (m === mode) {
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          panel.style.display = 'block';
+        } else {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+          panel.style.display = 'none';
+        }
+      });
+    }
+
+    document.querySelectorAll('.mode-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        switchMode(tab.dataset.mode);
+      });
+    });
+
+    // ============================================
+    // KEYBOARD SHORTCUTS
+    // ============================================
+    document.addEventListener('keydown', (e) => {
+      // Don't trigger shortcuts when typing in inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      switch (e.key.toLowerCase()) {
+        case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8':
+          if (currentMode === 'standard') {
+            const speeds = [0.5, 0.75, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0];
+            const idx = parseInt(e.key) - 1;
+            if (idx < speeds.length) {
+              stdState.speed = speeds[idx];
+              document.getElementById('std-speed').value = stdState.speed.toFixed(2);
+              document.getElementById('std-speed-slider').value = stdState.speed;
+              calculateStd();
+            }
+          }
+          break;
+        case 'c':
+          if (currentMode === 'standard') document.getElementById('std-copy-btn').click();
+          else if (currentMode === 'reverse') document.getElementById('rev-copy-btn').click();
+          else if (currentMode === 'batch') document.getElementById('batch-copy-btn').click();
+          break;
+        case 's':
+          if (currentMode === 'standard') document.getElementById('std-share-btn').click();
+          else if (currentMode === 'reverse') document.getElementById('rev-share-btn').click();
+          else if (currentMode === 'batch') document.getElementById('batch-share-btn').click();
+          break;
+        case 'r':
+          if (currentMode === 'standard') document.getElementById('std-reset-btn').click();
+          else if (currentMode === 'reverse') document.getElementById('rev-reset-btn').click();
+          else if (currentMode === 'batch') document.getElementById('batch-clear-btn').click();
+          break;
+        case '?':
+          document.getElementById('shortcuts-modal').style.display = 'flex';
+          break;
+        case 'escape':
+          document.getElementById('shortcuts-modal').style.display = 'none';
+          break;
+      }
+    });
+
+    document.getElementById('close-shortcuts').addEventListener('click', () => {
+      document.getElementById('shortcuts-modal').style.display = 'none';
+    });
+
+    document.getElementById('shortcuts-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'shortcuts-modal') {
+        document.getElementById('shortcuts-modal').style.display = 'none';
+      }
+    });
+
+    // ============================================
+    // URL PARAMETER PARSING (for shared links)
+    // ============================================
+    function parseUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      const mode = params.get('mode') || 'standard';
+      switchMode(mode);
+
+      if (mode === 'standard') {
+        const h = parseInt(params.get('h')) || 0;
+        const m = parseInt(params.get('m')) || 0;
+        const s = parseInt(params.get('s')) || 0;
+        const speed = parseFloat(params.get('speed')) || 1.5;
+        stdState = { hours: h, minutes: m, seconds: s, speed };
+        document.getElementById('std-hours').value = h;
+        document.getElementById('std-minutes').value = m;
+        document.getElementById('std-seconds').value = s;
+        document.getElementById('std-speed').value = speed;
+        document.getElementById('std-speed-slider').value = speed;
+        calculateStd();
+      } else if (mode === 'reverse') {
+        const oh = parseInt(params.get('oh')) || 0;
+        const om = parseInt(params.get('om')) || 0;
+        const os = parseInt(params.get('os')) || 0;
+        const th = parseInt(params.get('th')) || 0;
+        const tm = parseInt(params.get('tm')) || 0;
+        const ts = parseInt(params.get('ts')) || 0;
+        revState = { origHours: oh, origMinutes: om, origSeconds: os, targetHours: th, targetMinutes: tm, targetSeconds: ts };
+        document.getElementById('rev-orig-hours').value = oh;
+        document.getElementById('rev-orig-minutes').value = om;
+        document.getElementById('rev-orig-seconds').value = os;
+        document.getElementById('rev-target-hours').value = th;
+        document.getElementById('rev-target-minutes').value = tm;
+        document.getElementById('rev-target-seconds').value = ts;
+        calculateRev();
+      }
+    }
+
+    // ============================================
+    // THEME TOGGLE
+    // ============================================
+    function updateThemeIcon(theme) {
+      var sun = document.querySelectorAll('.sun-icon');
+      var moon = document.querySelectorAll('.moon-icon');
+      sun.forEach(function(el) { el.style.display = theme === 'dark' ? 'none' : 'block'; });
+      moon.forEach(function(el) { el.style.display = theme === 'dark' ? 'block' : 'none'; });
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fafafa');
+      updateThemeIcon(theme);
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Initialize
+    updateThemeIcon(document.documentElement.getAttribute('data-theme') || 'light');
+    parseUrlParams();
+    calculateStd();
+    calculateRev();
+    renderBatchList();
+    calculateBatch();
+
+    // Make preset buttons active state correct on load
+    updateStdPresetButtons();
+  </script>
 </Layout>
+
+
+
+
