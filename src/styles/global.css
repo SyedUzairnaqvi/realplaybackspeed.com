@@ -491,7 +491,7 @@
 
   .hero-band {
     background-color: var(--color-canvas);
-    padding: var(--spacing-section) var(--spacing-lg);
+    padding: var(--spacing-3xl) var(--spacing-lg);
     position: relative;
     overflow: hidden;
   }
@@ -669,6 +669,108 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Mobile responsiveness (<= 640px per DESIGN.md breakpoints) */
+@media (max-width: 640px) {
+  .section-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .hero-band {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+
+  .hero-eyebrow {
+    margin-bottom: var(--spacing-xs) !important;
+    font-size: var(--font-size-mono-eyebrow);
+  }
+
+  .hero-title {
+    font-size: 34px !important;
+    line-height: 40px !important;
+    letter-spacing: -1px !important;
+    margin-bottom: var(--spacing-md) !important;
+  }
+
+  .hero-desc {
+    font-size: var(--font-size-body-md) !important;
+    line-height: var(--line-height-body-md) !important;
+    max-width: none !important;
+    margin-bottom: var(--spacing-lg) !important;
+  }
+
+  .hero-band .btn-primary,
+  .hero-band .btn-secondary {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .calculator-section {
+    padding-top: var(--spacing-2xl) !important;
+    padding-bottom: var(--spacing-2xl) !important;
+  }
+
+  .nav-inner {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: var(--spacing-md) !important;
+    align-items: center !important;
+  }
+
+  .nav-bar a.btn-ghost {
+    font-size: var(--font-size-body-sm);
+  }
+
+  .mode-tabs {
+    flex-wrap: wrap !important;
+  }
+
+  .std-results-grid,
+  .rev-results-grid,
+  .batch-results-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .batch-add-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .batch-add-row > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .batch-add-row #batch-add-btn {
+    width: 100% !important;
+  }
+
+  .playlist-item > div:first-child {
+    min-width: 0;
+  }
+
+  .footer {
+    padding-top: var(--spacing-2xl) !important;
+    padding-bottom: var(--spacing-2xl) !important;
+  }
+
+  #shortcuts-modal {
+    padding: var(--spacing-md) !important;
+  }
+  #shortcuts-modal > .card {
+    padding: var(--spacing-md) !important;
+  }
+}
+
+/* Device selector simulation (manual preview override) */
+[data-device="iphone-14"] .section-container { max-width: 390px !important; }
+[data-device="iphone-se"] .section-container { max-width: 375px !important; }
+[data-device="pixel-8"] .section-container { max-width: 393px !important; }
+[data-device="galaxy-s24"] .section-container { max-width: 384px !important; }
+[data-device="ipad-air"] .section-container { max-width: 820px !important; }
+[data-device="desktop"] .section-container { max-width: 1200px; }
 
 
 

@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="How it works — Real Playback Speed" description="Learn how to use the playback speed calculator." lang="en" device="desktop">
+  <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">GUIDE</div>
+        <h1 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);" data-i18n="howitworks.title">How to use the calculator</h1>
+      </div>
+
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);" data-i18n="howitworks.mode1.title">Mode 1: Standard Playback Speed</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Enter the total length of the video/podcast in hours, minutes, and seconds.</li>
+            <li>Adjust the playback speed using the slider or type a custom value.</li>
+            <li>Or click one of the preset buttons (1.25x, 1.5x, 1.75x, 2.0x, 2.5x, 3.0x).</li>
+            <li>See the new duration, exact time saved, and percentage saved in real time.</li>
+          </ol>
+        </div>
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);" data-i18n="howitworks.mode2.title">Mode 2: Target Finish Time</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Enter the original media length.</li>
+            <li>Enter your available time window (deadline).</li>
+            <li>The calculator shows the exact playback speed required to finish on time.</li>
+            <li>Also shows how much time you'll save at that speed.</li>
+          </ol>
+        </div>
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);" data-i18n="howitworks.mode3.title">Mode 3: Playlist Batch</h3>
+          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
+            <li>Set a playback speed for the entire playlist.</li>
+            <li>Add multiple videos, episodes, or chapters with their durations.</li>
+            <li>See combined original duration, adjusted duration, and total time saved.</li>
+            <li>Remove individual items or clear all to start over.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">FORMULA</div>
+        <h1 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-lg);" data-i18n="formula.title">How it's calculated</h1>
+        <div class="card" style="text-align: left; padding: var(--spacing-xl);">
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);" data-i18n="formula.total-time">Total time in seconds</strong> = [(Hours × 3600) + (Minutes × 60) + Seconds] ÷ Playback Speed
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);" data-i18n="formula.time-saved">Time Saved</strong> = Original Duration − Adjusted Duration
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
+            <strong style="color: var(--color-ink);" data-i18n="formula.percentage-saved">Percentage Saved</strong> = (Time Saved ÷ Original Duration) × 100
+          </p>
+          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">
+            <strong style="color: var(--color-ink);" data-i18n="formula.required-speed">Required Speed (Reverse)</strong> = Original Duration ÷ Target Duration
+          </p>
+        </div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: var(--spacing-md);" data-i18n="formula.example">Example: A 1-hour video at 1.5x speed takes 40 minutes, saving 20 minutes (33.3%).</p>
+      </div>
+    </div>
+  </section>
+</Layout>

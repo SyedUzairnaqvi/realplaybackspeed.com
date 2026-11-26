@@ -6,62 +6,40 @@ import Layout from '../layouts/Layout.astro';
   <!-- Skip Link -->
   <a href="#calculator" style="position: absolute; left: -9999px; z-index: 999; padding: 8px 16px; background: var(--color-ink); color: var(--color-on-primary); text-decoration: none; border-radius: var(--radius-sm);" on:focus="this.style.left='8px'; this.style.top='8px';" on:blur="this.style.left='-9999px';">Skip to calculator</a>
   
-  <!-- Navigation -->
-  <nav class="nav-bar">
-    <div class="section-container" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-lg);">
-      <a href="/" style="display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none;">
-        <span style="font-family: var(--font-family-sans); font-weight: 600; font-size: 18px; color: var(--color-ink); letter-spacing: -0.5px;">
-          Real Playback Speed
-        </span>
-      </a>
-      <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
-        <a href="#how-it-works" class="btn-ghost" style="font-size: 14px;">How it works</a>
-        <a href="#examples" class="btn-ghost" style="font-size: 14px;">Examples</a>
-        <button class="btn-icon" id="theme-toggle" style="width: 36px; height: 36px;" aria-label="Toggle dark mode">
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path class="sun-icon" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            <circle class="sun-icon" cx="12" cy="12" r="5" />
-            <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </nav>
-
   <!-- Hero Section -->
   <section class="hero-band">
-    <div class="section-container" style="text-align: center; position: relative; z-index: 1;">
-      <div class="eyebrow" style="margin-bottom: var(--spacing-md);">CALCULATOR</div>
-      <h1 style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+    <div class="section-container hero-content" style="text-align: center; position: relative; z-index: 1;">
+      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-md);">CALCULATOR</div>
+      <h1 class="hero-title" data-i18n="hero.title" style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
         Playback Speed Calculator
       </h1>
-      <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
+      <p class="hero-desc" data-i18n="hero.desc" style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
         Calculate exact watch or listen duration, time saved, and required speed in real time. 
         No "Calculate" button needed — results update as you type.
       </p>
       <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
-        <a href="#calculator" class="btn-primary" style="text-decoration: none;">Start Calculating</a>
-        <a href="#features" class="btn-secondary" style="text-decoration: none;">See Features</a>
+        <a href="#calculator" class="btn-primary" data-i18n="hero.cta-calc" style="text-decoration: none;">Start Calculating</a>
+        <a href="/features" class="btn-secondary" data-i18n="hero.cta-features" style="text-decoration: none;">See Features</a>
       </div>
     </div>
   </section>
 
   <!-- Calculator Section -->
-  <section id="calculator" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+  <section id="calculator" class="calculator-section" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
     <div class="section-container">
       <!-- Mode Tabs -->
       <div class="mode-tabs" role="tablist" aria-label="Calculator modes">
         <button role="tab" aria-selected="true" aria-controls="panel-standard" id="tab-standard" class="mode-tab active" data-mode="standard">
-          <span class="hidden sm:inline">Speed Calculator</span>
-          <span class="sm:hidden">Speed</span>
+          <span class="hidden sm:inline" data-i18n="calculator.tab-standard">Speed Calculator</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-standard-short">Speed</span>
         </button>
         <button role="tab" aria-selected="false" aria-controls="panel-reverse" id="tab-reverse" class="mode-tab" data-mode="reverse">
-          <span class="hidden sm:inline">Target Time</span>
-          <span class="sm:hidden">Target</span>
+          <span class="hidden sm:inline" data-i18n="calculator.tab-reverse">Target Time</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-reverse-short">Target</span>
         </button>
         <button role="tab" aria-selected="false" aria-controls="panel-batch" id="tab-batch" class="mode-tab" data-mode="batch">
-          <span class="hidden sm:inline">Playlist Batch</span>
-          <span class="sm:hidden">Batch</span>
+          <span class="hidden sm:inline" data-i18n="calculator.tab-batch">Playlist Batch</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-batch-short">Batch</span>
         </button>
       </div>
 
@@ -70,28 +48,28 @@ import Layout from '../layouts/Layout.astro';
         <div class="card" style="max-width: 700px; margin: 0 auto;">
           <div style="margin-bottom: var(--spacing-lg);">
             <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 1</div>
-            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+            <h2 data-i18n="calculator.mode1.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
               Standard Playback Speed
             </h2>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div>
-              <label class="label" for="std-hours">Hours</label>
+              <label class="label" data-i18n="calculator.label.hours" for="std-hours">Hours</label>
               <input type="number" id="std-hours" class="input-field" inputmode="numeric" autocomplete="off" name="std-hours" min="0" max="999" placeholder="0" value="0" />
             </div>
             <div>
-              <label class="label" for="std-minutes">Minutes</label>
+              <label class="label" data-i18n="calculator.label.minutes" for="std-minutes">Minutes</label>
               <input type="number" id="std-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="std-minutes" min="0" max="59" placeholder="0" value="0" />
             </div>
             <div>
-              <label class="label" for="std-seconds">Seconds</label>
+              <label class="label" data-i18n="calculator.label.seconds" for="std-seconds">Seconds</label>
               <input type="number" id="std-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="std-seconds" min="0" max="59" placeholder="0" value="0" />
             </div>
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <label class="label" for="std-speed">Playback Speed</label>
+            <label class="label" data-i18n="calculator.label.speed" for="std-speed">Playback Speed</label>
             <div style="display: flex; gap: var(--spacing-md); align-items: center;">
               <input type="range" id="std-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
               <input type="number" id="std-speed" class="input-field" inputmode="decimal" autocomplete="off" name="std-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
@@ -99,7 +77,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <div class="label" style="margin-bottom: var(--spacing-sm);">Quick Presets</div>
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">Quick Presets</div>
             <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
               <button class="preset-btn" data-speed="0.5">0.5x</button>
               <button class="preset-btn" data-speed="0.75">0.75x</button>
@@ -112,34 +90,34 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div class="std-results-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">New Duration</div>
+              <div class="result-label" data-i18n="calculator.result.new-duration">New Duration</div>
               <div class="result-value" id="std-new-duration">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-new-duration-human">0s</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Time Saved</div>
+              <div class="result-label" data-i18n="calculator.result.time-saved">Time Saved</div>
               <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Percentage Saved</div>
+              <div class="result-label" data-i18n="calculator.result.percentage-saved">Percentage Saved</div>
               <div class="result-value" id="std-percentage">0%</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
             </div>
           </div>
 
           <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
-            <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard">
+            <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy
             </button>
-            <button class="btn-ghost" id="std-share-btn" aria-label="Share results">
+            <button class="btn-ghost" id="std-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
               Share
             </button>
-            <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator">
+            <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
               Reset
             </button>
@@ -152,16 +130,16 @@ import Layout from '../layouts/Layout.astro';
         <div class="card" style="max-width: 700px; margin: 0 auto;">
           <div style="margin-bottom: var(--spacing-lg);">
             <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 2</div>
-            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+            <h2 data-i18n="calculator.mode2.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
               Target Finish Time
             </h2>
-            <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+            <p data-i18n="calculator.mode2.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
               Find the exact playback speed required to finish media within your available time window.
             </p>
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <div class="label" style="margin-bottom: var(--spacing-sm);">Original Media Length</div>
+            <div class="label" data-i18n="calculator.mode2.label.orig" style="margin-bottom: var(--spacing-sm);">Original Media Length</div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
               <div>
                 <label class="label" for="rev-orig-hours">Hours</label>
@@ -179,7 +157,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <div class="label" style="margin-bottom: var(--spacing-sm);">Available Time Window</div>
+            <div class="label" data-i18n="calculator.mode2.label.target" style="margin-bottom: var(--spacing-sm);">Available Time Window</div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
               <div>
                 <label class="label" for="rev-target-hours">Hours</label>
@@ -196,14 +174,14 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div class="rev-results-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Required Speed</div>
+              <div class="result-label" data-i18n="calculator.mode2.result.required-speed">Required Speed</div>
               <div class="result-value" id="rev-required-speed">0.00x</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-speed-description">Enter durations above</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Time Saved</div>
+              <div class="result-label" data-i18n="calculator.mode2.result.time-saved">Time Saved</div>
               <div class="result-value result-positive" id="rev-time-saved">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-time-saved-human">0s</div>
             </div>
@@ -213,15 +191,15 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
-            <button class="btn-ghost" id="rev-copy-btn" aria-label="Copy results to clipboard">
+            <button class="btn-ghost" id="rev-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy
             </button>
-            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results">
+            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
               Share
             </button>
-            <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator">
+            <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
               Reset
             </button>
@@ -234,16 +212,16 @@ import Layout from '../layouts/Layout.astro';
         <div class="card" style="max-width: 800px; margin: 0 auto;">
           <div style="margin-bottom: var(--spacing-lg);">
             <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODE 3</div>
-            <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+            <h2 data-i18n="calculator.mode3.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
               Playlist Batch Calculator
             </h2>
-            <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+            <p data-i18n="calculator.mode3.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
               Add multiple videos, episodes, or chapters to calculate combined duration and total time saved.
             </p>
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <label class="label" for="batch-speed">Playback Speed</label>
+            <label class="label" data-i18n="calculator.mode3.label.speed" for="batch-speed">Playback Speed</label>
             <div style="display: flex; gap: var(--spacing-md); align-items: center;">
               <input type="range" id="batch-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
               <input type="number" id="batch-speed" class="input-field" inputmode="decimal" autocomplete="off" name="batch-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
@@ -251,10 +229,10 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div style="margin-bottom: var(--spacing-lg);">
-            <div class="label" style="margin-bottom: var(--spacing-sm);">Add Video/Episode</div>
-            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: flex-end;">
+            <div class="label" data-i18n="calculator.mode3.label.add" style="margin-bottom: var(--spacing-sm);">Add Video/Episode</div>
+            <div class="batch-add-row" style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: flex-end;">
               <div style="flex: 2; min-width: 150px;">
-                <label class="label" for="batch-title">Title (optional)</label>
+                <label class="label" data-i18n="calculator.mode3.label.title" for="batch-title">Title (optional)</label>
                 <input type="text" id="batch-title" class="input-field" placeholder="Video 1" />
               </div>
               <div style="flex: 1; min-width: 80px;">
@@ -269,45 +247,45 @@ import Layout from '../layouts/Layout.astro';
                 <label class="label" for="batch-seconds">Seconds</label>
                 <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
               </div>
-              <button class="btn-primary" id="batch-add-btn" style="height: 40px; padding: 0 20px; white-space: nowrap;">Add</button>
+              <button class="btn-primary" id="batch-add-btn" data-i18n="calculator.mode3.btn.add" style="height: 40px; padding: 0 20px; white-space: nowrap;">Add</button>
             </div>
           </div>
 
           <div id="batch-list" style="margin-bottom: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-xs);">
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div class="batch-results-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Videos</div>
+              <div class="result-label" data-i18n="calculator.mode3.result.videos">Videos</div>
               <div class="result-value" id="batch-count">0</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Original Total</div>
+              <div class="result-label" data-i18n="calculator.mode3.result.original-total">Original Total</div>
               <div class="result-value" id="batch-original">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-original-human">0s</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Adjusted Total</div>
+              <div class="result-label" data-i18n="calculator.mode3.result.adjusted-total">Adjusted Total</div>
               <div class="result-value" id="batch-adjusted">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-adjusted-human">0s</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label">Time Saved</div>
+              <div class="result-label" data-i18n="calculator.mode3.result.time-saved">Time Saved</div>
               <div class="result-value result-positive" id="batch-saved">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-saved-human">0s</div>
             </div>
           </div>
 
           <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
-            <button class="btn-ghost" id="batch-clear-btn" aria-label="Clear all videos">
+            <button class="btn-ghost" id="batch-clear-btn" aria-label="Clear all videos" data-i18n="calculator.mode3.btn.clear">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
               Clear All
             </button>
-            <button class="btn-ghost" id="batch-copy-btn" aria-label="Copy results to clipboard">
+            <button class="btn-ghost" id="batch-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy
             </button>
-            <button class="btn-ghost" id="batch-share-btn" aria-label="Share results">
+            <button class="btn-ghost" id="batch-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
               Share
             </button>
@@ -316,210 +294,6 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </section>
-
-  <!-- Features Section -->
-  <section id="features" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas);">
-    <div class="section-container">
-      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
-        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">FEATURES</div>
-        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
-          Built for speed
-        </h2>
-        <p style="font-size: var(--font-size-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto;">
-          Real-time calculations, keyboard shortcuts, and a clean interface that gets out of your way.
-        </p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg);">
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">⚡</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Real-time Updates</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Results update instantly as you type. No "Calculate" button needed.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">🎯</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Target Time Reverse</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Enter your available time and find the exact speed needed to finish on time.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">📋</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Playlist Batch</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Add multiple videos, episodes, or chapters for combined calculations.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">⌨️</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Keyboard Shortcuts</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Numbers 1-8 for presets, C to copy, S to share, R to reset.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">📱</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Mobile Friendly</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">Responsive design that works seamlessly on any device.</p>
-        </div>
-        <div class="card">
-          <div style="font-size: 24px; margin-bottom: var(--spacing-sm);">🔗</div>
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-xs);">Share Results</h3>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">One-click copy and shareable URLs with your calculations.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works Section -->
-  <section id="how-it-works" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
-    <div class="section-container">
-      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
-        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">GUIDE</div>
-        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
-          How to use the calculator
-        </h2>
-      </div>
-
-      <div style="max-width: 700px; margin: 0 auto;">
-        <div class="card" style="margin-bottom: var(--spacing-md);">
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 1: Standard Playback Speed</h3>
-          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
-            <li>Enter the total length of the video/podcast in hours, minutes, and seconds.</li>
-            <li>Adjust the playback speed using the slider or type a custom value.</li>
-            <li>Or click one of the preset buttons (1.25x, 1.5x, 1.75x, 2.0x, 2.5x, 3.0x).</li>
-            <li>See the new duration, exact time saved, and percentage saved in real time.</li>
-          </ol>
-        </div>
-        <div class="card" style="margin-bottom: var(--spacing-md);">
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 2: Target Finish Time</h3>
-          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
-            <li>Enter the original media length.</li>
-            <li>Enter your available time window (deadline).</li>
-            <li>The calculator shows the exact playback speed required to finish on time.</li>
-            <li>Also shows how much time you'll save at that speed.</li>
-          </ol>
-        </div>
-        <div class="card" style="margin-bottom: var(--spacing-md);">
-          <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Mode 3: Playlist Batch</h3>
-          <ol style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0; padding-left: var(--spacing-lg); line-height: 1.8;">
-            <li>Set a playback speed for the entire playlist.</li>
-            <li>Add multiple videos, episodes, or chapters with their durations.</li>
-            <li>See combined original duration, adjusted duration, and total time saved.</li>
-            <li>Remove individual items or clear all to start over.</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Examples Section -->
-  <section id="examples" style="padding: var(--spacing-4xl) var(--spacing-lg); background-color: var(--color-canvas);">
-    <div class="section-container">
-      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
-        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">EXAMPLES</div>
-        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
-          Common scenarios
-        </h2>
-      </div>
-
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: var(--font-size-body-md);">
-          <thead>
-            <tr>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Original Duration</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Speed</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">New Duration</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Time Saved</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">01:00:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:40:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:20:00 (33%)</td>
-            </tr>
-            <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:45:30</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:30:20</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:15:10 (33%)</td>
-            </tr>
-            <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">07:30:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">05:00:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">02:30:00 (33%)</td>
-            </tr>
-            <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:08:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.25x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:06:24</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:01:36 (20%)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Formula Section -->
-  <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
-    <div class="section-container">
-      <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">FORMULA</div>
-        <h2 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-lg);">
-          How it's calculated
-        </h2>
-        <div class="card" style="text-align: left; padding: var(--spacing-xl);">
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
-            <strong style="color: var(--color-ink);">Total time in seconds</strong> = [(Hours × 3600) + (Minutes × 60) + Seconds] ÷ Playback Speed
-          </p>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
-            <strong style="color: var(--color-ink);">Time Saved</strong> = Original Duration − Adjusted Duration
-          </p>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md);">
-            <strong style="color: var(--color-ink);">Percentage Saved</strong> = (Time Saved ÷ Original Duration) × 100
-          </p>
-          <p style="font-size: var(--font-size-body-md); color: var(--color-body); margin: 0;">
-            <strong style="color: var(--color-ink);">Required Speed (Reverse)</strong> = Original Duration ÷ Target Duration
-          </p>
-        </div>
-        <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: var(--spacing-md);">
-          Example: A 1-hour video at 1.5x speed takes 40 minutes, saving 20 minutes (33.3%).
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="section-container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
-        <div>
-          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Real Playback Speed</div>
-          <p style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin: 0;">Free online playback speed calculator. Calculate exact watch time, time saved, and required speed for any media.</p>
-        </div>
-        <div>
-          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Calculators</div>
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Speed Calculator</a>
-            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Target Time</a>
-            <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Playlist Batch</a>
-          </div>
-        </div>
-        <div>
-          <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Resources</div>
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-            <a href="#how-it-works" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">How it works</a>
-            <a href="#examples" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Examples</a>
-            <a href="#features" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);">Features</a>
-          </div>
-        </div>
-      </div>
-      <div style="border-top: 1px solid var(--color-hairline); padding-top: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
-        <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">© 2026 Real Playback Speed. All rights reserved.</div>
-        <div style="font-size: var(--font-size-body-sm); color: var(--color-mute);">
-          Built with Astro + Tailwind CSS
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <!-- Toast Notification -->
   <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -646,7 +420,6 @@ import Layout from '../layouts/Layout.astro';
         showToast('Copied to clipboard!');
         return true;
       } catch (err) {
-        // Fallback for older browsers
         const textarea = document.createElement('textarea');
         textarea.value = text;
         textarea.style.position = 'fixed';
@@ -844,7 +617,6 @@ import Layout from '../layouts/Layout.astro';
 
       warningEl.style.display = 'none';
 
-      // Color coding for speed
       if (result.requiredSpeed > 2) {
         speedEl.style.color = 'var(--color-warning-deep)';
       } else if (result.requiredSpeed > 1) {
@@ -861,7 +633,6 @@ import Layout from '../layouts/Layout.astro';
         el.addEventListener('input', (e) => {
           const value = parseInt(e.target.value) || 0;
           const key = id.replace(/-/g, '');
-          // Map id to state key
           const stateMap = {
             'orighours': 'origHours',
             'origminutes': 'origMinutes',
@@ -934,7 +705,6 @@ import Layout from '../layouts/Layout.astro';
         </div>
       `).join('');
 
-      // Add remove event listeners
       listEl.querySelectorAll('[data-remove]').forEach(btn => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.remove;
@@ -980,7 +750,6 @@ import Layout from '../layouts/Layout.astro';
       calculateBatch();
     });
 
-    // Enter key to add video
     ['batch-title', 'batch-hours', 'batch-minutes', 'batch-seconds'].forEach(id => {
       document.getElementById(id).addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -1010,7 +779,6 @@ import Layout from '../layouts/Layout.astro';
         totalSeconds,
       });
 
-      // Reset input fields
       document.getElementById('batch-title').value = '';
       document.getElementById('batch-hours').value = 0;
       document.getElementById('batch-minutes').value = 0;
@@ -1076,7 +844,6 @@ import Layout from '../layouts/Layout.astro';
     // KEYBOARD SHORTCUTS
     // ============================================
     document.addEventListener('keydown', (e) => {
-      // Don't trigger shortcuts when typing in inputs
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
         return;
       }
@@ -1197,11 +964,6 @@ import Layout from '../layouts/Layout.astro';
     renderBatchList();
     calculateBatch();
 
-    // Make preset buttons active state correct on load
     updateStdPresetButtons();
   </script>
 </Layout>
-
-
-
-

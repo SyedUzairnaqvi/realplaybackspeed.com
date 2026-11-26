@@ -1,13 +1,26 @@
+---
+import { locales, defaultLocale, translations } from '../lib/i18n.js';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  device?: string;
+}
+
+const { title = 'Real Playback Speed', description = 'Free online playback speed calculator.', lang = defaultLocale, device = 'desktop' } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang={lang} data-theme="light" data-device={device} data-lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Real Playback Speed - Calculate Watch Time & Time Saved</title>
-    <meta name="description" content="Free online playback speed calculator. Calculate exact watch duration, time saved, and required speed for target finish time. Supports batch playlist calculation with real-time results." />
+    <title>{title}</title>
+    <meta name="description" content={description} />
     <meta name="theme-color" content="#fafafa" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,7 +38,145 @@
     </script>
   </head>
   <body>
+    <nav class="nav-bar">
+      <div class="section-container nav-inner" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-lg); flex-wrap: wrap; gap: var(--spacing-md);">
+        <a href="/" style="display: flex; align-items: center; gap: var(--spacing-xs); text-decoration: none;">
+          <span style="font-family: var(--font-family-sans); font-weight: 600; font-size: 18px; color: var(--color-ink); letter-spacing: -0.5px;">
+            Real Playback Speed
+          </span>
+        </a>
+        <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap;">
+          <a href="/features" class="btn-ghost" style="font-size: 14px;" data-i18n="nav.features">Features</a>
+          <a href="/how-it-works" class="btn-ghost" style="font-size: 14px;" data-i18n="nav.how-it-works">How it works</a>
+          <a href="/examples" class="btn-ghost" style="font-size: 14px;" data-i18n="nav.examples">Examples</a>
+          <label style="display: flex; align-items: center; gap: var(--spacing-xs); font-size: 13px; color: var(--color-mute);" data-i18n="device.selector">Device</label>
+          <select id="device-select" style="width: auto; padding: 6px 10px; border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); background: var(--color-canvas-elevated); color: var(--color-ink); font-size: 13px;">
+            <option value="desktop">Desktop</option>
+            <option value="iphone-14">iPhone 14</option>
+            <option value="iphone-se">iPhone SE</option>
+            <option value="pixel-8">Pixel 8</option>
+            <option value="galaxy-s24">Galaxy S24</option>
+            <option value="ipad-air">iPad Air</option>
+          </select>
+          <label style="display: flex; align-items: center; gap: var(--spacing-xs); font-size: 13px; color: var(--color-mute); margin-left: var(--spacing-xs);" data-i18n="language.selector">Language</label>
+          <select id="lang-select" style="width: auto; padding: 6px 10px; border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); background: var(--color-canvas-elevated); color: var(--color-ink); font-size: 13px;">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+          </select>
+          <button class="btn-icon" id="theme-toggle" style="width: 36px; height: 36px;" aria-label="Toggle dark mode" data-i18n-title="nav.theme-toggle">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path class="sun-icon" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              <circle class="sun-icon" cx="12" cy="12" r="5" />
+              <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
     <slot />
+
+    <footer class="footer">
+      <div class="section-container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+          <div>
+            <div data-i18n="footer.title" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Real Playback Speed</div>
+            <p data-i18n="footer.desc" style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin: 0;">Free online playback speed calculator. Calculate exact watch time, time saved, and required speed for any media.</p>
+          </div>
+          <div>
+            <div data-i18n="footer.calculators" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Calculators</div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.calculator">Speed Calculator</a>
+              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="calculator.tab-reverse">Target Time</a>
+              <a href="/" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="calculator.tab-batch">Playlist Batch</a>
+            </div>
+          </div>
+          <div>
+            <div data-i18n="footer.resources" style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-sm);">Resources</div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+              <a href="/how-it-works" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.how-it-works">How it works</a>
+              <a href="/examples" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.examples">Examples</a>
+              <a href="/features" style="color: var(--color-body); text-decoration: none; font-size: var(--font-size-body-sm);" data-i18n="nav.features">Features</a>
+            </div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid var(--color-hairline); padding-top: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
+          <div data-i18n="footer.copyright" style="font-size: var(--font-size-body-sm); color: var(--color-mute);">© 2026 Real Playback Speed. All rights reserved.</div>
+          <div data-i18n="footer.built-with" style="font-size: var(--font-size-body-sm); color: var(--color-mute);">
+            Built with Astro + Tailwind CSS
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script is:inline src="/i18n.js"></script>
+    <script is:inline>
+      (function() {
+        const data = window.__I18N__ || {};
+        const locales = data.locales;
+        const defaultLocale = data.defaultLocale;
+        const translations = data.translations;
+        const root = document.documentElement;
+
+        function getStored(key) {
+          try { return localStorage.getItem(key); } catch (e) { return null; }
+        }
+        function setStored(key, value) {
+          try { localStorage.setItem(key, value); } catch (e) {}
+        }
+
+        function setLang(language) {
+          if (!locales[language]) language = defaultLocale;
+          root.setAttribute('data-lang', language);
+          root.setAttribute('lang', language);
+          setStored('lang', language);
+          applyTranslations(language);
+          var sel = document.getElementById('lang-select');
+          if (sel) sel.value = language;
+        }
+        function applyTranslations(language) {
+          const dict = translations[language] || translations[defaultLocale];
+          document.querySelectorAll('[data-i18n]').forEach(function(el) {
+            var key = el.getAttribute('data-i18n');
+            var val = dict[key];
+            if (val !== undefined) {
+              if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = val;
+              } else {
+                el.textContent = val;
+              }
+            }
+          });
+          document.querySelectorAll('[data-i18n-title]').forEach(function(el) {
+            var key = el.getAttribute('data-i18n-title');
+            var val = dict[key];
+            if (val !== undefined) el.title = val;
+          });
+        }
+        function setDevice(dev) {
+          const valid = ['desktop','iphone-14','iphone-se','pixel-8','galaxy-s24','ipad-air'];
+          if (!valid.includes(dev)) dev = 'desktop';
+          root.setAttribute('data-device', dev);
+          setStored('device', dev);
+          var sel = document.getElementById('device-select');
+          if (sel) sel.value = dev;
+        }
+
+        var storedLang = getStored('lang') || root.getAttribute('lang') || defaultLocale;
+        setLang(storedLang);
+        var storedDevice = getStored('device') || root.getAttribute('data-device') || 'desktop';
+        setDevice(storedDevice);
+
+        var langSel = document.getElementById('lang-select');
+        if (langSel) langSel.addEventListener('change', function() { setLang(this.value); });
+        var devSel = document.getElementById('device-select');
+        if (devSel) devSel.addEventListener('change', function() { setDevice(this.value); });
+      })();
+    </script>
   </body>
 </html>
 
