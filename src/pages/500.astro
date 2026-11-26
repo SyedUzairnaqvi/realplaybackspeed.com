@@ -1,0 +1,17 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Server Error - Real Playback Speed" description="Something went wrong on our server. Return to the playback speed calculator.">
+  <section class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); max-width: 600px; margin: 0 auto; text-align: center;">
+    <div style="font-size: 96px; font-weight: 800; color: var(--color-warning-deep); line-height: 1; margin-bottom: var(--spacing-md);">500</div>
+    <h1 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Server Error</h1>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-lg);">
+      Something went wrong on our end. Please try again in a moment, or contact us if the problem continues.
+    </p>
+    <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+      <a href="/" class="btn-primary" style="text-decoration: none;">Go to Calculator</a>
+      <a href="/contact" class="btn-ghost" style="text-decoration: none;">Contact Us</a>
+    </div>
+  </section>
+</PageLayout>
