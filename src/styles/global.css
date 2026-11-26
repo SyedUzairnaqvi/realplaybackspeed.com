@@ -22,6 +22,8 @@
   --color-warning: #f5a623;
   --color-warning-soft: #ffefcf;
   --color-warning-deep: #ab570a;
+  --color-success: #12a654;
+  --color-success-deep: #0e8a47;
   --color-violet: #7928ca;
   --color-violet-soft: #d8ccf1;
   --color-cyan: #50e3c2;
@@ -150,6 +152,8 @@
   --color-warning: #f5a623;
   --color-warning-soft: #2a1f0a;
   --color-warning-deep: #f5a623;
+  --color-success: #34d399;
+  --color-success-deep: #10b981;
   --color-violet: #a78bfa;
   --color-violet-soft: #2e1a47;
   --color-cyan: #50e3c2;

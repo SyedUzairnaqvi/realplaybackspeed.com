@@ -2,52 +2,346 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Examples — Real Playback Speed" description="Common playback speed scenarios." lang="en" device="desktop">
+<Layout title="Examples — Real Playback Speed" description="Multi-speed quick reference table for common video and audio durations." lang="en" device="desktop">
   <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas);">
     <div class="section-container">
       <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
-        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">EXAMPLES</div>
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">QUICK REFERENCE</div>
         <h1 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);" data-i18n="examples.title">Common scenarios</h1>
+        <p style="font-size: var(--font-size-body-md); color: var(--color-body); max-width: 640px; margin: 0 auto;">
+          See exactly how long media takes at common playback speeds, and how much time you save.
+        </p>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: var(--font-size-body-md);">
+      <!-- Multi-speed quick reference matrix (scrollable on mobile) -->
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--color-hairline); border-radius: var(--radius-lg); background: var(--color-canvas-elevated);">
+        <table style="width: 100%; border-collapse: collapse; min-width: 820px; font-size: var(--font-size-body-md);">
+          <caption style="text-align: left; padding: var(--spacing-md) var(--spacing-lg); font-size: var(--font-size-body-sm); color: var(--color-mute); caption-side: top;">
+            New duration and time saved at each playback speed. Negative savings (0.75x) means time added.
+          </caption>
           <thead>
             <tr>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;" data-i18n="examples.table.original-duration">Original Duration</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;" data-i18n="examples.table.speed">Speed</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;" data-i18n="examples.table.new-duration">New Duration</th>
-              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;" data-i18n="examples.table.time-saved">Time Saved</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600; white-space: nowrap;" data-i18n="examples.table.original-duration">Original Duration</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600; white-space: nowrap;" data-i18n="examples.table.speed">Speed</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600; white-space: nowrap;" data-i18n="examples.table.new-duration">New Duration</th>
+              <th style="text-align: left; padding: var(--spacing-sm) var(--spacing-md); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600; white-space: nowrap;" data-i18n="examples.table.time-saved">Time Saved</th>
             </tr>
           </thead>
           <tbody>
+            <!-- 15 min -->
             <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">01:00:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:40:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:20:00 (33%)</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:20:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:05:00 (+33.3%)</td>
             </tr>
             <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:45:30</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:30:20</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:15:10 (33%)</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:12:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:03:00 (20%)</td>
             </tr>
             <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">07:30:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.5x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">05:00:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">02:30:00 (33%)</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:10:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:05:00 (33.3%)</td>
             </tr>
             <tr>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:08:00</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">1.25x</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono);">00:06:24</td>
-              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono);">00:01:36 (20%)</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:08:34</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:06:26 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:07:30</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:07:30 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:06:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:09:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:05:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:10:00 (66.7%)</td>
+            </tr>
+
+            <!-- 30 min -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:10:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:24:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:06:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:20:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:10:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:17:09</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:12:51 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:12:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:18:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:10:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:20:00 (66.7%)</td>
+            </tr>
+
+            <!-- 45 min -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:15:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:36:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:09:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:25:43</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:19:17 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:22:30</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:22:30 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:18:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:27:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00 (66.7%)</td>
+            </tr>
+
+            <!-- 1 hr -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:20:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:20:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:48:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:12:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:20:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:34:17</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:25:43 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:24:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:36:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:20:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:40:00 (66.7%)</td>
+            </tr>
+
+            <!-- 1 hr 15 min -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:25:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:15:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:50:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:25:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:42:51</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:32:09 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:37:30</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:37:30 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:15:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:25:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:50:00 (66.7%)</td>
+            </tr>
+
+            <!-- 1 hr 30 min -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:30:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:12:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:18:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:51:26</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:38:34 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:45:00 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:36:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:54:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:30:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00 (66.7%)</td>
+            </tr>
+
+            <!-- 2 hr -->
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">0.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-warning-deep); font-family: var(--font-family-mono); white-space: nowrap;">+00:40:00 (+33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.25x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:36:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:24:00 (20%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:20:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:40:00 (33.3%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">1.75x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:08:34</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">00:51:26 (42.9%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">01:00:00 (50%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">2.5x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:48:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">01:12:00 (60%)</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">02:00:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap; font-weight: 600;">3.0x</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-body); font-family: var(--font-family-mono); white-space: nowrap;">00:40:00</td>
+              <td style="padding: var(--spacing-sm) var(--spacing-md); border-bottom: 1px solid var(--color-hairline); color: var(--color-link); font-family: var(--font-family-mono); white-space: nowrap;">01:20:00 (66.7%)</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <p style="margin-top: var(--spacing-lg); font-size: var(--font-size-body-sm); color: var(--color-mute); text-align: center;">
+        Time saved = Original − New duration. At 0.75x playback takes longer (time added). Formula: new duration = original ÷ speed.
+      </p>
     </div>
   </section>
 </Layout>

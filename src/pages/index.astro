@@ -53,6 +53,19 @@ import Layout from '../layouts/Layout.astro';
             </h2>
           </div>
 
+          <!-- YouTube URL Auto-Fill (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-sm);">YouTube URL (optional)</div>
+            <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+              <input type="url" id="std-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+              <button class="btn-ghost" id="std-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                Detect
+              </button>
+            </div>
+            <div id="std-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+          </div>
+
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div>
               <label class="label" data-i18n="calculator.label.hours" for="std-hours">Hours</label>
@@ -71,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
           <div style="margin-bottom: var(--spacing-lg);">
             <label class="label" data-i18n="calculator.label.speed" for="std-speed">Playback Speed</label>
             <div style="display: flex; gap: var(--spacing-md); align-items: center;">
-              <input type="range" id="std-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
+              <input type="range" id="std-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
               <input type="number" id="std-speed" class="input-field" inputmode="decimal" autocomplete="off" name="std-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
             </div>
           </div>
@@ -79,7 +92,6 @@ import Layout from '../layouts/Layout.astro';
           <div style="margin-bottom: var(--spacing-lg);">
             <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">Quick Presets</div>
             <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
-              <button class="preset-btn" data-speed="0.5">0.5x</button>
               <button class="preset-btn" data-speed="0.75">0.75x</button>
               <button class="preset-btn" data-speed="1.25">1.25x</button>
               <button class="preset-btn" data-speed="1.5">1.5x</button>
@@ -97,7 +109,7 @@ import Layout from '../layouts/Layout.astro';
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-new-duration-human">0s</div>
             </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label" data-i18n="calculator.result.time-saved">Time Saved</div>
+              <div class="result-label" id="std-time-saved-label" data-i18n="calculator.result.time-saved">Time Saved</div>
               <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
             </div>
@@ -108,20 +120,20 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
-            <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              Copy
-            </button>
-            <button class="btn-ghost" id="std-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-              Share
-            </button>
-            <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-              Reset
-            </button>
-          </div>
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+              <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+              <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Reset
+              </button>
+              <button class="btn-ghost" id="std-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                Share
+              </button>
+            </div>
         </div>
       </div>
 
@@ -140,6 +152,20 @@ import Layout from '../layouts/Layout.astro';
 
           <div style="margin-bottom: var(--spacing-lg);">
             <div class="label" data-i18n="calculator.mode2.label.orig" style="margin-bottom: var(--spacing-sm);">Original Media Length</div>
+
+            <!-- YouTube URL Auto-Fill (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-xs);">YouTube URL (optional)</div>
+              <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+                <input type="url" id="rev-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+                <button class="btn-ghost" id="rev-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  Detect
+                </button>
+              </div>
+              <div id="rev-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+            </div>
+
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
               <div>
                 <label class="label" for="rev-orig-hours">Hours</label>
@@ -195,13 +221,13 @@ import Layout from '../layouts/Layout.astro';
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy
             </button>
-            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-              Share
-            </button>
             <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
               Reset
+            </button>
+            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              Share
             </button>
           </div>
         </div>
@@ -223,8 +249,21 @@ import Layout from '../layouts/Layout.astro';
           <div style="margin-bottom: var(--spacing-lg);">
             <label class="label" data-i18n="calculator.mode3.label.speed" for="batch-speed">Playback Speed</label>
             <div style="display: flex; gap: var(--spacing-md); align-items: center;">
-              <input type="range" id="batch-speed-slider" class="speed-slider" min="0.1" max="10" step="0.05" value="1.5" />
+              <input type="range" id="batch-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
               <input type="number" id="batch-speed" class="input-field" inputmode="decimal" autocomplete="off" name="batch-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">Quick Presets</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
             </div>
           </div>
 
@@ -309,7 +348,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color: var(--color-body);">Preset speeds 0.5x–3.0x</span>
+          <span style="color: var(--color-body);">Preset speeds 0.75x–3.0x</span>
           <span><kbd class="kbd">1</kbd> <kbd class="kbd">2</kbd> <kbd class="kbd">3</kbd> <kbd class="kbd">4</kbd> <kbd class="kbd">5</kbd> <kbd class="kbd">6</kbd> <kbd class="kbd">7</kbd> <kbd class="kbd">8</kbd></span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -403,6 +442,107 @@ import Layout from '../layouts/Layout.astro';
       return { originalSeconds, targetSeconds, requiredSpeed, isPossible: true };
     }
 
+    // ============================================
+    // YOUTUBE URL AUTO-FILL (no API key)
+    // ============================================
+    function parseYouTubeId(url) {
+      if (!url) return null;
+      const trimmed = url.trim();
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+      ];
+      for (const re of patterns) {
+        const m = trimmed.match(re);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    function parseISO8601Duration(iso) {
+      if (!iso) return 0;
+      const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (!m) return 0;
+      const h = parseInt(m[1] || '0', 10);
+      const min = parseInt(m[2] || '0', 10);
+      const s = parseInt(m[3] || '0', 10);
+      return h * 3600 + min * 60 + s;
+    }
+
+    async function fetchYouTubeMetadata(videoId) {
+      // Try public page metadata via a CORS proxy (no API key required)
+      const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(watchUrl)}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+      try {
+        const res = await fetch(proxyUrl, { signal: controller.signal, headers: { 'Accept': 'text/html' } });
+        if (!res.ok) throw new Error('proxy responded ' + res.status);
+        const html = await res.text();
+        const titleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)
+          || html.match(/<title>([^<]+)<\/title>/i);
+        const durationMatch = html.match(/<meta[^>]+itemprop=["']duration["'][^>]+content=["']([^"']+)["']/i);
+        const title = titleMatch ? titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, '').trim() : 'YouTube Video';
+        const durationSeconds = durationMatch ? parseISO8601Duration(durationMatch[1]) : 0;
+        return { title, durationSeconds };
+      } catch (err) {
+        // Fallback: try oEmbed for title only (no duration)
+        try {
+          const oembed = `https://www.youtube.com/oembed?url=${encodeURIComponent(watchUrl)}&format=json`;
+          const res2 = await fetch(oembed, { signal: controller.signal });
+          if (res2.ok) {
+            const data = await res2.json();
+            return { title: data.title || 'YouTube Video', durationSeconds: 0 };
+          }
+        } catch (e) { /* ignore */ }
+        throw err;
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    function setStdDuration(h, m, s) {
+      stdState.hours = h;
+      stdState.minutes = m;
+      stdState.seconds = s;
+      document.getElementById('std-hours').value = h;
+      document.getElementById('std-minutes').value = m;
+      document.getElementById('std-seconds').value = s;
+      calculateStd();
+    }
+
+    async function handleStdYouTubeDetect() {
+      const urlInput = document.getElementById('std-yt-url');
+      const statusEl = document.getElementById('std-yt-status');
+      const videoId = parseYouTubeId(urlInput.value);
+      if (!videoId) {
+        statusEl.textContent = '';
+        statusEl.style.color = '';
+        return;
+      }
+      statusEl.textContent = 'Fetching video info…';
+      statusEl.style.color = 'var(--color-mute)';
+      try {
+        const meta = await fetchYouTubeMetadata(videoId);
+        if (meta.durationSeconds > 0) {
+          const h = Math.floor(meta.durationSeconds / 3600);
+          const m = Math.floor((meta.durationSeconds % 3600) / 60);
+          const s = meta.durationSeconds % 60;
+          setStdDuration(h, m, s);
+          statusEl.textContent = meta.title + ' — Duration auto-filled';
+          statusEl.style.color = 'var(--color-success-deep)';
+          showToast(meta.title + ' — duration auto-filled');
+        } else {
+          statusEl.textContent = 'Could not auto-detect duration — enter time manually below';
+          statusEl.style.color = 'var(--color-warning-deep)';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Could not auto-detect duration — enter time manually below';
+        statusEl.style.color = 'var(--color-warning-deep)';
+      }
+    }
+
     // Toast notification
     function showToast(message, duration = 2000) {
       const toast = document.getElementById('toast');
@@ -491,10 +631,27 @@ import Layout from '../layouts/Layout.astro';
 
       document.getElementById('std-new-duration').textContent = formatSeconds(result.adjustedSeconds);
       document.getElementById('std-new-duration-human').textContent = formatDuration(result.adjustedSeconds);
-      document.getElementById('std-time-saved').textContent = formatSeconds(result.timeSaved);
-      document.getElementById('std-time-saved-human').textContent = formatDuration(result.timeSaved);
-      document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
 
+      const savedLabel = document.getElementById('std-time-saved-label');
+      const savedEl = document.getElementById('std-time-saved');
+      const savedHumanEl = document.getElementById('std-time-saved-human');
+
+      if (stdState.speed < 1) {
+        // Slow playback -> time added
+        savedLabel.textContent = 'Time Added';
+        savedEl.textContent = '+' + formatSeconds(Math.abs(result.timeSaved));
+        savedHumanEl.textContent = '+' + formatDuration(Math.abs(result.timeSaved));
+        savedEl.classList.remove('result-positive');
+        savedEl.style.color = 'var(--color-warning-deep)';
+      } else {
+        savedLabel.textContent = 'Time Saved';
+        savedEl.textContent = formatSeconds(result.timeSaved);
+        savedHumanEl.textContent = formatDuration(result.timeSaved);
+        savedEl.classList.add('result-positive');
+        savedEl.style.color = '';
+      }
+
+      document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
       updateStdPresetButtons();
     }
 
@@ -531,6 +688,11 @@ import Layout from '../layouts/Layout.astro';
         calculateStd();
       });
     });
+
+    // YouTube auto-detect for Mode 1
+    document.getElementById('std-yt-detect').addEventListener('click', handleStdYouTubeDetect);
+    document.getElementById('std-yt-url').addEventListener('change', handleStdYouTubeDetect);
+    document.getElementById('std-yt-url').addEventListener('blur', handleStdYouTubeDetect);
 
     // Copy/Share/Reset for Mode 1
     document.getElementById('std-copy-btn').addEventListener('click', () => {
@@ -576,6 +738,47 @@ import Layout from '../layouts/Layout.astro';
 
     function getRevTargetSeconds() {
       return revState.targetHours * 3600 + revState.targetMinutes * 60 + revState.targetSeconds;
+    }
+
+    function setRevDuration(h, m, s) {
+      revState.origHours = h;
+      revState.origMinutes = m;
+      revState.origSeconds = s;
+      document.getElementById('rev-orig-hours').value = h;
+      document.getElementById('rev-orig-minutes').value = m;
+      document.getElementById('rev-orig-seconds').value = s;
+      calculateRev();
+    }
+
+    async function handleRevYouTubeDetect() {
+      const urlInput = document.getElementById('rev-yt-url');
+      const statusEl = document.getElementById('rev-yt-status');
+      const videoId = parseYouTubeId(urlInput.value);
+      if (!videoId) {
+        statusEl.textContent = '';
+        statusEl.style.color = '';
+        return;
+      }
+      statusEl.textContent = 'Fetching video info…';
+      statusEl.style.color = 'var(--color-mute)';
+      try {
+        const meta = await fetchYouTubeMetadata(videoId);
+        if (meta.durationSeconds > 0) {
+          const h = Math.floor(meta.durationSeconds / 3600);
+          const m = Math.floor((meta.durationSeconds % 3600) / 60);
+          const s = meta.durationSeconds % 60;
+          setRevDuration(h, m, s);
+          statusEl.textContent = meta.title + ' — Duration auto-filled';
+          statusEl.style.color = 'var(--color-success-deep)';
+          showToast(meta.title + ' — duration auto-filled');
+        } else {
+          statusEl.textContent = 'Could not auto-detect duration — enter time manually below';
+          statusEl.style.color = 'var(--color-warning-deep)';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Could not auto-detect duration — enter time manually below';
+        statusEl.style.color = 'var(--color-warning-deep)';
+      }
     }
 
     function calculateRev() {
@@ -646,6 +849,11 @@ import Layout from '../layouts/Layout.astro';
         });
       }
     });
+
+    // YouTube auto-detect for Mode 2
+    document.getElementById('rev-yt-detect').addEventListener('click', handleRevYouTubeDetect);
+    document.getElementById('rev-yt-url').addEventListener('change', handleRevYouTubeDetect);
+    document.getElementById('rev-yt-url').addEventListener('blur', handleRevYouTubeDetect);
 
     document.getElementById('rev-copy-btn').addEventListener('click', () => {
       const originalSeconds = getRevOriginalSeconds();
@@ -750,6 +958,16 @@ import Layout from '../layouts/Layout.astro';
       calculateBatch();
     });
 
+    // Preset buttons for Mode 3 (Batch)
+    document.querySelectorAll('#panel-batch .preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        batchState.speed = parseFloat(btn.dataset.speed);
+        document.getElementById('batch-speed').value = batchState.speed.toFixed(2);
+        document.getElementById('batch-speed-slider').value = batchState.speed;
+        calculateBatch();
+      });
+    });
+
     ['batch-title', 'batch-hours', 'batch-minutes', 'batch-seconds'].forEach(id => {
       document.getElementById(id).addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -851,7 +1069,7 @@ import Layout from '../layouts/Layout.astro';
       switch (e.key.toLowerCase()) {
         case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8':
           if (currentMode === 'standard') {
-            const speeds = [0.5, 0.75, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0];
+            const speeds = [0.75, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0];
             const idx = parseInt(e.key) - 1;
             if (idx < speeds.length) {
               stdState.speed = speeds[idx];

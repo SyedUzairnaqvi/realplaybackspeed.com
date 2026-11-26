@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faq = [
+  {
+    question: 'How do I calculate 1 hour or 40 minutes at 1.5x, 2x, or 3x playback speed?',
+    answer: 'Divide the original duration by the playback speed. One hour (60 minutes) at 1.5x takes 40 minutes; at 2x it takes 30 minutes; at 3x it takes 20 minutes. Forty minutes at 1.5x takes about 27 minutes; at 2x it takes 20 minutes; at 3x it takes about 13 minutes. Use the speed calculator above to get exact results for any duration.',
+  },
+  {
+    question: 'How much time do you save at 1.25x, 2x, and 3x speed?',
+    answer: 'At 1.25x you save 20% of the original time. At 2x you save 50%. At 3x you save 66.7%. For example, a 1-hour video takes 48 minutes at 1.25x (12 minutes saved), 30 minutes at 2x (30 minutes saved), and 20 minutes at 3x (40 minutes saved).',
+  },
+  {
+    question: 'Can you still understand lectures and podcasts at 1.5x, 2x, or 3x speed?',
+    answer: 'Yes—within limits. Research shows younger adults and students can watch lectures at 1.5x–2.0x without significant memory loss while saving 33%–50% of study time. Comprehension typically drops above 2.5x–3.0x, which is best reserved for skimming familiar material. Older listeners tend to retain more at 0.75x–1.0x.',
+  },
+  {
+    question: 'How do I change playback speed on YouTube (desktop and mobile, including speeds above 2x)?',
+    answer: 'On desktop, click the gear icon on the video player, select "Playback speed," then pick a preset or choose "Custom" to enter any speed (YouTube supports up to 2x in the preset menu, and custom values beyond that in some players). On mobile, tap the video, tap the gear icon, then "Playback speed." For precise control above 2x and exact time-saved calculations, use this calculator.',
+  },
+  {
+    question: 'How do I find the exact playback speed needed to finish a video before a deadline?',
+    answer: 'Use the Target Finish Time mode: enter the original media length and your available time window, and the calculator returns the required playback speed. For example, a 60-minute video that must finish in 30 minutes needs 2.0x speed; to finish in 20 minutes you need 3.0x.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faq.map((q) => ({
+    '@type': 'Question',
+    'name': q.question,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': q.answer,
+    },
+  })),
+};
+const faqJsonStr = JSON.stringify(faqJsonLd);
+---
+
+<Layout
+  title="Playback Speed Calculator Guide: Save Time at 1.5x, 2x & 3x Speed"
+  description="Learn how playback speed calculators work, exactly how much time you save at 1.25x, 1.5x, 2x, 2.5x, and 3x, and the science behind speeding up video, podcasts, audiobooks, and lectures."
+  lang="en"
+  device="desktop"
+>
+  <!-- FAQPage JSON-LD structured data -->
+  <script type="application/ld+json" set:html={faqJsonStr}></script>
+
+  <section style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas);">
+    <div class="section-container" style="max-width: 760px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+        <div class="eyebrow" style="margin-bottom: var(--spacing-md);">GUIDE</div>
+        <h1 style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+          Playback Speed Calculator Guide: Watch More in Less Time
+        </h1>
+        <p style="font-size: var(--font-size-body-lg); color: var(--color-body); margin: 0;">
+          A <strong>playback speed calculator</strong> helps you watch videos, listen to podcasts and audiobooks, and get through lectures faster. Learn how speed changes watch time, exactly how much time you save at 1.25x, 1.5x, 2x, 2.5x, and 3x, and what research says about learning retention.
+        </p>
+      </div>
+
+      <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-md);">How playback speed is calculated</h2>
+      <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: 1.7; margin-bottom: var(--spacing-lg);">
+        New duration = Original duration ÷ Playback speed. Time saved = Original − New duration. Percentage saved = (Time saved ÷ Original) × 100.
+      </p>
+
+      <div class="card" style="padding: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+        <h3 style="font-size: var(--font-size-heading-sm); font-weight: var(--font-weight-heading-sm); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">Exact time savings at common speeds (1-hour example)</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: var(--font-size-body-md);">
+          <thead>
+            <tr>
+              <th style="text-align: left; padding: var(--spacing-sm); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Speed</th>
+              <th style="text-align: left; padding: var(--spacing-sm); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">New duration</th>
+              <th style="text-align: left; padding: var(--spacing-sm); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Time saved</th>
+              <th style="text-align: left; padding: var(--spacing-sm); border-bottom: 2px solid var(--color-hairline); color: var(--color-ink); font-weight: 600;">Percentage saved</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono); font-weight: 600;">1.25x</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">48:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">12:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">20%</td></tr>
+            <tr><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono); font-weight: 600;">1.5x</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">40:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">20:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">33.3%</td></tr>
+            <tr><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono); font-weight: 600;">2x</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">30:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">30:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">50%</td></tr>
+            <tr><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono); font-weight: 600;">2.5x</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">24:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">36:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">60%</td></tr>
+            <tr><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono); font-weight: 600;">3x</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">20:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">40:00</td><td style="padding: var(--spacing-sm); border-bottom: 1px solid var(--color-hairline); font-family: var(--font-family-mono);">66.7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Science of playback speed &amp; learning retention</h2>
+      <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: 1.7; margin-bottom: var(--spacing-lg);">
+        A 2023 study indexed by the NIH (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10330257/" target="_blank" rel="noopener noreferrer" style="color: var(--color-link); text-decoration: underline;">PMC10330257</a>) found that younger adults and students can watch lectures at <strong>1.5x–2.0x speed</strong> without significant memory loss, while reducing mind-wandering and saving <strong>33%–50% of study time</strong>. Re-watching key sections at 2x can even improve exam recall.
+      </p>
+      <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: 1.7; margin-bottom: var(--spacing-lg);">
+        The same research suggests <strong>older adults retain more at 0.75x–1.0x</strong> because of higher cognitive processing load at faster speeds. Speeds above <strong>2.5x–3.0x</strong> are best reserved for skimming familiar material or slow speakers, not for learning new, complex content.
+      </p>
+
+      <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-xl) 0 var(--spacing-md);">Who uses a playback speed calculator?</h2>
+      <ul style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: 1.8; margin: 0 0 var(--spacing-xl); padding-left: var(--spacing-lg);">
+        <li><strong>Video speed calculator</strong> — YouTube, online courses, and training videos.</li>
+        <li><strong>Podcast speed calculator</strong> — get through more episodes per week.</li>
+        <li><strong>Audiobook speed calculator</strong> — finish books faster without losing comprehension.</li>
+        <li><strong>Lecture speed calculator</strong> — review recorded classes at 1.5x–2x before exams.</li>
+        <li><strong>Watch time calculator</strong> — plan how long a playlist or course will take at any speed.</li>
+      </ul>
+
+      <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Frequently asked questions</h2>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+        {faq.map((item) => (
+          <div class="card" style="padding: var(--spacing-lg);">
+            <h3 style="font-size: var(--font-size-heading-sm); font-weight: var(--font-weight-heading-sm); color: var(--color-ink); margin: 0 0 var(--spacing-sm);">{item.question}</h3>
+            <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: 1.7; margin: 0;">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+
+      <p style="text-align: center; margin-top: var(--spacing-2xl);">
+        <a href="/" class="btn-primary" style="text-decoration: none;">Try the Calculator</a>
+      </p>
+    </div>
+  </section>
+</Layout>
