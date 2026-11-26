@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout>
+<Layout title="Playback Speed Calculator - Free Online Playback Speed Tool" description="Calculate playback speed online. Free playback speed calculator for YouTube, Netflix, Spotify, audiobooks, and video. Find watch time, time saved, and required speed instantly." ogImage="/favicon-96x96.png">
   <!-- Skip Link -->
   <a href="#calculator" style="position: absolute; left: -9999px; z-index: 999; padding: 8px 16px; background: var(--color-ink); color: var(--color-on-primary); text-decoration: none; border-radius: var(--radius-sm);" on:focus="this.style.left='8px'; this.style.top='8px';" on:blur="this.style.left='-9999px';">Skip to calculator</a>
   
@@ -77,6 +77,15 @@ import Layout from '../layouts/Layout.astro';
             <div id="std-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
           </div>
 
+          <!-- Total Time Input (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-xs);">Total Time</div>
+            <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+              <input type="text" id="std-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+              <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">e.g. 1:30:00, 90:00, 5400s</span>
+            </div>
+          </div>
+
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
             <div>
               <label class="label" data-i18n="calculator.label.hours" for="std-hours">Hours</label>
@@ -132,14 +141,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <!-- Shareable URL (Mode 1) -->
-            <div style="margin-bottom: var(--spacing-lg);">
-              <div class="label" style="margin-bottom: var(--spacing-xs);">Shareable link</div>
-              <div style="display: flex; gap: var(--spacing-sm);">
-                <input type="text" id="std-share-url" class="input-field" readonly style="flex: 1;" />
-                <button class="btn-ghost" id="std-copy-url-btn" style="white-space: nowrap;">Copy link</button>
-              </div>
-            </div>
-
             <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
               <button class="btn-ghost" id="std-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -148,10 +149,6 @@ import Layout from '../layouts/Layout.astro';
               <button class="btn-ghost" id="std-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
                 Reset
-              </button>
-              <button class="btn-ghost" id="std-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                Share
               </button>
             </div>
         </div>
@@ -184,6 +181,15 @@ import Layout from '../layouts/Layout.astro';
                 </button>
               </div>
               <div id="rev-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+            </div>
+
+            <!-- Total Time Input (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" style="margin-bottom: var(--spacing-xs);">Total Time</div>
+              <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+                <input type="text" id="rev-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+                <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">e.g. 1:30:00, 90:00, 5400s</span>
+              </div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
@@ -233,23 +239,19 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div id="rev-warning" style="display: none; padding: var(--spacing-md); background-color: var(--color-warning-soft); border: 1px solid var(--color-warning); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); color: var(--color-warning-deep); font-size: var(--font-size-body-md);">
-          </div>
+            <div id="rev-warning" style="display: none; padding: var(--spacing-md); background-color: var(--color-warning-soft); border: 1px solid var(--color-warning); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); color: var(--color-warning-deep); font-size: var(--font-size-body-md);">
+            </div>
 
-          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
             <button class="btn-ghost" id="rev-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy
             </button>
-            <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-              Reset
-            </button>
-            <button class="btn-ghost" id="rev-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-              Share
-            </button>
-          </div>
+              <button class="btn-ghost" id="rev-reset-btn" aria-label="Reset calculator" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Reset
+              </button>
+            </div>
         </div>
       </div>
 
@@ -342,19 +344,377 @@ import Layout from '../layouts/Layout.astro';
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
               Clear All
             </button>
-            <button class="btn-ghost" id="batch-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              Copy
-            </button>
-            <button class="btn-ghost" id="batch-share-btn" aria-label="Share results" data-i18n="calculator.btn.share">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-              Share
-            </button>
-          </div>
+              <button class="btn-ghost" id="batch-copy-btn" aria-label="Copy results to clipboard" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- SEO Content: About the Playback Speed Calculator -->
+  <section id="about-playback-speed" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">About</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Playback Speed Calculator — Watch Less, Learn More</h2>
+    <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); margin-bottom: var(--spacing-lg);">
+      Real Playback Speed is a free online <strong>playback speed calculator</strong> built for anyone who wants to take control of their watching and listening time. Whether you are speeding through a long <strong>YouTube playback speed</strong> video, catching up on a podcast, finishing an <strong>audiobook playback speed</strong> chapter, or streaming a movie with <strong>Netflix playback speed</strong> controls, this tool tells you exactly how long your content will take at any speed and how much time you will save.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">What Is Playback Speed?</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      <strong>Playback speed</strong> is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes. At 2.0x, it finishes in 30 minutes. Our <strong>playback speed calculator</strong> lets you enter the original duration and your chosen speed, then instantly shows the adjusted duration, time saved, and percentage saved. No "Calculate" button is required — results update as you type.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">YouTube Playback Speed</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      YouTube is one of the most common places people adjust <strong>YouTube playback speed</strong>. From long tutorials and lectures to documentaries and music videos, increasing speed helps you consume more in less time. Paste a YouTube URL into our calculator and the tool detects the video duration automatically, filling Hours, Minutes, and Seconds so you can calculate the exact watch time at any <strong>youtube playback speed</strong> setting before you press play.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Spotify and Audiobook Playback Speed</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Spoken-word content benefits even more from speed adjustment. Use our tool to plan your <strong>spotify playback speed</strong> sessions for podcasts and audiobooks, or to figure out how long an <strong>audiobook playback speed</strong> chapter will take at 1.25x or 1.5x. Whether you are using a <strong>spotify playback speed extension</strong> or the native player, knowing the adjusted duration helps you fit learning into a busy schedule.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Netflix and Video Playback Speed</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Streaming movies and shows with <strong>Netflix playback speed</strong> controls lets you finish a series faster or slow down for difficult scenes. Our calculator works for any <strong>video playback speed extension</strong> scenario — enter the runtime, pick your speed, and see the new duration and time saved immediately.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">How to Use the Calculator</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      1. Enter the original media length in Hours, Minutes, and Seconds (or paste a YouTube URL to auto-detect it).<br />
+      2. Choose a playback speed from 0.25x to 4.0x using the slider or preset buttons.<br />
+      3. Read the new duration, time saved, and percentage saved in real time.<br />
+      4. Switch to Target Time mode to find the exact speed required to finish within your available window.
+    </p>
+
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Real Playback Speed runs entirely in your browser with no account required. It supports standard mode, reverse target-time mode, and playlist batch mode, making it the most flexible <strong>playback speed</strong> tool online. Try it now and reclaim your time.
+    </p>
+  </section>
+
+  <!-- SEO Content: FAQ Section -->
+  <section id="playback-speed-faq" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">FAQ</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg); text-align: center;">Frequently Asked Questions About Playback Speed</h2>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        What is playback speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes; at 2.0x, it finishes in 30 minutes. Our playback speed calculator lets you enter the original duration and your chosen speed, then instantly shows the adjusted duration, time saved, and percentage saved.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How fast is 1.5 playback speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        At 1.5x playback speed, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes. Use our playback speed calculator to compute the exact adjusted duration for any video length at 1.5x.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How do I change playback speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Most video players include a speed setting in the player controls (often a gear or "1x" button). On YouTube, click the settings gear and choose "Playback speed." On mobile apps like Spotify, Netflix, TikTok, and Instagram, look for the speed option in the sharing or playback menu. You can also use our playback speed calculator to plan the adjusted duration before you watch.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Which playback speed is normal?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Normal playback speed is 1.0x — the original recording speed with no acceleration or slowdown. Anything above 1.0x speeds up playback, and anything below 1.0x slows it down.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to check playback speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Open the player settings in your video app and look for "Playback speed" or a "1x" indicator — that shows the current speed. If you want to verify how long content will take at a given speed, enter the duration and speed into our playback speed calculator and read the adjusted time.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Is watching 2x speed bad?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Watching at 2x speed is not inherently bad, but comprehension can drop for complex or dense content. It works well for familiar material, replays, or simple vlogs. For learning-heavy videos, 1.25x–1.5x often balances speed and retention better. Our playback speed calculator helps you see exactly how much time you save at 2x versus normal speed.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How long is 1 hour in 1.5 speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. Our playback speed calculator confirms this: 60 minutes ÷ 1.5 = 40 minutes.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Which is the normal speed of video?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        The normal speed of video is 1.0x. This is the original recording rate with no speed adjustment applied.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        What is vinyl playback speed?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Vinyl playback speed refers to the rotational speed of a record, measured in RPM (revolutions per minute). Common speeds are 33⅓ RPM for LPs, 45 RPM for singles, and 78 RPM for older records. It is a different concept from digital video playback speed, but both relate to the rate at which media is played back.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to adjust playback speed on iPhone video?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        In the iOS Photos app, open a video, tap Edit, then tap the speed icon to adjust slow-motion or speed. In third-party players, look for a speed or "1x" button in the playback controls. Safari and Chrome on iPhone also support YouTube's native playback speed menu via the settings gear.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to change playback speed on Spotify?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Spotify offers playback speed controls for podcasts and audiobooks. Tap the "1x" or speed button on the playback screen (available on mobile and desktop) and choose a faster or slower speed. Not all music tracks support speed adjustment — it is mainly for spoken-word content.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Can you change playback speed on Spotify?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Yes, for podcasts and audiobooks. Look for the speed control (often shown as "1x") on the player screen and select a different rate. Regular music playback generally does not support speed changes on Spotify.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to change playback speed on TikTok?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        When watching a TikTok video, tap the share arrow or the "…" menu, then look for "Playback speed" and choose 0.5x, 1x, or 2x. When creating a video, the speed option appears in the recording tools before you shoot.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to speed up playback in Premiere Pro?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        In Premiere Pro, use the Rate Stretch tool (press R) to speed up a clip by dragging its edge inward, or right-click the clip and choose "Speed/Duration" to enter a percentage (e.g., 150% for 1.5x). You can also use Time Remapping for variable speed changes within a single clip. Our playback speed calculator helps you predict the final runtime before you edit.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Does playback speed affect watch time?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Yes. Watching at a faster speed reduces total watch time because the same content plays in less time. For example, a 60-minute video at 1.5x results in 40 minutes of watch time. Platforms may track watch time based on actual elapsed playback time, so faster speeds lower the recorded minutes watched. Our playback speed calculator shows exactly how much time you save at any speed.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to change playback speed on Instagram?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Instagram Reels supports playback speed during creation: tap the speed icon (1x) in the Reels camera and choose 0.3x, 0.5x, 1x, 2x, or 3x before recording. When watching Reels, native speed controls are limited, so many users adjust speed through a browser extension or by recording at the desired speed during creation.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Why is my YouTube playback speed gone?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        The YouTube playback speed option can disappear if you are using an outdated app version, a third-party client, Restricted Mode, or casting to a TV. Make sure you are on the official YouTube app or website, sign in, update the app, turn off Restricted Mode, and check the settings gear on the video player. On mobile, speed controls are available in the app settings while a video plays.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How to increase playback speed shortcut?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        On YouTube in a web browser, hold Shift and press the greater-than key (Shift + >) to increase speed, or Shift + < (comma) to decrease it. The period key (.) advances frame-by-frame when paused. Our site also supports keyboard shortcuts: press 1–8 for preset speeds, C to copy, R to reset, and Tab to switch calculator modes.
+      </div>
+    </details>
+  </section>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is playback speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes; at 2.0x, it finishes in 30 minutes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fast is 1.5 playback speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At 1.5x playback speed, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I change playback speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most video players include a speed setting in the player controls, often a gear or 1x button. On YouTube, click the settings gear and choose Playback speed. On mobile apps like Spotify, Netflix, TikTok, and Instagram, look for the speed option in the playback menu."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which playback speed is normal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Normal playback speed is 1.0x — the original recording speed with no acceleration or slowdown."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to check playback speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open the player settings in your video app and look for Playback speed or a 1x indicator that shows the current speed. You can also enter the duration and speed into a playback speed calculator to read the adjusted time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is watching 2x speed bad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Watching at 2x speed is not inherently bad, but comprehension can drop for complex or dense content. For learning-heavy videos, 1.25x-1.5x often balances speed and retention better."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long is 1 hour in 1.5 speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. 60 minutes divided by 1.5 equals 40 minutes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which is the normal speed of video?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The normal speed of video is 1.0x, the original recording rate with no speed adjustment applied."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is vinyl playback speed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vinyl playback speed refers to the rotational speed of a record, measured in RPM. Common speeds are 33 1/3 RPM for LPs, 45 RPM for singles, and 78 RPM for older records."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to adjust playback speed on iPhone video?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the iOS Photos app, open a video, tap Edit, then tap the speed icon to adjust slow-motion or speed. In third-party players, look for a speed or 1x button in the playback controls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to change playback speed on Spotify?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotify offers playback speed controls for podcasts and audiobooks. Tap the 1x or speed button on the playback screen and choose a faster or slower speed. Regular music tracks generally do not support speed adjustment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you change playback speed on Spotify?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for podcasts and audiobooks. Look for the speed control shown as 1x on the player screen and select a different rate. Regular music playback generally does not support speed changes on Spotify."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to change playback speed on TikTok?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When watching a TikTok video, tap the share arrow or the more menu, then look for Playback speed and choose 0.5x, 1x, or 2x. When creating a video, the speed option appears in the recording tools before you shoot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to speed up playback in Premiere Pro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Premiere Pro, use the Rate Stretch tool or right-click the clip and choose Speed/Duration to enter a percentage such as 150% for 1.5x. Time Remapping allows variable speed changes within a single clip."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does playback speed affect watch time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Watching at a faster speed reduces total watch time because the same content plays in less time. A 60-minute video at 1.5x results in 40 minutes of watch time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to change playback speed on Instagram?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instagram Reels supports playback speed during creation by tapping the speed icon and choosing 0.3x, 0.5x, 1x, 2x, or 3x before recording. Native speed controls when watching Reels are limited."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my YouTube playback speed gone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The YouTube playback speed option can disappear if you are using an outdated app version, a third-party client, Restricted Mode, or casting to a TV. Use the official app or website, update the app, and turn off Restricted Mode."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to increase playback speed shortcut?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On YouTube in a web browser, hold Shift and press the greater-than key to increase speed, or Shift and the comma key to decrease it."
+          }
+        }
+      ]
+    }
+  </script>
 
   <!-- Toast Notification -->
   <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -376,10 +736,6 @@ import Layout from '../layouts/Layout.astro';
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="color: var(--color-body);">Copy results</span>
           <span><kbd class="kbd">C</kbd></span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color: var(--color-body);">Share results</span>
-          <span><kbd class="kbd">S</kbd></span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="color: var(--color-body);">Reset calculator</span>
@@ -471,7 +827,7 @@ import Layout from '../layouts/Layout.astro';
       if (!url) return null;
       const trimmed = url.trim();
       const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /(?:youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
         /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
         /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
       ];
@@ -482,94 +838,16 @@ import Layout from '../layouts/Layout.astro';
       return null;
     }
 
-    function parseISO8601Duration(iso) {
-      if (!iso) return 0;
-      const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      if (!m) return 0;
-      const h = parseInt(m[1] || '0', 10);
-      const min = parseInt(m[2] || '0', 10);
-      const s = parseInt(m[3] || '0', 10);
-      return h * 3600 + min * 60 + s;
-    }
-
-    function extractLengthSeconds(html) {
-      if (!html) return 0;
-      // Try multiple patterns YouTube embeds lengthSeconds in
-      const patterns = [
-        /"lengthSeconds"\s*:\s*(\d+)/,
-        /lengthSeconds["']?\s*:\s*["']?(\d+)["']?/,
-        /"length_seconds"\s*:\s*(\d+)/,
-        /length_seconds["']?\s*:\s*["']?(\d+)["']?/
-      ];
-      for (const re of patterns) {
-        const m = html.match(re);
-        if (m) return parseInt(m[1], 10);
-      }
-      return 0;
-    }
-
-    function extractTitle(html) {
-      if (!html) return '';
-      const m = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i)
-        || html.match(/<title>([^<]+)<\/title>/i);
-      if (m) return m[1].replace(/\s*-\s*YouTube\s*$/i, '').trim();
-      return '';
-    }
-
-    async function fetchViaProxy(proxyUrl, signal) {
-      const res = await fetch(proxyUrl, { signal, headers: { 'Accept': 'text/html' } });
-      if (!res.ok) throw new Error('proxy responded ' + res.status);
-      return await res.text();
-    }
-
     async function fetchYouTubeMetadata(videoId) {
-      const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-
+      const timeout = setTimeout(() => controller.abort(), 20000);
       try {
-        let lastErr = null;
-
-        // Multiple public CORS proxy endpoints (no API key required)
-        const proxies = [
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(watchUrl)}`,
-          `https://api.allorigins.win/get?url=${encodeURIComponent(watchUrl)}`,
-          `https://corsproxy.io/?url=${encodeURIComponent(watchUrl)}`
-        ];
-
-        for (const proxyUrl of proxies) {
-          try {
-            const html = await fetchViaProxy(proxyUrl, controller.signal);
-
-            // Try parsed JSON if the proxy wraps it (allorigins /get returns {contents: "..."})
-            let parsedHtml = html;
-            try {
-              const wrapped = JSON.parse(html);
-              if (wrapped && wrapped.contents && typeof wrapped.contents === 'string') {
-                parsedHtml = wrapped.contents;
-              }
-            } catch (e) { /* not JSON, use as-is */ }
-
-            const durationSeconds = extractLengthSeconds(parsedHtml) || 0;
-            const title = extractTitle(parsedHtml) || 'YouTube Video';
-            return { title, durationSeconds };
-          } catch (err) {
-            lastErr = err;
-            continue;
-          }
-        }
-
-        // All proxies failed — try oEmbed for title only (direct, no CORS proxy needed)
-        try {
-          const oembed = `https://www.youtube.com/oembed?url=${encodeURIComponent(watchUrl)}&format=json`;
-          const res2 = await fetch(oembed, { signal: controller.signal });
-          if (res2.ok) {
-            const data = await res2.json();
-            return { title: data.title || 'YouTube Video', durationSeconds: 0 };
-          }
-        } catch (e) { /* ignore */ }
-
-        throw lastErr || new Error('Unable to fetch video info');
+        const res = await fetch(`/api/youtube-duration?v=${encodeURIComponent(videoId)}`, {
+          signal: controller.signal,
+          headers: { 'Accept': 'application/json' },
+        });
+        if (!res.ok) throw new Error('server responded ' + res.status);
+        return await res.json();
       } finally {
         clearTimeout(timeout);
       }
@@ -582,7 +860,60 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('std-hours').value = h;
       document.getElementById('std-minutes').value = m;
       document.getElementById('std-seconds').value = s;
+      document.getElementById('std-total-time').value = formatSeconds(h * 3600 + m * 60 + s);
       calculateStd();
+    }
+
+    // Parse total time from formats: 1:30:00, 90:00, 5400s, 1h 30m, 3600
+    function parseTotalTime(input) {
+      if (!input) return 0;
+      const v = input.trim();
+      if (!v) return 0;
+
+      // Plain seconds: 5400 or 5400s
+      const plainSeconds = v.match(/^(\d+)s?$/i);
+      if (plainSeconds) return parseInt(plainSeconds[1], 10);
+
+      // Hours with h: 1h30m or 1h or 1h 30m
+      const hMatch = v.match(/^(\d+)\s*h\s*(?:(\d+)\s*m)?(?:(\d+)\s*s?)?$/i);
+      if (hMatch) {
+        return parseInt(hMatch[1], 10) * 3600 + (hMatch[2] ? parseInt(hMatch[2], 10) : 0) * 60 + (hMatch[3] ? parseInt(hMatch[3], 10) : 0);
+      }
+
+      // MM:SS or HH:MM:SS
+      const parts = v.split(':').map(p => parseInt(p, 10));
+      if (parts.every(p => !isNaN(p))) {
+        if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        if (parts.length === 2) return parts[0] * 60 + parts[1];
+        if (parts.length === 1) return parts[0];
+      }
+      return 0;
+    }
+
+    function setStdTotalTime() {
+      clearYtWarning('std-yt-status');
+      const input = document.getElementById('std-total-time');
+      if (!input) return;
+      const seconds = parseTotalTime(input.value);
+      if (seconds <= 0) return;
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      stdState.hours = h;
+      stdState.minutes = m;
+      stdState.seconds = s;
+      document.getElementById('std-hours').value = h;
+      document.getElementById('std-minutes').value = m;
+      document.getElementById('std-seconds').value = s;
+      calculateStd();
+    }
+
+    function clearYtWarning(statusId) {
+      const el = document.getElementById(statusId);
+      if (el) {
+        el.textContent = '';
+        el.style.color = '';
+      }
     }
 
     async function handleStdYouTubeDetect() {
@@ -652,26 +983,6 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    // Share results
-    async function shareResults(text, url) {
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'Real Playback Speed Calculator',
-            text: text,
-            url: url,
-          });
-          return true;
-        } catch (err) {
-          if (err.name !== 'AbortError') {
-            copyToClipboard(url);
-          }
-        }
-      } else {
-        copyToClipboard(url);
-      }
-    }
-
     // ============================================
     // MODE 1: STANDARD PLAYBACK SPEED CALCULATOR
     // ============================================
@@ -726,28 +1037,33 @@ import Layout from '../layouts/Layout.astro';
 
       document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
 
-      // Update shareable URL
-      const shareUrlEl = document.getElementById('std-share-url');
-      if (shareUrlEl) {
-        shareUrlEl.value = `https://realplaybackspeed.com?mode=standard&h=${stdState.hours}&m=${stdState.minutes}&s=${stdState.seconds}&speed=${stdState.speed}`;
-      }
-
       updateStdPresetButtons();
     }
 
     // Mode 1 event listeners
+    function syncStdTotalTimeFromHMS() {
+      document.getElementById('std-total-time').value = formatSeconds(stdState.hours * 3600 + stdState.minutes * 60 + stdState.seconds);
+    }
     document.getElementById('std-hours').addEventListener('input', (e) => {
       stdState.hours = parseInt(e.target.value) || 0;
+      syncStdTotalTimeFromHMS();
       calculateStd();
+      clearYtWarning('std-yt-status');
     });
     document.getElementById('std-minutes').addEventListener('input', (e) => {
       stdState.minutes = parseInt(e.target.value) || 0;
+      syncStdTotalTimeFromHMS();
       calculateStd();
+      clearYtWarning('std-yt-status');
     });
     document.getElementById('std-seconds').addEventListener('input', (e) => {
       stdState.seconds = parseInt(e.target.value) || 0;
+      syncStdTotalTimeFromHMS();
       calculateStd();
+      clearYtWarning('std-yt-status');
     });
+    document.getElementById('std-total-time').addEventListener('change', setStdTotalTime);
+    document.getElementById('std-total-time').addEventListener('blur', setStdTotalTime);
     document.getElementById('std-speed').addEventListener('input', (e) => {
       stdState.speed = parseFloat(e.target.value) || 1;
       document.getElementById('std-speed-slider').value = stdState.speed;
@@ -782,35 +1098,15 @@ import Layout from '../layouts/Layout.astro';
       copyToClipboard(text);
     });
 
-    document.getElementById('std-share-btn').addEventListener('click', () => {
-      const originalSeconds = getStdOriginalSeconds();
-      const result = calculatePlayback(originalSeconds, stdState.speed);
-      const text = `Original: ${formatSeconds(originalSeconds)} | Speed: ${stdState.speed}x | New Duration: ${formatSeconds(result.adjustedSeconds)} | Time Saved: ${formatSeconds(result.timeSaved)} (${result.percentageSaved.toFixed(1)}%)`;
-      const url = `https://realplaybackspeed.com?mode=standard&h=${stdState.hours}&m=${stdState.minutes}&s=${stdState.seconds}&speed=${stdState.speed}`;
-      shareResults(text, url);
-    });
-
-    document.getElementById('std-copy-url-btn').addEventListener('click', () => {
-      const urlEl = document.getElementById('std-share-url');
-      if (urlEl) {
-        urlEl.select();
-        try {
-          navigator.clipboard.writeText(urlEl.value);
-          showToast('Link copied!');
-        } catch (e) {
-          document.execCommand('copy');
-          showToast('Link copied!');
-        }
-      }
-    });
-
     document.getElementById('std-reset-btn').addEventListener('click', () => {
       stdState = { hours: 0, minutes: 0, seconds: 0, speed: 1.5 };
       document.getElementById('std-hours').value = 0;
       document.getElementById('std-minutes').value = 0;
       document.getElementById('std-seconds').value = 0;
+      document.getElementById('std-total-time').value = '';
       document.getElementById('std-speed').value = 1.5;
       document.getElementById('std-speed-slider').value = 1.5;
+      clearYtWarning('std-yt-status');
       calculateStd();
     });
 
@@ -835,6 +1131,25 @@ import Layout from '../layouts/Layout.astro';
     }
 
     function setRevDuration(h, m, s) {
+      revState.origHours = h;
+      revState.origMinutes = m;
+      revState.origSeconds = s;
+      document.getElementById('rev-orig-hours').value = h;
+      document.getElementById('rev-orig-minutes').value = m;
+      document.getElementById('rev-orig-seconds').value = s;
+      document.getElementById('rev-total-time').value = formatSeconds(h * 3600 + m * 60 + s);
+      calculateRev();
+    }
+
+    function setRevTotalTime() {
+      clearYtWarning('rev-yt-status');
+      const input = document.getElementById('rev-total-time');
+      if (!input) return;
+      const seconds = parseTotalTime(input.value);
+      if (seconds <= 0) return;
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
       revState.origHours = h;
       revState.origMinutes = m;
       revState.origSeconds = s;
@@ -924,6 +1239,9 @@ import Layout from '../layouts/Layout.astro';
     }
 
     // Mode 2 event listeners
+    function syncRevTotalTimeFromHMS() {
+      document.getElementById('rev-total-time').value = formatSeconds(revState.origHours * 3600 + revState.origMinutes * 60 + revState.origSeconds);
+    }
     ['orig-hours', 'orig-minutes', 'orig-seconds', 'target-hours', 'target-minutes', 'target-seconds'].forEach(id => {
       const el = document.getElementById(`rev-${id}`);
       if (el) {
@@ -939,10 +1257,16 @@ import Layout from '../layouts/Layout.astro';
             'targetseconds': 'targetSeconds',
           };
           revState[stateMap[id.replace(/-/g, '')]] = value;
+          if (id.startsWith('orig')) {
+            syncRevTotalTimeFromHMS();
+          }
           calculateRev();
+          clearYtWarning('rev-yt-status');
         });
       }
     });
+    document.getElementById('rev-total-time').addEventListener('change', setRevTotalTime);
+    document.getElementById('rev-total-time').addEventListener('blur', setRevTotalTime);
 
     // YouTube auto-detect for Mode 2
     document.getElementById('rev-yt-detect').addEventListener('click', handleRevYouTubeDetect);
@@ -957,21 +1281,14 @@ import Layout from '../layouts/Layout.astro';
       copyToClipboard(text);
     });
 
-    document.getElementById('rev-share-btn').addEventListener('click', () => {
-      const originalSeconds = getRevOriginalSeconds();
-      const targetSeconds = getRevTargetSeconds();
-      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
-      const text = `Original: ${formatSeconds(originalSeconds)} | Target: ${formatSeconds(targetSeconds)} | Required Speed: ${result.requiredSpeed.toFixed(2)}x`;
-      const url = `https://realplaybackspeed.com?mode=reverse&oh=${revState.origHours}&om=${revState.origMinutes}&os=${revState.origSeconds}&th=${revState.targetHours}&tm=${revState.targetMinutes}&ts=${revState.targetSeconds}`;
-      shareResults(text, url);
-    });
-
     document.getElementById('rev-reset-btn').addEventListener('click', () => {
       revState = { origHours: 0, origMinutes: 0, origSeconds: 0, targetHours: 0, targetMinutes: 0, targetSeconds: 0 };
       ['orig-hours', 'orig-minutes', 'orig-seconds', 'target-hours', 'target-minutes', 'target-seconds'].forEach(id => {
         const el = document.getElementById(`rev-${id}`);
         if (el) el.value = 0;
       });
+      document.getElementById('rev-total-time').value = '';
+      clearYtWarning('rev-yt-status');
       calculateRev();
     });
 
@@ -1114,15 +1431,6 @@ import Layout from '../layouts/Layout.astro';
       copyToClipboard(text);
     });
 
-    document.getElementById('batch-share-btn').addEventListener('click', () => {
-      const totalOriginal = getBatchOriginalSeconds();
-      const totalAdjusted = totalOriginal / batchState.speed;
-      const totalTimeSaved = totalOriginal - totalAdjusted;
-      const text = `Videos: ${batchState.items.length} | Original: ${formatSeconds(totalOriginal)} | Speed: ${batchState.speed}x | Adjusted: ${formatSeconds(totalAdjusted)} | Time Saved: ${formatSeconds(totalTimeSaved)}`;
-      const url = `https://realplaybackspeed.com?mode=batch&speed=${batchState.speed}`;
-      shareResults(text, url);
-    });
-
     // ============================================
     // MODE SWITCHING
     // ============================================
@@ -1178,11 +1486,6 @@ import Layout from '../layouts/Layout.astro';
           else if (currentMode === 'reverse') document.getElementById('rev-copy-btn').click();
           else if (currentMode === 'batch') document.getElementById('batch-copy-btn').click();
           break;
-        case 's':
-          if (currentMode === 'standard') document.getElementById('std-share-btn').click();
-          else if (currentMode === 'reverse') document.getElementById('rev-share-btn').click();
-          else if (currentMode === 'batch') document.getElementById('batch-share-btn').click();
-          break;
         case 'r':
           if (currentMode === 'standard') document.getElementById('std-reset-btn').click();
           else if (currentMode === 'reverse') document.getElementById('rev-reset-btn').click();
@@ -1224,6 +1527,7 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('std-hours').value = h;
         document.getElementById('std-minutes').value = m;
         document.getElementById('std-seconds').value = s;
+        document.getElementById('std-total-time').value = formatSeconds(h * 3600 + m * 60 + s);
         document.getElementById('std-speed').value = speed;
         document.getElementById('std-speed-slider').value = speed;
         calculateStd();
@@ -1238,6 +1542,7 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('rev-orig-hours').value = oh;
         document.getElementById('rev-orig-minutes').value = om;
         document.getElementById('rev-orig-seconds').value = os;
+        document.getElementById('rev-total-time').value = formatSeconds(oh * 3600 + om * 60 + os);
         document.getElementById('rev-target-hours').value = th;
         document.getElementById('rev-target-minutes').value = tm;
         document.getElementById('rev-target-seconds').value = ts;
