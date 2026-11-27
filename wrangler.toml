@@ -1,0 +1,20 @@
+name = "realplaybackspeed-com"
+main = "dist/server/entry.mjs"
+compatibility_date = "2026-11-23"
+compatibility_flags = []
+no_bundle = true
+upload_source_maps = true
+
+[assets]
+directory = "dist/client"
+binding = "ASSETS"
+
+[images]
+binding = "IMAGES"
+
+[observability]
+enabled = true
+
+[[rules]]
+type = "ESModule"
+globs = ["**/*.js", "**/*.mjs"]
