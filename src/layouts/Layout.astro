@@ -45,6 +45,19 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      (function() {
+        var root = document.documentElement;
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored) {
+            root.setAttribute('data-theme', stored);
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            root.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <script is:inline src="/i18n.js"></script>
   </head>
   <body>
@@ -225,6 +238,23 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
           themeBtn.addEventListener('click', function() {
             var current = root.getAttribute('data-theme') || 'light';
             applyTheme(current === 'dark' ? 'light' : 'dark');
+          });
+        }
+
+        // ---------- Theme persistence across MPA navigation ----------
+        function persistTheme() {
+          try {
+            var t = localStorage.getItem('theme');
+            if (t) applyTheme(t);
+          } catch (e) {}
+        }
+        document.addEventListener('astro:after-swap', persistTheme);
+        window.addEventListener('pageshow', persistTheme);
+        if (document.addEventListener) {
+          document.addEventListener('astro:before-swap', function(ev) {
+            if (ev && ev.newDocument) {
+              ev.newDocument.documentElement.setAttribute('data-theme', root.getAttribute('data-theme') || 'light');
+            }
           });
         }
 

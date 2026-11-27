@@ -9,41 +9,48 @@ if (fs.existsSync(wranglerDir)) {
   console.log('Removed stale .wrangler directory');
 }
 
-// Create wrangler.toml for deployment
-const wranglerToml = path.join(__dirname, '..', 'wrangler.toml');
-const tomlContent = `name = "realplaybackspeed-com"
-main = "dist/server/entry.mjs"
-compatibility_date = "2026-11-27"
-compatibility_flags = []
-no_bundle = true
+// Create wrangler.jsonc for deployment
+const wranglerJsonc = path.join(__dirname, '..', 'wrangler.jsonc');
+const jsoncContent = `{
+  "name": "realplaybackspeed-com",
+  "main": "dist/server/entry.mjs",
+  "compatibility_date": "2026-11-27",
+  "compatibility_flags": [],
+  "no_bundle": true,
+  "upload_source_maps": true,
 
-[[kv_namespaces]]
-binding = "SESSION"
+  "kv_namespaces": [
+    { "binding": "SESSION" }
+  ],
 
-[assets]
-directory = "dist/client"
-binding = "ASSETS"
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS"
+  },
 
-[images]
-binding = "IMAGES"
+  "images": {
+    "binding": "IMAGES"
+  },
 
-[observability]
-enabled = true
+  "observability": {
+    "enabled": true
+  },
 
-[[rules]]
-type = "ESModule"
-globs = ["**/*.js", "**/*.mjs"]
+  "rules": [
+    { "type": "ESModule", "globs": ["**/*.js", "**/*.mjs"] }
+  ]
+}
 `;
-fs.writeFileSync(wranglerToml, tomlContent);
-console.log('Created wrangler.toml for deployment');
+fs.writeFileSync(wranglerJsonc, jsoncContent);
+console.log('Created wrangler.jsonc for deployment');
 
 // Deploy
 try {
   execSync('wrangler deploy', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 } finally {
-  // Clean up wrangler.toml after deploy so it doesn't interfere with next build
-  if (fs.existsSync(wranglerToml)) {
-    fs.rmSync(wranglerToml, { force: true });
-    console.log('Removed wrangler.toml after deployment');
+  // Clean up wrangler.jsonc after deploy so it doesn't interfere with next build
+  if (fs.existsSync(wranglerJsonc)) {
+    fs.rmSync(wranglerJsonc, { force: true });
+    console.log('Removed wrangler.jsonc after deployment');
   }
 }
