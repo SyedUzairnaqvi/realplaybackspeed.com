@@ -1,0 +1,67 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Watch Time Calculator" description="Calculate how much watch time you'll save at different playback speeds. Find the speed needed to finish media within your available time.">
+  <section class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">Watch Time</div>
+    <h1 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg);">Watch Time Calculator</h1>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-lg);">
+      Calculate how much watch time you'll save at different playback speeds, or find the exact speed needed to finish media within your available time.
+    </p>
+
+    <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Formula</h2>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-md);">
+      <strong>Adjusted duration:</strong> Original duration ÷ Playback speed<br />
+      <strong>Time saved:</strong> Original duration − Adjusted duration<br />
+      <strong>Required speed:</strong> Original duration ÷ Target time
+    </p>
+
+    <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Worked Examples</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Scenario</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Original</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Speed</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Adjusted Time</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Time Saved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Lunch break video</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">15 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Commute podcast</td>
+          <td style="padding: var(--spacing-sm);">90 min</td>
+          <td style="padding: var(--spacing-sm);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">72 min</td>
+          <td style="padding: var(--spacing-sm);">18 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Evening movie</td>
+          <td style="padding: var(--spacing-sm);">120 min</td>
+          <td style="padding: var(--spacing-sm);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Three Calculator Modes</h2>
+    <ul style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-md); padding-left: var(--spacing-lg);">
+      <li><strong>Standard mode:</strong> Enter duration and speed to see adjusted time and time saved.</li>
+      <li><strong>Target Time mode:</strong> Enter your available time and find the exact speed needed to finish.</li>
+      <li><strong>Playlist Batch mode:</strong> Enter multiple durations to see total adjusted time across all items.</li>
+    </ul>
+
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-md);">
+      Ready to calculate? Go to the <a href="/" style="color: var(--color-link);">Playback Speed Calculator</a>.
+    </p>
+  </section>
+</PageLayout>

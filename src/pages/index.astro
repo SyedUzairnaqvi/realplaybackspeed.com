@@ -354,58 +354,156 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- SEO Content: About the Playback Speed Calculator -->
+  <!-- About: Playback Speed Calculator -->
   <section id="about-playback-speed" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
     <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">About</div>
     <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Playback Speed Calculator — Watch Less, Learn More</h2>
     <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); margin-bottom: var(--spacing-lg);">
-      Real Playback Speed is a free online <strong>playback speed calculator</strong> built for anyone who wants to take control of their watching and listening time. Whether you are speeding through a long <strong>YouTube playback speed</strong> video, catching up on a podcast, finishing an <strong>audiobook playback speed</strong> chapter, or streaming a movie with <strong>Netflix playback speed</strong> controls, this tool tells you exactly how long your content will take at any speed and how much time you will save.
+      Real Playback Speed is a free online calculator that tells you how long any video or audio will take at a different playback speed, and how much time you’ll save. Enter the original duration, pick a speed, and see the adjusted time instantly — no “Calculate” button required.
     </p>
 
     <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">What Is Playback Speed?</h3>
     <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      <strong>Playback speed</strong> is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes. At 2.0x, it finishes in 30 minutes. Our <strong>playback speed calculator</strong> lets you enter the original duration and your chosen speed, then instantly shows the adjusted duration, time saved, and percentage saved. No "Calculate" button is required — results update as you type.
+      Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes. At 2.0x, it finishes in 30 minutes. Our calculator lets you enter the original duration and your chosen speed, then shows the adjusted duration, time saved, and percentage saved as you type.
     </p>
 
-    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">YouTube Playback Speed</h3>
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">YouTube URL Duration Detection</h3>
     <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      YouTube is one of the most common places people adjust <strong>YouTube playback speed</strong>. From long tutorials and lectures to documentaries and music videos, increasing speed helps you consume more in less time. Paste a YouTube URL into our calculator and the tool detects the video duration automatically, filling Hours, Minutes, and Seconds so you can calculate the exact watch time at any <strong>youtube playback speed</strong> setting before you press play.
-    </p>
-
-    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Spotify and Audiobook Playback Speed</h3>
-    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      Spoken-word content benefits even more from speed adjustment. Use our tool to plan your <strong>spotify playback speed</strong> sessions for podcasts and audiobooks, or to figure out how long an <strong>audiobook playback speed</strong> chapter will take at 1.25x or 1.5x. Whether you are using a <strong>spotify playback speed extension</strong> or the native player, knowing the adjusted duration helps you fit learning into a busy schedule.
-    </p>
-
-    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Netflix and Video Playback Speed</h3>
-    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      Streaming movies and shows with <strong>Netflix playback speed</strong> controls lets you finish a series faster or slow down for difficult scenes. Our calculator works for any <strong>video playback speed extension</strong> scenario — enter the runtime, pick your speed, and see the new duration and time saved immediately.
+      Paste a public YouTube video URL (watch, youtu.be, or shorts) and the calculator attempts to detect the video’s duration automatically, filling in Hours, Minutes, and Seconds. This works for most public videos. It does not work for private, age-restricted, or members-only content, and YouTube occasionally blocks automated detection. If detection fails, you can enter the duration manually.
     </p>
 
     <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">How to Use the Calculator</h3>
     <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      1. Enter the original media length in Hours, Minutes, and Seconds (or paste a YouTube URL to auto-detect it).<br />
+      1. Enter the original media length in Hours, Minutes, and Seconds.<br />
       2. Choose a playback speed from 0.25x to 4.0x using the slider or preset buttons.<br />
       3. Read the new duration, time saved, and percentage saved in real time.<br />
       4. Switch to Target Time mode to find the exact speed required to finish within your available window.
     </p>
 
     <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      Real Playback Speed runs entirely in your browser with no account required. It supports standard mode, reverse target-time mode, and playlist batch mode, making it the most flexible <strong>playback speed</strong> tool online. Try it now and reclaim your time.
+      The calculator runs entirely in your browser with no account required. It supports three modes: standard duration calculation, reverse target-time mode, and playlist batch mode.
     </p>
   </section>
 
-  <!-- SEO Content: FAQ Section -->
+  <!-- Educational: Playback Speed Reference -->
+  <section id="playback-speed-reference" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">Reference</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md); text-align: center;">Playback Speed Reference</h2>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Speed Comparison Table</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Speed</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">60 min video</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">30 min video</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">90 min video</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Time Saved (60 min)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.0x (normal)</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">90 min</td>
+          <td style="padding: var(--spacing-sm);">0 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">48 min</td>
+          <td style="padding: var(--spacing-sm);">24 min</td>
+          <td style="padding: var(--spacing-sm);">72 min</td>
+          <td style="padding: var(--spacing-sm);">12 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">40 min</td>
+          <td style="padding: var(--spacing-sm);">20 min</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">20 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">15 min</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Formula</h3>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); text-align: center; margin-bottom: var(--spacing-lg); max-width: 600px; margin-left: auto; margin-right: auto;">
+      <strong>Adjusted duration:</strong> Original duration ÷ Playback speed<br />
+      <strong>Time saved:</strong> Original duration − Adjusted duration<br />
+      <strong>Required speed:</strong> Original duration ÷ Target time
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Three Calculator Modes</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Standard Mode</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Enter a duration and speed to see the adjusted time and time saved instantly.</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Target Time Mode</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Enter your available time and find the exact speed needed to finish within it.</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Playlist Batch Mode</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Enter multiple durations to see total adjusted time and time saved across all items.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Worked Examples</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Scenario</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Original</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Speed</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Adjusted Time</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Time Saved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Lunch break video</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">15 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Commute podcast</td>
+          <td style="padding: var(--spacing-sm);">90 min</td>
+          <td style="padding: var(--spacing-sm);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">72 min</td>
+          <td style="padding: var(--spacing-sm);">18 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Evening movie</td>
+          <td style="padding: var(--spacing-sm);">120 min</td>
+          <td style="padding: var(--spacing-sm);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FAQ: Playback Speed Calculator -->
   <section id="playback-speed-faq" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated); max-width: 1000px; margin: 0 auto;">
     <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">FAQ</div>
-    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg); text-align: center;">Frequently Asked Questions About Playback Speed</h2>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg); text-align: center;">Frequently Asked Questions</h2>
 
     <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
       <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
         What is playback speed?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes; at 2.0x, it finishes in 30 minutes. Our playback speed calculator lets you enter the original duration and your chosen speed, then instantly shows the adjusted duration, time saved, and percentage saved.
+        Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes; at 2.0x, it finishes in 30 minutes.
       </div>
     </details>
 
@@ -414,16 +512,16 @@ import Layout from '../layouts/Layout.astro';
         How fast is 1.5 playback speed?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        At 1.5x playback speed, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes. Use our playback speed calculator to compute the exact adjusted duration for any video length at 1.5x.
+        At 1.5x, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes.
       </div>
     </details>
 
     <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
       <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How do I change playback speed?
+        How do I calculate time saved at a different speed?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Most video players include a speed setting in the player controls (often a gear or "1x" button). On YouTube, click the settings gear and choose "Playback speed." On mobile apps like Spotify, Netflix, TikTok, and Instagram, look for the speed option in the sharing or playback menu. You can also use our playback speed calculator to plan the adjusted duration before you watch.
+        Divide the original duration by the playback speed. For example, 60 minutes ÷ 1.5 = 40 minutes. Time saved is the original duration minus the adjusted duration — in this case, 20 minutes saved.
       </div>
     </details>
 
@@ -432,97 +530,16 @@ import Layout from '../layouts/Layout.astro';
         Which playback speed is normal?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Normal playback speed is 1.0x — the original recording speed with no acceleration or slowdown. Anything above 1.0x speeds up playback, and anything below 1.0x slows it down.
+        Normal playback speed is 1.0x — the original recording speed with no acceleration or slowdown.
       </div>
     </details>
 
     <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
       <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to check playback speed?
+        How do I find the speed needed to finish within a time limit?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Open the player settings in your video app and look for "Playback speed" or a "1x" indicator — that shows the current speed. If you want to verify how long content will take at a given speed, enter the duration and speed into our playback speed calculator and read the adjusted time.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        Is watching 2x speed bad?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Watching at 2x speed is not inherently bad, but comprehension can drop for complex or dense content. It works well for familiar material, replays, or simple vlogs. For learning-heavy videos, 1.25x–1.5x often balances speed and retention better. Our playback speed calculator helps you see exactly how much time you save at 2x versus normal speed.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How long is 1 hour in 1.5 speed?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. Our playback speed calculator confirms this: 60 minutes ÷ 1.5 = 40 minutes.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        Which is the normal speed of video?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        The normal speed of video is 1.0x. This is the original recording rate with no speed adjustment applied.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        What is vinyl playback speed?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Vinyl playback speed refers to the rotational speed of a record, measured in RPM (revolutions per minute). Common speeds are 33⅓ RPM for LPs, 45 RPM for singles, and 78 RPM for older records. It is a different concept from digital video playback speed, but both relate to the rate at which media is played back.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to adjust playback speed on iPhone video?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        In the iOS Photos app, open a video, tap Edit, then tap the speed icon to adjust slow-motion or speed. In third-party players, look for a speed or "1x" button in the playback controls. Safari and Chrome on iPhone also support YouTube's native playback speed menu via the settings gear.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to change playback speed on Spotify?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Spotify offers playback speed controls for podcasts and audiobooks. Tap the "1x" or speed button on the playback screen (available on mobile and desktop) and choose a faster or slower speed. Not all music tracks support speed adjustment — it is mainly for spoken-word content.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        Can you change playback speed on Spotify?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Yes, for podcasts and audiobooks. Look for the speed control (often shown as "1x") on the player screen and select a different rate. Regular music playback generally does not support speed changes on Spotify.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to change playback speed on TikTok?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        When watching a TikTok video, tap the share arrow or the "…" menu, then look for "Playback speed" and choose 0.5x, 1x, or 2x. When creating a video, the speed option appears in the recording tools before you shoot.
-      </div>
-    </details>
-
-    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
-      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to speed up playback in Premiere Pro?
-      </summary>
-      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        In Premiere Pro, use the Rate Stretch tool (press R) to speed up a clip by dragging its edge inward, or right-click the clip and choose "Speed/Duration" to enter a percentage (e.g., 150% for 1.5x). You can also use Time Remapping for variable speed changes within a single clip. Our playback speed calculator helps you predict the final runtime before you edit.
+        Divide the original duration by your target time. A 90-minute video you want to finish in 45 minutes needs 90 ÷ 45 = 2.0x. Use the Target Time mode to calculate this automatically.
       </div>
     </details>
 
@@ -531,25 +548,25 @@ import Layout from '../layouts/Layout.astro';
         Does playback speed affect watch time?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Yes. Watching at a faster speed reduces total watch time because the same content plays in less time. For example, a 60-minute video at 1.5x results in 40 minutes of watch time. Platforms may track watch time based on actual elapsed playback time, so faster speeds lower the recorded minutes watched. Our playback speed calculator shows exactly how much time you save at any speed.
+        Yes. Watching at a faster speed reduces total watch time because the same content plays in less time. A 60-minute video at 1.5x results in 40 minutes of watch time.
       </div>
     </details>
 
     <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
       <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        How to change playback speed on Instagram?
+        How long is 1 hour in 1.5 speed?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        Instagram Reels supports playback speed during creation: tap the speed icon (1x) in the Reels camera and choose 0.3x, 0.5x, 1x, 2x, or 3x before recording. When watching Reels, native speed controls are limited, so many users adjust speed through a browser extension or by recording at the desired speed during creation.
+        One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. 60 minutes ÷ 1.5 = 40 minutes.
       </div>
     </details>
 
     <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
       <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
-        Why is my YouTube playback speed gone?
+        Can I calculate multiple videos at once?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        The YouTube playback speed option can disappear if you are using an outdated app version, a third-party client, Restricted Mode, or casting to a TV. Make sure you are on the official YouTube app or website, sign in, update the app, turn off Restricted Mode, and check the settings gear on the video player. On mobile, speed controls are available in the app settings while a video plays.
+        Yes. Playlist Batch mode lets you enter several video durations and see the total adjusted time and time saved across all of them at your chosen speed.
       </div>
     </details>
 
@@ -558,7 +575,7 @@ import Layout from '../layouts/Layout.astro';
         How to increase playback speed shortcut?
       </summary>
       <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
-        On YouTube in a web browser, hold Shift and press the greater-than key (Shift + >) to increase speed, or Shift + < (comma) to decrease it. The period key (.) advances frame-by-frame when paused. Our site also supports keyboard shortcuts: press 1–8 for preset speeds, C to copy, R to reset, and Tab to switch calculator modes.
+        On YouTube in a web browser, hold Shift and press the greater-than key to increase speed, or Shift and the comma key to decrease it. Our site supports keyboard shortcuts: press 1–8 for preset speeds, C to copy, R to reset, and Tab to switch calculator modes.
       </div>
     </details>
   </section>
@@ -581,15 +598,15 @@ import Layout from '../layouts/Layout.astro';
           "name": "How fast is 1.5 playback speed?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "At 1.5x playback speed, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes."
+            "text": "At 1.5x, content plays 50% faster than normal. A 60-minute video takes 40 minutes, a 30-minute video takes 20 minutes, and a 90-minute video takes 60 minutes."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I change playback speed?",
+          "name": "How do I calculate time saved at a different speed?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Most video players include a speed setting in the player controls, often a gear or 1x button. On YouTube, click the settings gear and choose Playback speed. On mobile apps like Spotify, Netflix, TikTok, and Instagram, look for the speed option in the playback menu."
+            "text": "Divide the original duration by the playback speed. For example, 60 minutes divided by 1.5 equals 40 minutes. Time saved is the original duration minus the adjusted duration."
           }
         },
         {
@@ -602,82 +619,10 @@ import Layout from '../layouts/Layout.astro';
         },
         {
           "@type": "Question",
-          "name": "How to check playback speed?",
+          "name": "How do I find the speed needed to finish within a time limit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Open the player settings in your video app and look for Playback speed or a 1x indicator that shows the current speed. You can also enter the duration and speed into a playback speed calculator to read the adjusted time."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is watching 2x speed bad?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Watching at 2x speed is not inherently bad, but comprehension can drop for complex or dense content. For learning-heavy videos, 1.25x-1.5x often balances speed and retention better."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How long is 1 hour in 1.5 speed?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. 60 minutes divided by 1.5 equals 40 minutes."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Which is the normal speed of video?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The normal speed of video is 1.0x, the original recording rate with no speed adjustment applied."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is vinyl playback speed?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Vinyl playback speed refers to the rotational speed of a record, measured in RPM. Common speeds are 33 1/3 RPM for LPs, 45 RPM for singles, and 78 RPM for older records."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to adjust playback speed on iPhone video?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "In the iOS Photos app, open a video, tap Edit, then tap the speed icon to adjust slow-motion or speed. In third-party players, look for a speed or 1x button in the playback controls."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to change playback speed on Spotify?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Spotify offers playback speed controls for podcasts and audiobooks. Tap the 1x or speed button on the playback screen and choose a faster or slower speed. Regular music tracks generally do not support speed adjustment."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can you change playback speed on Spotify?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, for podcasts and audiobooks. Look for the speed control shown as 1x on the player screen and select a different rate. Regular music playback generally does not support speed changes on Spotify."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to change playback speed on TikTok?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "When watching a TikTok video, tap the share arrow or the more menu, then look for Playback speed and choose 0.5x, 1x, or 2x. When creating a video, the speed option appears in the recording tools before you shoot."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to speed up playback in Premiere Pro?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "In Premiere Pro, use the Rate Stretch tool or right-click the clip and choose Speed/Duration to enter a percentage such as 150% for 1.5x. Time Remapping allows variable speed changes within a single clip."
+            "text": "Divide the original duration by your target time. A 90-minute video you want to finish in 45 minutes needs 2.0x. Use Target Time mode to calculate this automatically."
           }
         },
         {
@@ -690,18 +635,18 @@ import Layout from '../layouts/Layout.astro';
         },
         {
           "@type": "Question",
-          "name": "How to change playback speed on Instagram?",
+          "name": "How long is 1 hour in 1.5 speed?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Instagram Reels supports playback speed during creation by tapping the speed icon and choosing 0.3x, 0.5x, 1x, 2x, or 3x before recording. Native speed controls when watching Reels are limited."
+            "text": "One hour at 1.5x playback speed takes 40 minutes. You save 20 minutes. 60 minutes divided by 1.5 equals 40 minutes."
           }
         },
         {
           "@type": "Question",
-          "name": "Why is my YouTube playback speed gone?",
+          "name": "Can I calculate multiple videos at once?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The YouTube playback speed option can disappear if you are using an outdated app version, a third-party client, Restricted Mode, or casting to a TV. Use the official app or website, update the app, and turn off Restricted Mode."
+            "text": "Yes. Playlist Batch mode lets you enter several video durations and see the total adjusted time and time saved across all of them at your chosen speed."
           }
         },
         {

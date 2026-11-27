@@ -1,0 +1,55 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Podcast Playback Speed Calculator" description="Calculate podcast listening time at any playback speed. Enter the episode duration and see adjusted time and time saved instantly.">
+  <section class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">Podcast</div>
+    <h1 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg);">Podcast Playback Speed Calculator</h1>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-lg);">
+      Calculate how long a podcast episode will take at a faster playback speed. Enter the episode duration, pick a speed, and see the adjusted listening time and time saved.
+    </p>
+
+    <h2 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Common Podcast Durations</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Episode Length</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">At 1.25x</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">At 1.5x</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">At 2.0x</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">20 minutes</td>
+          <td style="padding: var(--spacing-sm);">16 minutes</td>
+          <td style="padding: var(--spacing-sm);">13 minutes</td>
+          <td style="padding: var(--spacing-sm);">10 minutes</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">45 minutes</td>
+          <td style="padding: var(--spacing-sm);">36 minutes</td>
+          <td style="padding: var(--spacing-sm);">30 minutes</td>
+          <td style="padding: var(--spacing-sm);">22 minutes</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">1 hour</td>
+          <td style="padding: var(--spacing-sm);">48 minutes</td>
+          <td style="padding: var(--spacing-sm);">40 minutes</td>
+          <td style="padding: var(--spacing-sm);">30 minutes</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">2 hours</td>
+          <td style="padding: var(--spacing-sm);">1 hour 36 min</td>
+          <td style="padding: var(--spacing-sm);">1 hour 20 min</td>
+          <td style="padding: var(--spacing-sm);">1 hour</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); margin-bottom: var(--spacing-md);">
+      Ready to calculate your podcast? Go to the <a href="/" style="color: var(--color-link);">Playback Speed Calculator</a>.
+    </p>
+  </section>
+</PageLayout>
