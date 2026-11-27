@@ -1,0 +1,648 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Calcolatore di Velocità di Riproduzione - Strumento Gratuito Online" description="Calcola la velocità di riproduzione online. Calcolatore gratuito di velocità di riproduzione per YouTube, Netflix, Spotify, audiolibri e video. Trova il tempo di visualizzazione, tempo salvato e velocità richiesta istantaneamente." lang="it" canonical="https://realplaybackspeed.com/it/" ogImage="/favicon-96x96.png">
+  <!-- Skip Link -->
+  <a href="#calculator" style="position: absolute; left: -9999px; z-index: 999; padding: 8px 16px; background: var(--color-ink); color: var(--color-on-primary); text-decoration: none; border-radius: var(--radius-sm);" on:focus="this.style.left='8px'; this.style.top='8px';" on:blur="this.style.left='-9999px';">Vai al calcolatore</a>
+  
+  <!-- Hero Section -->
+  <section class="hero-band">
+    <div class="section-container hero-content" style="text-align: center; position: relative; z-index: 1;">
+      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-xs);">Calcola</div>
+      <h1 class="hero-title" data-i18n="hero.title" style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+        Calcolatore di Velocità di Riproduzione
+      </h1>
+      <p class="hero-desc" data-i18n="hero.desc" style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
+        Calcola la durata esatta di visualizzazione o ascolto, il tempo salvato e la velocità richiesta in tempo reale. 
+        Nessun pulsante "Calcola" necessario — i risultati si aggiornano mentre digiti.
+      </p>
+      <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+        <a href="#calculator" class="btn-primary" data-i18n="hero.cta-calc" style="text-decoration: none;">Inizia a Calcolare</a>
+        <a href="/it/features" class="btn-secondary" data-i18n="hero.cta-features" style="text-decoration: none;">Vedi Funzionalità</a>
+      </div>
+
+      <!-- Choose file upload (local video duration auto-detect) -->
+      <div style="margin-top: var(--spacing-xl); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-sm);">
+        <label for="hero-file-input" style="display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: pointer; font-size: var(--font-size-body-md); color: var(--color-body);">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Scegli file
+        </label>
+        <input type="file" id="hero-file-input" accept="video/*" style="display: none;" />
+        <div id="hero-file-status" style="font-size: var(--font-size-body-sm); color: var(--color-mute); min-height: 1.25rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section id="calculator" class="calculator-section" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <!-- Mode Tabs -->
+      <div class="mode-tabs" role="tablist" aria-label="Modalità calcolatore">
+        <button role="tab" aria-selected="true" aria-controls="panel-standard" id="tab-standard" class="mode-tab active" data-mode="standard">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-standard">Calcolatore di Velocità</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-standard-short">Velocità</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-reverse" id="tab-reverse" class="mode-tab" data-mode="reverse">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-reverse">Tempo Obiettivo</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-reverse-short">Obiettivo</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-batch" id="tab-batch" class="mode-tab" data-mode="batch">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-batch">Batch Playlist</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-batch-short">Batch</span>
+        </button>
+      </div>
+
+      <!-- Mode 1: Standard Playback Speed Calculator -->
+      <div id="panel-standard" role="tabpanel" aria-labelledby="tab-standard">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODALITÀ 1</div>
+            <h2 data-i18n="calculator.mode1.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Velocità di Riproduzione Standard
+            </h2>
+          </div>
+
+          <!-- YouTube URL Auto-Fill (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-sm);">URL YouTube (opzionale)</div>
+            <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+              <input type="url" id="std-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+              <button class="btn-ghost" id="std-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                Rileva
+              </button>
+            </div>
+            <div id="std-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+            <button id="std-yt-retry" style="display: none; margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); background: none; border: none; color: var(--color-link); cursor: pointer; padding: 0;">Riprova</button>
+          </div>
+
+          <!-- Total Time Input (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-xs);">Tempo Totale</div>
+            <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+              <input type="text" id="std-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+              <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">es. 1:30:00, 90:00, 5400s</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div>
+              <label class="label" data-i18n="calculator.label.hours" for="std-hours">Ore</label>
+              <input type="number" id="std-hours" class="input-field" inputmode="numeric" autocomplete="off" name="std-hours" min="0" max="999" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" data-i18n="calculator.label.minutes" for="std-minutes">Minuti</label>
+              <input type="number" id="std-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="std-minutes" min="0" max="59" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" data-i18n="calculator.label.seconds" for="std-seconds">Secondi</label>
+              <input type="number" id="std-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="std-seconds" min="0" max="59" placeholder="0" value="0" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" data-i18n="calculator.label.speed" for="std-speed">Velocità di Riproduzione</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="std-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
+              <input type="number" id="std-speed" class="input-field" inputmode="decimal" autocomplete="off" name="std-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">Preset Rapidi</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
+            </div>
+          </div>
+
+          <div class="std-results-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.result.new-duration">Nuova Durata</div>
+              <div class="result-value" id="std-new-duration">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-new-duration-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" id="std-time-saved-label" data-i18n="calculator.result.time-saved">Tempo Salvato</div>
+              <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
+            </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" style="font-size: var(--font-size-body-xs); color: var(--color-mute); text-transform: uppercase; letter-spacing: 1px;">Velocità</div>
+                <div class="speed-gauge-wrap">
+                  <svg class="speed-gauge" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                    <path class="speed-gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
+                    <path id="std-gauge-fill" class="speed-gauge-fill" stroke="var(--color-link)" d="M 20 100 A 80 80 0 0 1 20 100" stroke-dasharray="251" stroke-dashoffset="251" />
+                  </svg>
+                  <div id="std-gauge-label" class="speed-gauge-label">1.0x</div>
+                </div>
+                <div id="std-mascot" class="speed-mascot">🐢</div>
+              </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" data-i18n="calculator.result.percentage-saved">Percentuale Salvata</div>
+                <div class="result-value" id="std-percentage">0%</div>
+                <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">del tempo originale</div>
+              </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" style="font-size: var(--font-size-body-sm);">Finisci alle (inizia ora)</div>
+              <div class="result-value" id="std-finish-time" style="font-size: var(--font-size-body-md); font-weight: 600; color: var(--color-link);">--:--</div>
+              <div style="font-size: var(--font-size-body-xs); color: var(--color-mute); margin-top: 4px;">alla velocità attuale</div>
+            </div>
+            </div>
+
+            <!-- Shareable URL (Mode 1) -->
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+              <button class="btn-ghost" id="std-copy-btn" aria-label="Copia risultati negli appunti" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copia
+              </button>
+              <button class="btn-ghost" id="std-reset-btn" aria-label="Reimposta calcolatore" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Reimposta
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <!-- Mode 2: Target Finish Time / Reverse Calculator -->
+      <div id="panel-reverse" role="tabpanel" aria-labelledby="tab-reverse" style="display: none;">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODALITÀ 2</div>
+            <h2 data-i18n="calculator.mode2.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Tempo di Fine Obiettivo
+            </h2>
+            <p data-i18n="calculator.mode2.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              Trova la velocità di riproduzione esatta necessaria per finire il contenuto entro la tua finestra temporale disponibile.
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode2.label.orig" style="margin-bottom: var(--spacing-sm);">Lunghezza Media Originale</div>
+
+            <!-- YouTube URL Auto-Fill (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-xs);">URL YouTube (opzionale)</div>
+              <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+                <input type="url" id="rev-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+                <button class="btn-ghost" id="rev-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  Rileva
+                </button>
+              </div>
+              <div id="rev-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+              <button id="rev-yt-retry" style="display: none; margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); background: none; border: none; color: var(--color-link); cursor: pointer; padding: 0;">Riprova</button>
+            </div>
+
+            <!-- Total Time Input (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" style="margin-bottom: var(--spacing-xs);">Tempo Totale</div>
+              <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+                <input type="text" id="rev-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+                <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">es. 1:30:00, 90:00, 5400s</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-orig-hours">Ore</label>
+                <input type="number" id="rev-orig-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-minutes">Minuti</label>
+                <input type="number" id="rev-orig-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-seconds">Secondi</label>
+                <input type="number" id="rev-orig-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode2.label.target" style="margin-bottom: var(--spacing-sm);">Finestra Temporale Disponibile</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-target-hours">Ore</label>
+                <input type="number" id="rev-target-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-minutes">Minuti</label>
+                <input type="number" id="rev-target-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-seconds">Secondi</label>
+                <input type="number" id="rev-target-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="rev-results-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode2.result.required-speed">Velocità Richiesta</div>
+              <div class="result-value" id="rev-required-speed">0.00x</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-speed-description">Inserisci le durate sopra</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode2.result.time-saved">Tempo Salvato</div>
+              <div class="result-value result-positive" id="rev-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-time-saved-human">0s</div>
+            </div>
+          </div>
+
+            <div id="rev-warning" style="display: none; padding: var(--spacing-md); background-color: var(--color-warning-soft); border: 1px solid var(--color-warning); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); color: var(--color-warning-deep); font-size: var(--font-size-body-md);">
+            </div>
+
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="rev-copy-btn" aria-label="Copia risultati negli appunti" data-i18n="calculator.btn.copy">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copia
+            </button>
+              <button class="btn-ghost" id="rev-reset-btn" aria-label="Reimposta calcolatore" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Reimposta
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <!-- Mode 3: Multi-Video / Playlist Batch Calculator -->
+      <div id="panel-batch" role="tabpanel" aria-labelledby="tab-batch" style="display: none;">
+        <div class="card" style="max-width: 800px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">MODALITÀ 3</div>
+            <h2 data-i18n="calculator.mode3.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              Calcolatore Batch Playlist
+            </h2>
+            <p data-i18n="calculator.mode3.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              Aggiungi più video, episodi o capitoli per calcolare la durata combinata e il tempo totale salvato.
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" data-i18n="calculator.mode3.label.speed" for="batch-speed">Velocità di Riproduzione</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="batch-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
+              <input type="number" id="batch-speed" class="input-field" inputmode="decimal" autocomplete="off" name="batch-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">Preset Rapidi</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode3.label.add" style="margin-bottom: var(--spacing-sm);">Aggiungi Video / Episodio</div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+              <div class="batch-entry-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--spacing-sm); align-items: end;">
+                <div>
+                  <label class="label" data-i18n="calculator.mode3.label.title" for="batch-title">Titolo (opzionale)</label>
+                  <input type="text" id="batch-title" class="input-field" placeholder="Video 1" />
+                </div>
+                <div>
+                  <label class="label" for="batch-hours">Ore</label>
+                  <input type="number" id="batch-hours" class="input-field" inputmode="numeric" autocomplete="off" name="batch-hours" min="0" max="999" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-minutes">Minuti</label>
+                  <input type="number" id="batch-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="batch-minutes" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-seconds">Secondi</label>
+                  <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <button class="btn-primary" id="batch-add-btn" data-i18n="calculator.mode3.btn.add">Aggiungi</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="batch-list" style="margin-bottom: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          </div>
+
+          <div class="batch-results-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.videos">Video</div>
+              <div class="result-value" id="batch-count">0</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.original-total">Totale Originale</div>
+              <div class="result-value" id="batch-original">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-original-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.adjusted-total">Totale Adattato</div>
+              <div class="result-value" id="batch-adjusted">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-adjusted-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.time-saved">Tempo Salvato</div>
+              <div class="result-value result-positive" id="batch-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-saved-human">0s</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="batch-clear-btn" aria-label="Cancella tutti i video" data-i18n="calculator.mode3.btn.clear">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+              Cancella Tutto
+            </button>
+              <button class="btn-ghost" id="batch-copy-btn" aria-label="Copia risultati negli appunti" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copia
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About: Playback Speed Calculator -->
+  <section id="about-playback-speed" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">Informazioni</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Calcolatore di Velocità di Riproduzione</h2>
+    <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); margin-bottom: var(--spacing-lg);">
+      Il Calcolatore di Velocità di Riproduzione è un calcolatore gratuito online che ti dice quanto tempo impiegherà un video o audio a una velocità di riproduzione diversa, e quanto tempo risparmierai. Inserisci la durata originale, scegli una velocità, e vedi il tempo adattato istantaneamente — nessun pulsante "Calcola" necessario.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Cos'è la Velocità di Riproduzione?</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      La velocità di riproduzione è la velocità a cui i media vengono riprodotti rispetto alla registrazione originale. A 1.0x, i contenuti vengono riprodotti a velocità normale. A 1.5x, un video di 60 minuti finisce in 40 minuti. A 2.0x, finisce in 30 minuti. Il nostro calcolatore ti permette di inserire la durata originale e la velocità scelta, poi mostra la durata adattata, il tempo salvato e la percentuale salvata mentre digiti.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Rilevamento Automatico Durata YouTube</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Incolla un URL YouTube pubblico (watch, youtu.be, o shorts) e il calcolatore tenterà di rilevare la durata del video automaticamente, riempendo Ore, Minuti e Secondi. Questo funziona per la maggior parte dei video pubblici. Non funziona per contenuti privati, con restrizioni d'età, o solo per membri, e YouTube occasionalmente blocca il rilevamento automatico. Se il rilevamento fallisce, puoi inserire la durata manualmente.
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Come Usare il Calcolatore</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      1. Inserisci la durata originale del media in Ore, Minuti e Secondi.<br />
+      2. Scegli una velocità di riproduzione da 0.25x a 4.0x usando il cursore o i pulsanti preset.<br />
+      3. Leggi la nuova durata, il tempo salvato, e la percentuale salvata in tempo reale.<br />
+      4. Passa alla modalità Tempo Obiettivo per trovare la velocità esatta necessaria per finire entro la tua finestra temporale disponibile.
+    </p>
+
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Il calcolatore funziona interamente nel tuo browser senza account richiesto. Supporta tre modalità: calcolo durata standard, modalità inversa tempo obiettivo, e modalità batch playlist.
+    </p>
+  </section>
+
+  <!-- Educational: Playback Speed Reference -->
+  <section id="playback-speed-reference" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">Riferimento</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md); text-align: center;">Riferimento Velocità di Riproduzione</h2>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Tabella Confronto Velocità</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Velocità</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Video 60 min</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Video 30 min</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Video 90 min</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Tempo Salvato (60 min)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.0x (normale)</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">90 min</td>
+          <td style="padding: var(--spacing-sm);">0 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">48 min</td>
+          <td style="padding: var(--spacing-sm);">24 min</td>
+          <td style="padding: var(--spacing-sm);">72 min</td>
+          <td style="padding: var(--spacing-sm);">12 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">40 min</td>
+          <td style="padding: var(--spacing-sm);">20 min</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">20 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">15 min</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Formula</h3>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); text-align: center; margin-bottom: var(--spacing-lg); max-width: 600px; margin-left: auto; margin-right: auto;">
+      <strong>Durata adattata:</strong> Durata originale ÷ Velocità di riproduzione<br />
+      <strong>Tempo salvato:</strong> Durata originale − Durata adattata<br />
+      <strong>Velocità richiesta:</strong> Durata originale ÷ Tempo obiettivo
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Tre Modalità Calcolatore</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Modalità Standard</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Inserisci una durata e velocità per vedere il tempo adattato e tempo salvato istantaneamente.</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Modalità Tempo Obiettivo</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Inserisci il tuo tempo disponibile e trova la velocità esatta per finire in tempo.</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">Modalità Batch Playlist</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">Aggiungi più durate per vedere il tempo totale adattato e tempo salvato su tutti gli elementi.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">Esempi Pratici</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Scenario</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Originale</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Velocità</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Tempo Adattato</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">Tempo Salvato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Video pausa pranzo</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">30 min</td>
+          <td style="padding: var(--spacing-sm);">15 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Podcast pendolarismo</td>
+          <td style="padding: var(--spacing-sm);">90 min</td>
+          <td style="padding: var(--spacing-sm);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">72 min</td>
+          <td style="padding: var(--spacing-sm);">18 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Film serale</td>
+          <td style="padding: var(--spacing-sm);">120 min</td>
+          <td style="padding: var(--spacing-sm);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FAQ: Playback Speed Calculator -->
+  <section id="playback-speed-faq" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">FAQ</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg); text-align: center;">Domande Frequenti</h2>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Cos'è la velocità di riproduzione?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        La velocità di riproduzione è la velocità a cui i media vengono riprodotti rispetto alla registrazione originale. A 1.0x, i contenuti vengono riprodotti a velocità normale. A 1.5x, un video di 60 minuti finisce in 40 minuti; a 2.0x, finisce in 30 minuti.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Quanto è veloce 1.5x di velocità di riproduzione?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        A 1.5x, i contenuti vengono riprodotti il 50% più velocemente del normale. Un video di 60 minuti impiega 40 minuti, un video di 30 minuti impiega 20 minuti, e un video di 90 minuti impiega 60 minuti.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Come calcolo il tempo salvato a una velocità diversa?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Dividi la durata originale per la velocità di riproduzione. Per esempio, 60 minuti diviso 1.5 uguale a 40 minuti. Il tempo salvato è la durata originale meno la durata adattata — in questo caso, 20 minuti salvati.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Quale velocità di riproduzione è normale?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        La velocità di riproduzione normale è 1.0x — la velocità di registrazione originale senza accelerazione o rallentamento.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Come trovo la velocità necessaria per finire entro un limite di tempo?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Dividi la durata originale per il tuo tempo obiettivo. Un video di 90 minuti che vuoi finire in 45 minuti ha bisogno di 90 ÷ 45 = 2.0x. Usa la modalità Tempo Obiettivo per calcolarlo automaticamente.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        La velocità di riproduzione influenza il tempo di visualizzazione?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Sì. Guardare a una velocità più veloce riduce il tempo totale di visualizzazione perché lo stesso contenuto viene riprodotto in meno tempo. Un video di 60 minuti a 1.5x risulta in 40 minuti di tempo di visualizzazione.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Quanto dura 1 ora a 1.5x di velocità?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Un'ora a 1.5x di velocità di riproduzione impiega 40 minuti. Risparmi 20 minuti. 60 minuti ÷ 1.5 = 40 minuti.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Posso calcolare più video insieme?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Sì. La modalità Batch Playlist ti permette di inserire più durate video e vedere il tempo totale adattato e tempo salvato su tutti loro alla velocità scelta.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Scorciatoia per aumentare la velocità di riproduzione?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Su YouTube in un browser web, tieni Shift e premi il tasto maggiore per aumentare la velocità, o Shift e la virgola per diminuirla. Il nostro sito supporta scorciatoie da tastiera: premi 1–8 per velocità preset, C per copiare, R per reimpostare, e Tab per cambiare modalità calcolatore.
+      </div>
+    </details>
+  </section>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Cos'è la velocità di riproduzione?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La velocità di riproduzione è la velocità a cui i media vengono riprodotti rispetto alla registrazione originale. A 1.0x, i contenuti vengono riprodotti a velocità normale. A 1.5x, un video di 60 minuti finisce in 40 minuti; a 2.0x, finisce in 30 minuti."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto è veloce 1.5x di velocità di riproduzione?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 1.5x, i contenuti vengono riprodotti il 50% più velocemente del normale. Un video di 60 minuti impiega 40 minuti, un video di 30 minuti impiega 20 minuti, e un video di 90 minuti impiega 60 minuti."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Come calcolo il tempo salvato a una velocità diversa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dividi la durata originale per la velocità di riproduzione. Per esempio, 60 minuti diviso 1.5 uguale a 40 minuti. Il tempo salvato è la durata originale meno la durata adattata."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quale velocità di riproduzione è normale?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La velocità di riproduzione normale è 1.0x — la velocità di registrazione originale senza accelerazione o rallentamento."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Come trovo la velocità necessaria per finire entro un limite di tempo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dividi la durata originale per il tuo tempo obiettivo. Un video di 90 minuti che vuoi finire in 45 minuti ha bisogno di 90 ÷ 45 = 2.0x. Usa la modalità Tempo Obiettivo per calcolarlo automaticamente."
+          }
+        }
+      ]
+    }
+  </script>
+</Layout>
