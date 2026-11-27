@@ -525,7 +525,7 @@
     line-height: var(--line-height-body-md);
   }
 
-  /* Navigation */
+/* Navigation */
   .nav-bar {
     background-color: var(--color-canvas);
     border-bottom: 1px solid var(--color-hairline);
@@ -533,6 +533,39 @@
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+  .nav-bar .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+  .nav-bar .nav-inner > a {
+    flex-shrink: 0;
+  }
+  .nav-bar .nav-inner > div {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  .nav-bar .nav-inner .btn-ghost {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav-bar .nav-inner label {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav-bar .nav-inner select {
+    flex-shrink: 0;
+  }
+  .nav-bar .nav-inner .btn-icon {
+    flex-shrink: 0;
   }
 
   /* Mode Tabs */
