@@ -1,0 +1,648 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="प्लेबैक स्पीड कैलकुलेटर - मुफ्त ऑनलाइन प्लेबैक स्पीड टूल" description="ऑनलाइन प्लेबैक स्पीड की गणना करें। YouTube, Netflix, Spotify, ऑडियोबुक, और वीडियो के लिए मुफ्त प्लेबैक स्पीड कैलकुलेटर। तुरंत देखने का समय, बचा हुआ समय, और आवश्यक गति खोजें।" lang="hi" canonical="https://realplaybackspeed.com/hi/" ogImage="/favicon-96x96.png">
+  <!-- Skip Link -->
+  <a href="#calculator" style="position: absolute; left: -9999px; z-index: 999; padding: 8px 16px; background: var(--color-ink); color: var(--color-on-primary); text-decoration: none; border-radius: var(--radius-sm);" on:focus="this.style.left='8px'; this.style.top='8px';" on:blur="this.style.left='-9999px';">कैलकुलेटर पर जाएं</a>
+  
+  <!-- Hero Section -->
+  <section class="hero-band">
+    <div class="section-container hero-content" style="text-align: center; position: relative; z-index: 1;">
+      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-xs);">गणना करें</div>
+      <h1 class="hero-title" data-i18n="hero.title" style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
+        प्लेबैक स्पीड कैलकुलेटर
+      </h1>
+      <p class="hero-desc" data-i18n="hero.desc" style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
+        रियल टाइम में सटीक देखने या सुनने की अवधि, बचा हुआ समय, और आवश्यक गति की गणना करें। 
+        "कैलकुलेट" बटन की आवश्यकता नहीं — टाइप करते ही परिणाम अपडेट होते हैं।
+      </p>
+      <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+        <a href="#calculator" class="btn-primary" data-i18n="hero.cta-calc" style="text-decoration: none;">गणना शुरू करें</a>
+        <a href="/hi/features" class="btn-secondary" data-i18n="hero.cta-features" style="text-decoration: none;">विशेषताएं देखें</a>
+      </div>
+
+      <!-- Choose file upload (local video duration auto-detect) -->
+      <div style="margin-top: var(--spacing-xl); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-sm);">
+        <label for="hero-file-input" style="display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: pointer; font-size: var(--font-size-body-md); color: var(--color-body);">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          फ़ाइल चुनें
+        </label>
+        <input type="file" id="hero-file-input" accept="video/*" style="display: none;" />
+        <div id="hero-file-status" style="font-size: var(--font-size-body-sm); color: var(--color-mute); min-height: 1.25rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section id="calculator" class="calculator-section" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated);">
+    <div class="section-container">
+      <!-- Mode Tabs -->
+      <div class="mode-tabs" role="tablist" aria-label="Calculator modes">
+        <button role="tab" aria-selected="true" aria-controls="panel-standard" id="tab-standard" class="mode-tab active" data-mode="standard">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-standard">स्पीड कैलकुलेटर</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-standard-short">स्पीड</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-reverse" id="tab-reverse" class="mode-tab" data-mode="reverse">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-reverse">टारगेट टाइम</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-reverse-short">टारगेट</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="panel-batch" id="tab-batch" class="mode-tab" data-mode="batch">
+          <span class="hidden sm:inline" data-i18n="calculator.tab-batch">प्लेलिस्ट बैच</span>
+          <span class="sm:hidden" data-i18n="calculator.tab-batch-short">बैच</span>
+        </button>
+      </div>
+
+      <!-- Mode 1: Standard Playback Speed Calculator -->
+      <div id="panel-standard" role="tabpanel" aria-labelledby="tab-standard">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">मोड 1</div>
+            <h2 data-i18n="calculator.mode1.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              मानक प्लेबैक स्पीड
+            </h2>
+          </div>
+
+          <!-- YouTube URL Auto-Fill (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-sm);">YouTube URL (वैकल्पिक)</div>
+            <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+              <input type="url" id="std-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+              <button class="btn-ghost" id="std-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                पता लगाएं
+              </button>
+            </div>
+            <div id="std-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+            <button id="std-yt-retry" style="display: none; margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); background: none; border: none; color: var(--color-link); cursor: pointer; padding: 0;">पुनः प्रयास करें</button>
+          </div>
+
+          <!-- Total Time Input (Mode 1) -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" style="margin-bottom: var(--spacing-xs);">कुल समय</div>
+            <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+              <input type="text" id="std-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+              <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">उदा. 1:30:00, 90:00, 5400s</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div>
+              <label class="label" data-i18n="calculator.label.hours" for="std-hours">घंटे</label>
+              <input type="number" id="std-hours" class="input-field" inputmode="numeric" autocomplete="off" name="std-hours" min="0" max="999" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" data-i18n="calculator.label.minutes" for="std-minutes">मिनट</label>
+              <input type="number" id="std-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="std-minutes" min="0" max="59" placeholder="0" value="0" />
+            </div>
+            <div>
+              <label class="label" data-i18n="calculator.label.seconds" for="std-seconds">सेकंड</label>
+              <input type="number" id="std-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="std-seconds" min="0" max="59" placeholder="0" value="0" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" data-i18n="calculator.label.speed" for="std-speed">प्लेबैक स्पीड</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="std-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
+              <input type="number" id="std-speed" class="input-field" inputmode="decimal" autocomplete="off" name="std-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">क्विक प्रीसेट</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
+            </div>
+          </div>
+
+          <div class="std-results-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.result.new-duration">नई अवधि</div>
+              <div class="result-value" id="std-new-duration">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-new-duration-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" id="std-time-saved-label" data-i18n="calculator.result.time-saved">बचा हुआ समय</div>
+              <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
+            </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" style="font-size: var(--font-size-body-xs); color: var(--color-mute); text-transform: uppercase; letter-spacing: 1px;">स्पीड</div>
+                <div class="speed-gauge-wrap">
+                  <svg class="speed-gauge" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                    <path class="speed-gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
+                    <path id="std-gauge-fill" class="speed-gauge-fill" stroke="var(--color-link)" d="M 20 100 A 80 80 0 0 1 20 100" stroke-dasharray="251" stroke-dashoffset="251" />
+                  </svg>
+                  <div id="std-gauge-label" class="speed-gauge-label">1.0x</div>
+                </div>
+                <div id="std-mascot" class="speed-mascot">🐢</div>
+              </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" data-i18n="calculator.result.percentage-saved">प्रतिशत बचत</div>
+                <div class="result-value" id="std-percentage">0%</div>
+                <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">मूल समय का</div>
+              </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" style="font-size: var(--font-size-body-sm);">समाप्ति समय (अभी शुरू करें)</div>
+              <div class="result-value" id="std-finish-time" style="font-size: var(--font-size-body-md); font-weight: 600; color: var(--color-link);">--:--</div>
+              <div style="font-size: var(--font-size-body-xs); color: var(--color-mute); margin-top: 4px;">वर्तमान स्पीड पर</div>
+            </div>
+            </div>
+
+            <!-- Shareable URL (Mode 1) -->
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+              <button class="btn-ghost" id="std-copy-btn" aria-label="क्लिपबोर्ड पर परिणाम कॉपी करें" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                कॉपी करें
+              </button>
+              <button class="btn-ghost" id="std-reset-btn" aria-label="कैलकुलेटर रीसेट करें" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                रीसेट करें
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <!-- Mode 2: Target Finish Time / Reverse Calculator -->
+      <div id="panel-reverse" role="tabpanel" aria-labelledby="tab-reverse" style="display: none;">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">मोड 2</div>
+            <h2 data-i18n="calculator.mode2.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              टारगेट फिनिश टाइम
+            </h2>
+            <p data-i18n="calculator.mode2.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              अपने उपलब्ध समय विंडो के भीतर मीडिया खत्म करने के लिए आवश्यक सटीक प्लेबैक स्पीड खोजें।
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode2.label.orig" style="margin-bottom: var(--spacing-sm);">मूल मीडिया लंबाई</div>
+
+            <!-- YouTube URL Auto-Fill (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" data-i18n="calculator.label.youtube-url" style="margin-bottom: var(--spacing-xs);">YouTube URL (वैकल्पिक)</div>
+              <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center;">
+                <input type="url" id="rev-yt-url" class="input-field" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" style="flex: 1; min-width: 200px;" />
+                <button class="btn-ghost" id="rev-yt-detect" style="white-space: nowrap;" data-i18n="calculator.btn.detect-duration">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  पता लगाएं
+                </button>
+              </div>
+              <div id="rev-yt-status" style="margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); min-height: 1.25rem;"></div>
+              <button id="rev-yt-retry" style="display: none; margin-top: var(--spacing-xs); font-size: var(--font-size-body-sm); background: none; border: none; color: var(--color-link); cursor: pointer; padding: 0;">पुनः प्रयास करें</button>
+            </div>
+
+            <!-- Total Time Input (Mode 2) -->
+            <div style="margin-bottom: var(--spacing-sm);">
+              <div class="label" style="margin-bottom: var(--spacing-xs);">कुल समय</div>
+              <div style="display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
+                <input type="text" id="rev-total-time" class="input-field" placeholder="1:30:00, 90:00, 5400s" style="flex: 1; min-width: 200px;" />
+                <span style="font-size: var(--font-size-body-sm); color: var(--color-mute); white-space: nowrap;">उदा. 1:30:00, 90:00, 5400s</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-orig-hours">घंटे</label>
+                <input type="number" id="rev-orig-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-minutes">मिनट</label>
+                <input type="number" id="rev-orig-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-orig-seconds">सेकंड</label>
+                <input type="number" id="rev-orig-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-orig-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode2.label.target" style="margin-bottom: var(--spacing-sm);">उपलब्ध समय विंडो</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+              <div>
+                <label class="label" for="rev-target-hours">घंटे</label>
+                <input type="number" id="rev-target-hours" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-hours" min="0" max="999" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-minutes">मिनट</label>
+                <input type="number" id="rev-target-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-minutes" min="0" max="59" placeholder="0" value="0" />
+              </div>
+              <div>
+                <label class="label" for="rev-target-seconds">सेकंड</label>
+                <input type="number" id="rev-target-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="rev-target-seconds" min="0" max="59" placeholder="0" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="rev-results-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode2.result.required-speed">आवश्यक स्पीड</div>
+              <div class="result-value" id="rev-required-speed">0.00x</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-speed-description">ऊपर अवधि दर्ज करें</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode2.result.time-saved">बचा हुआ समय</div>
+              <div class="result-value result-positive" id="rev-time-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="rev-time-saved-human">0s</div>
+            </div>
+          </div>
+
+            <div id="rev-warning" style="display: none; padding: var(--spacing-md); background-color: var(--color-warning-soft); border: 1px solid var(--color-warning); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); color: var(--color-warning-deep); font-size: var(--font-size-body-md);">
+            </div>
+
+            <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="rev-copy-btn" aria-label="क्लिपबोर्ड पर परिणाम कॉपी करें" data-i18n="calculator.btn.copy">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              कॉपी करें
+            </button>
+              <button class="btn-ghost" id="rev-reset-btn" aria-label="कैलकुलेटर रीसेट करें" data-i18n="calculator.btn.reset">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                रीसेट करें
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <!-- Mode 3: Multi-Video / Playlist Batch Calculator -->
+      <div id="panel-batch" role="tabpanel" aria-labelledby="tab-batch" style="display: none;">
+        <div class="card" style="max-width: 800px; margin: 0 auto;">
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="eyebrow" style="margin-bottom: var(--spacing-xs);">मोड 3</div>
+            <h2 data-i18n="calculator.mode3.title" style="font-size: var(--font-size-heading-lg); font-weight: var(--font-weight-heading-lg); line-height: var(--line-height-heading-lg); letter-spacing: var(--letter-spacing-heading-lg); color: var(--color-ink); margin: 0;">
+              प्लेलिस्ट बैच कैलकुलेटर
+            </h2>
+            <p data-i18n="calculator.mode3.desc" style="font-size: var(--font-size-body-md); color: var(--color-body); margin-top: var(--spacing-xs);">
+              कई वीडियो, एपिसोड, या अध्याय जोड़कर संयुक्त अवधि और कुल बचा हुआ समय गणना करें।
+            </p>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <label class="label" data-i18n="calculator.mode3.label.speed" for="batch-speed">प्लेबैक स्पीड</label>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+              <input type="range" id="batch-speed-slider" class="speed-slider" min="0.25" max="4" step="0.05" value="1.5" />
+              <input type="number" id="batch-speed" class="input-field" inputmode="decimal" autocomplete="off" name="batch-speed" min="0.1" max="10" step="0.05" value="1.5" style="width: 80px; flex-shrink: 0;" />
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.label.presets" style="margin-bottom: var(--spacing-sm);">क्विक प्रीसेट</div>
+            <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+              <button class="preset-btn" data-speed="0.75">0.75x</button>
+              <button class="preset-btn" data-speed="1.25">1.25x</button>
+              <button class="preset-btn" data-speed="1.5">1.5x</button>
+              <button class="preset-btn" data-speed="1.75">1.75x</button>
+              <button class="preset-btn" data-speed="2.0">2.0x</button>
+              <button class="preset-btn" data-speed="2.5">2.5x</button>
+              <button class="preset-btn" data-speed="3.0">3.0x</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="label" data-i18n="calculator.mode3.label.add" style="margin-bottom: var(--spacing-sm);">वीडियो / एपिसोड जोड़ें</div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+              <div class="batch-entry-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--spacing-sm); align-items: end;">
+                <div>
+                  <label class="label" data-i18n="calculator.mode3.label.title" for="batch-title">शीर्षक (वैकल्पिक)</label>
+                  <input type="text" id="batch-title" class="input-field" placeholder="वीडियो 1" />
+                </div>
+                <div>
+                  <label class="label" for="batch-hours">घंटे</label>
+                  <input type="number" id="batch-hours" class="input-field" inputmode="numeric" autocomplete="off" name="batch-hours" min="0" max="999" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-minutes">मिनट</label>
+                  <input type="number" id="batch-minutes" class="input-field" inputmode="numeric" autocomplete="off" name="batch-minutes" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label class="label" for="batch-seconds">सेकंड</label>
+                  <input type="number" id="batch-seconds" class="input-field" inputmode="numeric" autocomplete="off" name="batch-seconds" min="0" max="59" placeholder="0" value="0" />
+                </div>
+                <button class="btn-primary" id="batch-add-btn" data-i18n="calculator.mode3.btn.add">जोड़ें</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="batch-list" style="margin-bottom: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          </div>
+
+          <div class="batch-results-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.videos">वीडियो</div>
+              <div class="result-value" id="batch-count">0</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.original-total">मूल कुल</div>
+              <div class="result-value" id="batch-original">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-original-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.adjusted-total">समायोजित कुल</div>
+              <div class="result-value" id="batch-adjusted">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-adjusted-human">0s</div>
+            </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" data-i18n="calculator.mode3.result.time-saved">बचा हुआ समय</div>
+              <div class="result-value result-positive" id="batch-saved">00:00:00</div>
+              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="batch-saved-human">0s</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn-ghost" id="batch-clear-btn" aria-label="सभी वीडियो साफ़ करें" data-i18n="calculator.mode3.btn.clear">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+              सभी साफ़ करें
+            </button>
+              <button class="btn-ghost" id="batch-copy-btn" aria-label="क्लिपबोर्ड पर परिणाम कॉपी करें" data-i18n="calculator.btn.copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                कॉपी करें
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About: Playback Speed Calculator -->
+  <section id="about-playback-speed" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">के बारे में</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">प्लेबैक स्पीड कैलकुलेटर</h2>
+    <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); margin-bottom: var(--spacing-lg);">
+      प्लेबैक स्पीड कैलकुलेटर एक मुफ्त ऑनलाइन कैलकुलेटर है जो बताता है कि किसी भी वीडियो या ऑडियो को अलग प्लेबैक स्पीड पर चलाने में कितना समय लगेगा, और कितना समय बचेगा। मूल अवधि दर्ज करें, स्पीड चुनें, और समायोजित समय तुरंत देखें — "कैलकुलेट" बटन की आवश्यकता नहीं।
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">प्लेबैक स्पीड क्या है?</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      प्लेबैक स्पीड वह दर है जिस पर मीडिया अपनी मूल रिकॉर्डिंग के सापेक्ष चलता है। 1.0x पर, कंटेंट सामान्य गति से चलता है। 1.5x पर, 60 मिनट का वीडियो 40 मिनट में समाप्त होता है। 2.0x पर, यह 30 मिनट में समाप्त होता है। हमारा कैलकुलेटर आपको मूल अवधि और चुनी गई स्पीड दर्ज करने देता है, फिर टाइप करते ही समायोजित अवधि, बचा हुआ समय, और प्रतिशत बचत दिखाता है।
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">YouTube URL अवधि स्वतः पहचान</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      एक सार्वजनिक YouTube वीडियो URL (watch, youtu.be, या shorts) पेस्ट करें और कैलकुलेटर वीडियो की अवधि का स्वतः पता लगाने का प्रयास करता है, घंटे, मिनट, और सेकंड भर देता है। यह अधिकांश सार्वजनिक वीडियो के लिए काम करता है। यह निजी, आयु-प्रतिबंधित, या केवल सदस्यों के लिए कंटेंट के लिए काम नहीं करता, और YouTube कभी-कभी स्वतः पहचान को ब्लॉक करता है। यदि पहचान विफल होती है, तो आप अवधि मैन्युअल रूप से दर्ज कर सकते हैं।
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">कैलकुलेटर का उपयोग कैसे करें</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      1. मूल मीडिया लंबाई घंटे, मिनट, और सेकंड में दर्ज करें।<br />
+      2. स्लाइडर या प्रीसेट बटन का उपयोग करके 0.25x से 4.0x तक प्लेबैक स्पीड चुनें।<br />
+      3. नई अवधि, बचा हुआ समय, और प्रतिशत बचत को रियल टाइम में पढ़ें।<br />
+      4. टारगेट टाइम मोड पर स्विच करके अपने उपलब्ध समय विंडो के भीतर खत्म करने के लिए आवश्यक सटीक स्पीड खोजें।
+    </p>
+
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      कैलकुलेटर पूरी तरह से आपके ब्राउज़र में बिना खाते के चलता है। यह तीन मोड सपोर्ट करता है: मानक अवधि गणना, रिवर्स टारगेट-टाइम मोड, और प्लेलिस्ट बैच मोड।
+    </p>
+  </section>
+
+  <!-- Educational: Playback Speed Reference -->
+  <section id="playback-speed-reference" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">संदर्भ</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md); text-align: center;">प्लेबैक स्पीड संदर्भ</h2>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">स्पीड तुलना तालिका</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">स्पीड</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">60 मिनट वीडियो</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">30 मिनट वीडियो</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">90 मिनट वीडियो</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">बचा समय (60 मिनट)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.0x (सामान्य)</td>
+          <td style="padding: var(--spacing-sm);">60 मिनट</td>
+          <td style="padding: var(--spacing-sm);">30 मिनट</td>
+          <td style="padding: var(--spacing-sm);">90 मिनट</td>
+          <td style="padding: var(--spacing-sm);">0 मिनट</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">48 मिनट</td>
+          <td style="padding: var(--spacing-sm);">24 मिनट</td>
+          <td style="padding: var(--spacing-sm);">72 मिनट</td>
+          <td style="padding: var(--spacing-sm);">12 मिनट</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">40 मिनट</td>
+          <td style="padding: var(--spacing-sm);">20 मिनट</td>
+          <td style="padding: var(--spacing-sm);">60 मिनट</td>
+          <td style="padding: var(--spacing-sm);">20 मिनट</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm); font-weight: 600; color: var(--color-ink);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">30 मिनट</td>
+          <td style="padding: var(--spacing-sm);">15 मिनट</td>
+          <td style="padding: var(--spacing-sm);">45 मिनट</td>
+          <td style="padding: var(--spacing-sm);">30 मिनट</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">फॉर्मूला</h3>
+    <p style="font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md); text-align: center; margin-bottom: var(--spacing-lg); max-width: 600px; margin-left: auto; margin-right: auto;">
+      <strong>समायोजित अवधि:</strong> मूल अवधि ÷ प्लेबैक स्पीड<br />
+      <strong>बचा समय:</strong> मूल अवधि − समायोजित अवधि<br />
+      <strong>आवश्यक स्पीड:</strong> मूल अवधि ÷ टारगेट समय
+    </p>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">तीन कैलकुलेटर मोड</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">मानक मोड</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">अवधि और स्पीड दर्ज करें और समायोजित समय व बचा समय तुरंत देखें।</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">टारगेट टाइम मोड</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">अपना उपलब्ध समय दर्ज करें और समय पर खत्म करने के लिए आवश्यक सटीक स्पीड खोजें।</p>
+      </div>
+      <div style="background-color: var(--color-canvas-elevated); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-hairline);">
+        <div style="font-weight: 600; color: var(--color-ink); margin-bottom: var(--spacing-xs);">प्लेलिस्ट बैच मोड</div>
+        <p style="font-size: var(--font-size-body-sm); color: var(--color-body); margin: 0;">कई अवधि दर्ज करें और सभी आइटम पर कुल समायोजित समय और बचा समय देखें।</p>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm); text-align: center;">व्यावहारिक उदाहरण</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body);">
+      <thead>
+        <tr style="text-align: left; border-bottom: 1px solid var(--color-hairline);">
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">परिदृश्य</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">मूल</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">स्पीड</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">समायोजित समय</th>
+          <th style="padding: var(--spacing-sm); color: var(--color-ink); font-weight: 600;">बचा समय</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">लंच ब्रेक वीडियो</td>
+          <td style="padding: var(--spacing-sm);">45 मिनट</td>
+          <td style="padding: var(--spacing-sm);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">30 मिनट</td>
+          <td style="padding: var(--spacing-sm);">15 मिनट</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">कम्यूट पॉडकास्ट</td>
+          <td style="padding: var(--spacing-sm);">90 मिनट</td>
+          <td style="padding: var(--spacing-sm);">1.25x</td>
+          <td style="padding: var(--spacing-sm);">72 मिनट</td>
+          <td style="padding: var(--spacing-sm);">18 मिनट</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">शाम की मूवी</td>
+          <td style="padding: var(--spacing-sm);">120 मिनट</td>
+          <td style="padding: var(--spacing-sm);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">60 मिनट</td>
+          <td style="padding: var(--spacing-sm);">60 मिनट</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FAQ: Playback Speed Calculator -->
+  <section id="playback-speed-faq" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas-elevated); max-width: 1000px; margin: 0 auto;">
+    <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">अक्सर पूछे जाने वाले प्रश्न</div>
+    <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-lg); text-align: center;">अक्सर पूछे जाने वाले प्रश्न</h2>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        प्लेबैक स्पीड क्या है?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        प्लेबैक स्पीड वह दर है जिस पर मीडिया अपनी मूल रिकॉर्डिंग के सापेक्ष चलता है। 1.0x पर, कंटेंट सामान्य गति से चलता है। 1.5x पर, 60 मिनट का वीडियो 40 मिनट में समाप्त होता है; 2.0x पर, यह 30 मिनट में समाप्त होता है।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        1.5x प्लेबैक स्पीड कितनी तेज़ है?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        1.5x पर, कंटेंट सामान्य से 50% तेज़ चलता है। 60 मिनट का वीडियो 40 मिनट लेता है, 30 मिनट का वीडियो 20 मिनट लेता है, और 90 मिनट का वीडियो 60 मिनट लेता है।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        अलग स्पीड पर बचा समय कैसे कैलकुलेट करें?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        मूल अवधि को प्लेबैक स्पीड से विभाजित करें। उदाहरण के लिए, 60 मिनट को 1.5 से विभाजित करने पर 40 मिनट होता है। बचा समय मूल अवधि घटा समायोजित अवधि है — इस मामले में, 20 मिनट बचे।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        सामान्य प्लेबैक स्पीड कौन सी है?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        सामान्य प्लेबैक स्पीड 1.0x है — मूल रिकॉर्डिंग स्पीड बिना किसी तेज़ी या धीमेपन के।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        समय सीमा के भीतर खत्म करने के लिए आवश्यक स्पीड कैसे खोजें?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        मूल अवधि को अपने टारगेट समय से विभाजित करें। एक 90 मिनट का वीडियो जिसे आप 45 मिनट में खत्म करना चाहते हैं, उसे 90 ÷ 45 = 2.0x की आवश्यकता है। इसे स्वचालित रूप से कैलकुलेट करने के लिए टारगेट टाइम मोड का उपयोग करें।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        क्या प्लेबैक स्पीड देखने के समय को प्रभावित करती है?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        हां। तेज़ स्पीड पर देखने से कुल देखने का समय कम हो जाता है क्योंकि वही कंटेंट कम समय में चलता है। 1.5x पर 60 मिनट का वीडियो 40 मिनट के देखने के समय में परिणत होता है।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        1.5x स्पीड पर 1 घंटा कितना होता है?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        1.5x प्लेबैक स्पीड पर एक घंटा 40 मिनट लेता है। आप 20 मिनट बचाते हैं। 60 मिनट ÷ 1.5 = 40 मिनट।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        क्या मैं एक साथ कई वीडियो कैलकुलेट कर सकता हूँ?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        हां। प्लेलिस्ट बैच मोड आपको कई वीडियो अवधि दर्ज करने देता है और आपकी चुनी गई स्पीड पर उन सभी में कुल समायोजित समय और बचा समय दिखाता है।
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        प्लेबैक स्पीड बढ़ाने का शॉर्टकट?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        वेब ब्राउज़र में YouTube पर, Shift दबाए रखें और स्पीड बढ़ाने के लिए ग्रेटर-थान की दबाएं, या घटाने के लिए Shift और कॉमा दबाएं। हमारी साइट कीबोर्ड शॉर्टकट सपोर्ट करती है: प्रीसेट स्पीड के लिए 1–8 दबाएं, कॉपी के लिए C, रीसेट के लिए R, और मोड बदलने के लिए Tab।
+      </div>
+    </details>
+  </section>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "प्लेबैक स्पीड क्या है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "प्लेबैक स्पीड वह दर है जिस पर मीडिया अपनी मूल रिकॉर्डिंग के सापेक्ष चलता है। 1.0x पर, कंटेंट सामान्य गति से चलता है। 1.5x पर, 60 मिनट का वीडियो 40 मिनट में समाप्त होता है; 2.0x पर, यह 30 मिनट में समाप्त होता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "1.5x प्लेबैक स्पीड कितनी तेज़ है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1.5x पर, कंटेंट सामान्य से 50% तेज़ चलता है। 60 मिनट का वीडियो 40 मिनट लेता है, 30 मिनट का वीडियो 20 मिनट लेता है, और 90 मिनट का वीडियो 60 मिनट लेता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "अलग स्पीड पर बचा समय कैसे कैलकुलेट करें?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "मूल अवधि को प्लेबैक स्पीड से विभाजित करें। उदाहरण के लिए, 60 मिनट को 1.5 से विभाजित करने पर 40 मिनट होता है। बचा समय मूल अवधि घटा समायोजित अवधि है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "सामान्य प्लेबैक स्पीड कौन सी है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "सामान्य प्लेबैक स्पीड 1.0x है — मूल रिकॉर्डिंग स्पीड बिना किसी तेज़ी या धीमेपन के।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "समय सीमा के भीतर खत्म करने के लिए आवश्यक स्पीड कैसे खोजें?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "मूल अवधि को अपने टारगेट समय से विभाजित करें। एक 90 मिनट का वीडियो जिसे आप 45 मिनट में खत्म करना चाहते हैं, उसे 90 ÷ 45 = 2.0x की आवश्यकता है। इसे स्वचालित रूप से कैलकुलेट करने के लिए टारगेट टाइम मोड का उपयोग करें।"
+          }
+        }
+      ]
+    }
+  </script>
+</Layout>

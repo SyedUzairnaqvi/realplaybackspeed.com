@@ -7,9 +7,23 @@ export interface Props {
   description?: string;
   lang?: string;
   device?: string;
+  canonical?: string;
+  ogImage?: string;
 }
 
-const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', description = 'Calculate playback speed online. Free playback speed calculator for YouTube, Netflix, Spotify, audiobooks, and video. Find watch time, time saved, and required speed instantly.', lang = defaultLocale, device = 'desktop', ogImage } = Astro.props;
+const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', description = 'Calculate playback speed online. Free playback speed calculator for YouTube, Netflix, Spotify, audiobooks, and video. Find watch time, time saved, and required speed instantly.', lang = defaultLocale, device = 'desktop', canonical, ogImage } = Astro.props;
+
+const siteUrl = 'https://realplaybackspeed.com';
+const canonicalUrl = canonical || `${siteUrl}${lang === defaultLocale ? '/' : `/${lang}/`}`;
+
+// Generate hreflang alternates
+const hreflangAlternates = Object.keys(locales).map(locale => ({
+  lang: locale,
+  href: `${siteUrl}${locale === defaultLocale ? '/' : `/${locale}/`}`
+}));
+
+// Add x-default
+hreflangAlternates.push({ lang: 'x-default', href: `${siteUrl}/` });
 ---
 
 <!doctype html>
@@ -24,6 +38,10 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
     <meta name="apple-mobile-web-app-title" content="PBspeed" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    {hreflangAlternates.map(alt => (
+      <link rel="alternate" hreflang={alt.lang} href={alt.href} />
+    ))}
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafafa" />
@@ -32,7 +50,7 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://realplaybackspeed.com" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage || '/favicon-96x96.png'} />
     <meta property="og:site_name" content="Playback speed Calculator" />
     <meta property="og:locale" content={lang} />
@@ -103,7 +121,7 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
             <option value="windows-laptop">Windows Laptop</option>
           </select>
           <label style="display: flex; align-items: center; gap: var(--spacing-xs); font-size: 13px; color: var(--color-mute); margin-left: var(--spacing-xs);" data-i18n="language.selector">Language</label>
-          <select id="lang-select" style="width: auto; padding: 6px 10px; border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); background: var(--color-canvas-elevated); color: var(--color-ink); font-size: 13px;">
+          <select id="lang-select" style="width: auto; padding: 6px 10px; border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); background: var(--color-canvas-elevated); color: var(--color-ink); font-size: 13px;" onchange="navigateToLanguage(this.value)">
             <option value="en">English</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
@@ -118,6 +136,7 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
             <option value="ar">العربية</option>
             <option value="ru">Русский</option>
             <option value="tr">Türkçe</option>
+            <option value="hi">हिन्दी</option>
           </select>
           <button class="btn-icon" id="theme-toggle" style="width: 36px; height: 36px;" aria-label="Toggle dark mode" data-i18n-title="nav.theme-toggle">
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -159,15 +178,6 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
           try { localStorage.setItem(key, value); } catch (e) {}
         }
 
-        function setLang(language) {
-          if (!locales[language]) language = defaultLocale;
-          root.setAttribute('data-lang', language);
-          root.setAttribute('lang', language);
-          setStored('lang', language);
-          applyTranslations(language);
-          var sel = document.getElementById('lang-select');
-          if (sel) sel.value = language;
-        }
         function applyTranslations(language) {
           const dict = translations[language] || translations[defaultLocale];
           document.querySelectorAll('[data-i18n]').forEach(function(el) {
@@ -196,15 +206,33 @@ const { title = 'Playback Speed Calculator - Free Online Playback Speed Tool', d
           if (sel) sel.value = dev;
         }
 
-        var storedLang = getStored('lang') || root.getAttribute('lang') || defaultLocale;
-        setLang(storedLang);
+        // Apply translations for current page language (from <html lang>)
+        var currentLang = root.getAttribute('lang') || defaultLocale;
+        applyTranslations(currentLang);
         var storedDevice = getStored('device') || root.getAttribute('data-device') || 'desktop';
         setDevice(storedDevice);
 
-        var langSel = document.getElementById('lang-select');
-        if (langSel) langSel.addEventListener('change', function() { setLang(this.value); });
+        // Language navigation function - navigates to dedicated language URL
+        window.navigateToLanguage = function(language) {
+          if (!locales[language]) language = defaultLocale;
+          var currentPath = window.location.pathname;
+          var newPath;
+          if (language === defaultLocale) {
+            newPath = '/';
+          } else {
+            newPath = '/' + language + '/';
+          }
+          // Preserve query string and hash
+          var newUrl = newPath + window.location.search + window.location.hash;
+          window.location.href = newUrl;
+        };
+
         var devSel = document.getElementById('device-select');
         if (devSel) devSel.addEventListener('change', function() { setDevice(this.value); });
+        
+        // Pre-select current language in dropdown
+        var langSel = document.getElementById('lang-select');
+        if (langSel) langSel.value = currentLang;
       })();
     </script>
 

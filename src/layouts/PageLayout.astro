@@ -1,4 +1,5 @@
 ---
+import { locales, defaultLocale } from '../lib/i18n.js';
 import Footer from '../components/Footer.astro';
 
 export interface Props {
@@ -6,10 +7,23 @@ export interface Props {
   description?: string;
   lang?: string;
   device?: string;
+  canonical?: string;
   ogImage?: string;
 }
 
-const { title = 'Playback speed Calculator', description = 'Free online playback speed calculator.', lang = 'en', device = 'desktop', ogImage } = Astro.props;
+const { title = 'Playback speed Calculator', description = 'Free online playback speed calculator.', lang = defaultLocale, device = 'desktop', canonical, ogImage } = Astro.props;
+
+const siteUrl = 'https://realplaybackspeed.com';
+const canonicalUrl = canonical || `${siteUrl}${lang === defaultLocale ? '/' : `/${lang}/`}`;
+
+// Generate hreflang alternates
+const hreflangAlternates = Object.keys(locales).map(locale => ({
+  lang: locale,
+  href: `${siteUrl}${locale === defaultLocale ? '/' : `/${locale}/`}`
+}));
+
+// Add x-default
+hreflangAlternates.push({ lang: 'x-default', href: `${siteUrl}/` });
 ---
 <!doctype html>
 <html lang={lang} data-theme="light" data-device={device} data-lang={lang}>
@@ -23,6 +37,10 @@ const { title = 'Playback speed Calculator', description = 'Free online playback
     <meta name="apple-mobile-web-app-title" content="PBspeed" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    {hreflangAlternates.map(alt => (
+      <link rel="alternate" hreflang={alt.lang} href={alt.href} />
+    ))}
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafafa" />
@@ -31,7 +49,7 @@ const { title = 'Playback speed Calculator', description = 'Free online playback
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://realplaybackspeed.com" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage || '/favicon-96x96.png'} />
     <meta property="og:site_name" content="Playback speed Calculator" />
     <meta property="og:locale" content={lang} />

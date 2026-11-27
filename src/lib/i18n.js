@@ -13,6 +13,7 @@ export const locales = {
   ar: 'العربية',
   ru: 'Русский',
   tr: 'Türkçe',
+  hi: 'हिन्दी',
 };
 
 export const defaultLocale = 'en';
