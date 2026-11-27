@@ -1,0 +1,11 @@
+﻿{
+  "name": "realplaybackspeed-com",
+  "compatibility_date": "2026-11-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "abb43a501af0404091778fb15cdf444f"
+    }
+  ]
+}
