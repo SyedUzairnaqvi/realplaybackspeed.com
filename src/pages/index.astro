@@ -371,12 +371,12 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- About: Playback Speed Calculator -->
+<!-- About: Playback Speed Calculator -->
   <section id="about-playback-speed" class="section-container" style="padding: var(--spacing-3xl) var(--spacing-lg); background-color: var(--color-canvas); max-width: 1000px; margin: 0 auto;">
     <div class="eyebrow" style="margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px; font-size: var(--font-size-body-sm); font-weight: 600; color: var(--color-link);">About</div>
     <h2 style="font-size: var(--font-size-heading-xl); font-weight: var(--font-weight-heading-xl); line-height: var(--line-height-heading-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">Playback Speed Calculator</h2>
     <p style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); margin-bottom: var(--spacing-lg);">
-      Playback speed Calculator is a free online calculator that tells you how long any video or audio will take at a different playback speed, and how much time you’ll save. Enter the original duration, pick a speed, and see the adjusted time instantly — no “Calculate” button required.
+      Playback speed Calculator is a free online calculator that tells you how long any video or audio will take at a different playback speed, and how much time you'll save. Enter the original duration, pick a speed, and see the adjusted time instantly — no "Calculate" button required.
     </p>
 
     <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">What Is Playback Speed?</h3>
@@ -384,9 +384,21 @@ import Layout from '../layouts/Layout.astro';
       Playback speed is the rate at which media plays relative to its original recording. At 1.0x, content plays at normal speed. At 1.5x, a 60-minute video finishes in 40 minutes. At 2.0x, it finishes in 30 minutes. Our calculator lets you enter the original duration and your chosen speed, then shows the adjusted duration, time saved, and percentage saved as you type.
     </p>
 
+    <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">Who Uses This?</h3>
+    <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
+      Students, professionals, and lifelong learners worldwide use playback speed calculators to save time on:
+    </p>
+    <ul style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md); padding-left: var(--spacing-lg);">
+      <li>YouTube tutorials, educational channels, and how-to videos</li>
+      <li>University lecture recordings (US, UK, CA, AU) — revision at 1.5–2x</li>
+      <li>BBC iPlayer documentaries, CBC Podcasts / CBC Listen, ABC Listen / ABC iview</li>
+      <li>Spotify podcasts, Audible audiobooks, Coursera / edX course videos</li>
+      <li>Corporate training, conference recordings, and webinar replays</li>
+    </ul>
+
     <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">YouTube URL Duration Detection</h3>
     <p style="font-size: var(--font-size-body-md); line-height: var(--line-height-body-md); color: var(--color-body); margin-bottom: var(--spacing-md);">
-      Paste a public YouTube video URL (watch, youtu.be, or shorts) and the calculator attempts to detect the video’s duration automatically, filling in Hours, Minutes, and Seconds. This works for most public videos. It does not work for private, age-restricted, or members-only content, and YouTube occasionally blocks automated detection. If detection fails, you can enter the duration manually.
+      Paste a public YouTube video URL (watch, youtu.be, or shorts) and the calculator attempts to detect the video's duration automatically, filling in Hours, Minutes, and Seconds. This works for most public videos. It does not work for private, age-restricted, or members-only content, and YouTube occasionally blocks automated detection. If detection fails, you can enter the duration manually.
     </p>
 
     <h3 style="font-size: var(--font-size-heading-md); font-weight: var(--font-weight-heading-md); color: var(--color-ink); margin: var(--spacing-lg) 0 var(--spacing-sm);">How to Use the Calculator</h3>
@@ -506,6 +518,27 @@ import Layout from '../layouts/Layout.astro';
           <td style="padding: var(--spacing-sm);">60 min</td>
           <td style="padding: var(--spacing-sm);">60 min</td>
         </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">UK uni revision lecture</td>
+          <td style="padding: var(--spacing-sm);">60 min</td>
+          <td style="padding: var(--spacing-sm);">1.75x</td>
+          <td style="padding: var(--spacing-sm);">34 min</td>
+          <td style="padding: var(--spacing-sm);">26 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Canadian course module</td>
+          <td style="padding: var(--spacing-sm);">45 min</td>
+          <td style="padding: var(--spacing-sm);">2.0x</td>
+          <td style="padding: var(--spacing-sm);">22.5 min</td>
+          <td style="padding: var(--spacing-sm);">22.5 min</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--color-hairline);">
+          <td style="padding: var(--spacing-sm);">Australian podcast (ABC Listen)</td>
+          <td style="padding: var(--spacing-sm);">50 min</td>
+          <td style="padding: var(--spacing-sm);">1.5x</td>
+          <td style="padding: var(--spacing-sm);">33 min</td>
+          <td style="padding: var(--spacing-sm);">17 min</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -595,6 +628,51 @@ import Layout from '../layouts/Layout.astro';
         On YouTube in a web browser, hold Shift and press the greater-than key to increase speed, or Shift and the comma key to decrease it. Our site supports keyboard shortcuts: press 1–8 for preset speeds, C to copy, R to reset, and Tab to switch calculator modes.
       </div>
     </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        What is a video speed calculator?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        A video speed calculator (also called a playback speed calculator or watch time calculator) computes the adjusted duration and time saved when playing video at faster or slower speeds. Enter the original length and your desired speed to see the new runtime instantly.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Can I use this as a lecture speed calculator for university recordings?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Yes. Many students use this as a lecture speed calculator for university lecture captures, revision recordings, and online course modules. Whether it's a 60-minute lecture at 1.75x (34 min) or a 3-hour seminar at 2x (1.5 hrs), the calculator shows adjusted time and time saved instantly.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Does this work as an audiobook speed calculator for Audible?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Absolutely. Use it as an audiobook speed calculator for Audible, Libby, or any audiobook app. Enter the total listening time and your preferred narration speed (e.g., 1.25x, 1.5x, 2x) to see how much listening time you'll save.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        How does the time saved calculator work?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        The time saved calculator subtracts the adjusted duration from the original duration. Formula: Time Saved = Original Duration − (Original Duration ÷ Playback Speed). For a 90-minute video at 1.5x: 90 − (90 ÷ 1.5) = 90 − 60 = 30 minutes saved.
+      </div>
+    </details>
+
+    <details class="faq-item" style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); overflow: hidden;">
+      <summary style="padding: var(--spacing-md) var(--spacing-lg); font-weight: 600; font-size: var(--font-size-body-md); color: var(--color-ink); cursor: pointer; list-style: none; outline: none;">
+        Can I calculate podcast playback speed for Spotify or CBC Podcasts?
+      </summary>
+      <div style="padding: 0 var(--spacing-lg) var(--spacing-lg); font-size: var(--font-size-body-md); color: var(--color-body); line-height: var(--line-height-body-md);">
+        Yes. Use it as a podcast speed calculator for Spotify, Apple Podcasts, CBC Podcasts, CBC Listen, ABC Listen, or any podcast platform. Paste the episode duration, choose your playback speed, and see the adjusted listening time and time saved.
+      </div>
+    </details>
   </section>
 
   <script type="application/ld+json">
@@ -672,6 +750,46 @@ import Layout from '../layouts/Layout.astro';
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "On YouTube in a web browser, hold Shift and press the greater-than key to increase speed, or Shift and the comma key to decrease it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a video speed calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A video speed calculator (also called a playback speed calculator or watch time calculator) computes the adjusted duration and time saved when playing video at faster or slower speeds. Enter the original length and your desired speed to see the new runtime instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this as a lecture speed calculator for university recordings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Many students use this as a lecture speed calculator for university lecture captures, revision recordings, and online course modules. Whether it's a 60-minute lecture at 1.75x (34 min) or a 3-hour seminar at 2x (1.5 hrs), the calculator shows adjusted time and time saved instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this work as an audiobook speed calculator for Audible?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Use it as an audiobook speed calculator for Audible, Libby, or any audiobook app. Enter the total listening time and your preferred narration speed (e.g., 1.25x, 1.5x, 2x) to see how much listening time you'll save."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the time saved calculator work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The time saved calculator subtracts the adjusted duration from the original duration. Formula: Time Saved = Original Duration − (Original Duration ÷ Playback Speed). For a 90-minute video at 1.5x: 90 − (90 ÷ 1.5) = 90 − 60 = 30 minutes saved."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I calculate podcast playback speed for Spotify or CBC Podcasts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Use it as a podcast speed calculator for Spotify, Apple Podcasts, CBC Podcasts, CBC Listen, ABC Listen, or any podcast platform. Paste the episode duration, choose your playback speed, and see the adjusted listening time and time saved."
           }
         }
       ]
@@ -1845,9 +1963,19 @@ import Layout from '../layouts/Layout.astro';
       if (!adjustedSeconds || adjustedSeconds <= 0) return '--:--';
       const now = new Date();
       now.setSeconds(now.getSeconds() + Math.round(adjustedSeconds));
-      const h = now.getHours().toString().padStart(2, '0');
-      const m = now.getMinutes().toString().padStart(2, '0');
-      return `${h}:${m}`;
+      // Use browser locale for time formatting (US: 12-hour, UK/AU/CA: 24-hour or localized)
+      try {
+        return now.toLocaleTimeString(navigator.language || 'en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: undefined // Let browser decide based on locale
+        });
+      } catch {
+        // Fallback to 24-hour format
+        const h = now.getHours().toString().padStart(2, '0');
+        const m = now.getMinutes().toString().padStart(2, '0');
+        return `${h}:${m}`;
+      }
     }
 
     // Export functions
