@@ -25,7 +25,7 @@ export const translations = {
     'nav.examples': 'Examples',
     'nav.theme-toggle': 'Toggle dark mode',
     'hero.eyebrow': 'Calculate',
-    'hero.title': 'Playback Speed Calculator',
+    'hero.title': 'Real Playback Speed',
     'hero.desc': 'Calculate exact watch or listen duration, time saved, and required speed in real time. No "Calculate" button needed — results update as you type.',
     'hero.cta-calc': 'Start Calculating',
     'hero.cta-features': 'See Features',

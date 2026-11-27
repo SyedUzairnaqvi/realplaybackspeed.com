@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rps-v1';
+const CACHE_NAME = 'rps-v2';
 const ASSETS = [
   '/',
   '/favicon.ico',
