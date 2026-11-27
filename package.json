@@ -10,12 +10,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy dist/server/wrangler.json"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.9",
     "@astrojs/sitemap": "^3.7.6",
-    "astro": "^7.4.13"
+    "astro": "^7.4.13",
+    "canvas": "^3.2.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
