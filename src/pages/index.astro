@@ -139,6 +139,11 @@ import Layout from '../layouts/Layout.astro';
               <div class="result-value" id="std-percentage">0%</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
             </div>
+            <div class="card" style="text-align: center; padding: var(--spacing-md);">
+              <div class="result-label" style="font-size: var(--font-size-body-sm);">Finish At (start now)</div>
+              <div class="result-value" id="std-finish-time" style="font-size: var(--font-size-body-md); font-weight: 600; color: var(--color-link);">--:--</div>
+              <div style="font-size: var(--font-size-body-xs); color: var(--color-mute); margin-top: 4px;">at current speed</div>
+            </div>
             </div>
 
             <!-- Shareable URL (Mode 1) -->
@@ -997,6 +1002,17 @@ import Layout from '../layouts/Layout.astro';
 
       document.getElementById('std-percentage').textContent = result.percentageSaved.toFixed(1) + '%';
 
+      // Finish-time estimator
+      const finishEl = document.getElementById('std-finish-time');
+      if (finishEl) {
+        if (result.adjustedSeconds > 0) {
+          finishEl.textContent = 'Start now → finish at ' + finishTimeEstimate(result.adjustedSeconds);
+          finishEl.style.display = 'inline';
+        } else {
+          finishEl.style.display = 'none';
+        }
+      }
+
       updateStdPresetButtons();
     }
 
@@ -1607,6 +1623,248 @@ import Layout from '../layouts/Layout.astro';
         }, 10000);
       });
     })();
+
+    // ============================================
+    // SHAREABLE URLS & HISTORY
+    // ============================================
+    const HISTORY_KEY = 'rps_history';
+    const MAX_HISTORY = 20;
+
+    function getHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      } catch { return []; }
+    }
+
+    function saveHistory(entry) {
+      const history = getHistory();
+      history.unshift(entry);
+      if (history.length > MAX_HISTORY) history.pop();
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch {}
+    }
+
+    function updateUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      if (currentMode === 'standard') {
+        params.set('mode', 'standard');
+        params.set('h', stdState.hours);
+        params.set('m', stdState.minutes);
+        params.set('s', stdState.seconds);
+        params.set('speed', stdState.speed);
+      } else if (currentMode === 'reverse') {
+        params.set('mode', 'reverse');
+        params.set('oh', revState.origHours);
+        params.set('om', revState.origMinutes);
+        params.set('os', revState.origSeconds);
+        params.set('th', revState.targetHours);
+        params.set('tm', revState.targetMinutes);
+        params.set('ts', revState.targetSeconds);
+      } else if (currentMode === 'batch') {
+        params.set('mode', 'batch');
+        params.set('speed', batchState.speed);
+      }
+      const newUrl = window.location.pathname + '?' + params.toString();
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    function shareStdLink() {
+      const originalSeconds = getStdOriginalSeconds();
+      const result = calculatePlayback(originalSeconds, stdState.speed);
+      const data = {
+        originalSeconds,
+        speed: stdState.speed,
+        adjustedSeconds: result.adjustedSeconds,
+        timeSaved: result.timeSaved,
+        percentageSaved: result.percentageSaved,
+        timestamp: new Date().toISOString(),
+      };
+      saveHistory({ mode: 'standard', ...data });
+
+      updateUrlParams();
+      const link = window.location.href;
+      copyToClipboard(link);
+    }
+
+    function shareRevLink() {
+      const originalSeconds = getRevOriginalSeconds();
+      const targetSeconds = getRevTargetSeconds();
+      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
+      const data = {
+        originalSeconds,
+        targetSeconds,
+        requiredSpeed: result.requiredSpeed,
+        timestamp: new Date().toISOString(),
+      };
+      saveHistory({ mode: 'reverse', ...data });
+
+      updateUrlParams();
+      const link = window.location.href;
+      copyToClipboard(link);
+    }
+
+    function finishTimeEstimate(adjustedSeconds) {
+      if (!adjustedSeconds || adjustedSeconds <= 0) return '--:--';
+      const now = new Date();
+      now.setSeconds(now.getSeconds() + Math.round(adjustedSeconds));
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      return `${h}:${m}`;
+    }
+
+    // Export functions
+    function exportStd() {
+      const originalSeconds = getStdOriginalSeconds();
+      const result = calculatePlayback(originalSeconds, stdState.speed);
+      const rows = [
+        ['Mode', 'Original (s)', 'Speed (x)', 'Adjusted (s)', 'Time Saved (s)', 'Saved %', 'Timestamp'],
+        ['standard', originalSeconds, stdState.speed, result.adjustedSeconds, result.timeSaved, result.percentageSaved.toFixed(1), new Date().toISOString()],
+      ];
+      downloadCsv(rows, 'playback-speed-standard.csv');
+    }
+
+    function exportRev() {
+      const originalSeconds = getRevOriginalSeconds();
+      const targetSeconds = getRevTargetSeconds();
+      const result = calculateRequiredSpeed(originalSeconds, targetSeconds);
+      const rows = [
+        ['Mode', 'Original (s)', 'Target (s)', 'Required Speed (x)', 'Time Saved (s)', 'Timestamp'],
+        ['reverse', originalSeconds, targetSeconds, result.requiredSpeed.toFixed(2), originalSeconds - targetSeconds, new Date().toISOString()],
+      ];
+      downloadCsv(rows, 'playback-speed-reverse.csv');
+    }
+
+    function exportBatch() {
+      const totalOriginal = getBatchOriginalSeconds();
+      const speed = batchState.speed;
+      const totalAdjusted = totalOriginal / speed;
+      const totalTimeSaved = totalOriginal - totalAdjusted;
+      const rows = [
+        ['Mode', 'Item', 'Duration (s)', 'Speed (x)', 'Adjusted (s)', 'Timestamp'],
+      ];
+      batchState.items.forEach(item => {
+        rows.push(['batch', item.title, item.totalSeconds, speed, item.totalSeconds / speed, new Date().toISOString()]);
+      });
+      rows.push(['batch', 'TOTAL', totalOriginal, speed, totalAdjusted, new Date().toISOString()]);
+      downloadCsv(rows, 'playback-speed-batch.csv');
+    }
+
+    function downloadCsv(data, filename) {
+      const csv = data.map(row => row.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Exported to ' + filename);
+    }
+
+    // Initialize URL params on load
+    parseUrlParams();
+
+    // Wire up URL sync after every calculation
+    const _calculateStd = calculateStd;
+    calculateStd = function() {
+      _calculateStd();
+      updateUrlParams();
+    };
+
+    const _calculateRev = calculateRev;
+    calculateRev = function() {
+      _calculateRev();
+      updateUrlParams();
+    };
+
+    const _calculateBatch = calculateBatch;
+    calculateBatch = function() {
+      _calculateBatch();
+      updateUrlParams();
+    };
+
+    // Add share/export buttons to Mode 1
+    const stdPanel = document.getElementById('panel-standard');
+    if (stdPanel) {
+      const actions = stdPanel.querySelector('.actions') || document.createElement('div');
+      if (!stdPanel.querySelector('.actions')) {
+        actions.className = 'actions';
+        actions.style.display = 'flex';
+        actions.style.gap = 'var(--spacing-sm)';
+        actions.style.flexWrap = 'wrap';
+        actions.style.marginTop = 'var(--spacing-md)';
+        stdPanel.appendChild(actions);
+      }
+      const shareBtn = document.createElement('button');
+      shareBtn.className = 'btn-ghost';
+      shareBtn.textContent = 'Share link';
+      shareBtn.title = 'Copy shareable link with current settings';
+      shareBtn.addEventListener('click', shareStdLink);
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn-ghost';
+      exportBtn.textContent = 'Export CSV';
+      exportBtn.title = 'Download calculation as CSV';
+      exportBtn.addEventListener('click', exportStd);
+      actions.appendChild(shareBtn);
+      actions.appendChild(exportBtn);
+    }
+
+    // Add share/export buttons to Mode 2
+    const revPanel = document.getElementById('panel-reverse');
+    if (revPanel) {
+      const actions = revPanel.querySelector('.actions') || document.createElement('div');
+      if (!revPanel.querySelector('.actions')) {
+        actions.className = 'actions';
+        actions.style.display = 'flex';
+        actions.style.gap = 'var(--spacing-sm)';
+        actions.style.flexWrap = 'wrap';
+        actions.style.marginTop = 'var(--spacing-md)';
+        revPanel.appendChild(actions);
+      }
+      const shareBtn = document.createElement('button');
+      shareBtn.className = 'btn-ghost';
+      shareBtn.textContent = 'Share link';
+      shareBtn.title = 'Copy shareable link with current settings';
+      shareBtn.addEventListener('click', shareRevLink);
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn-ghost';
+      exportBtn.textContent = 'Export CSV';
+      exportBtn.title = 'Download calculation as CSV';
+      exportBtn.addEventListener('click', exportRev);
+      actions.appendChild(shareBtn);
+      actions.appendChild(exportBtn);
+    }
+
+    // Add share/export buttons to Mode 3
+    const batchPanel = document.getElementById('panel-batch');
+    if (batchPanel) {
+      const actions = batchPanel.querySelector('.actions') || document.createElement('div');
+      if (!batchPanel.querySelector('.actions')) {
+        actions.className = 'actions';
+        actions.style.display = 'flex';
+        actions.style.gap = 'var(--spacing-sm)';
+        actions.style.flexWrap = 'wrap';
+        actions.style.marginTop = 'var(--spacing-md)';
+        batchPanel.appendChild(actions);
+      }
+      const shareBtn = document.createElement('button');
+      shareBtn.className = 'btn-ghost';
+      shareBtn.textContent = 'Share link';
+      shareBtn.title = 'Copy shareable link with current settings';
+      shareBtn.addEventListener('click', () => {
+        updateUrlParams();
+        copyToClipboard(window.location.href);
+      });
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn-ghost';
+      exportBtn.textContent = 'Export CSV';
+      exportBtn.title = 'Download calculation as CSV';
+      exportBtn.addEventListener('click', exportBatch);
+      actions.appendChild(shareBtn);
+      actions.appendChild(exportBtn);
+    }
+
 
     // Initialize
     parseUrlParams();

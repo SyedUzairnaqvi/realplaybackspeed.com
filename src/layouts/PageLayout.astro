@@ -47,6 +47,7 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
     <script is:inline src="/i18n.js"></script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Sticky navbar -->
     <nav class="nav-bar" style="position: sticky; top: 0; z-index: 50; background: var(--color-canvas-elevated); border-bottom: 1px solid var(--color-hairline); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
       <div class="section-container nav-inner" style="display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-sm) var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-md);">
@@ -72,7 +73,9 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
       </div>
     </nav>
 
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
 
     <Footer />
 
@@ -106,6 +109,15 @@ const { title = 'Real Playback Speed', description = 'Free online playback speed
           themeBtn.addEventListener('click', function() {
             var current = root.getAttribute('data-theme') || 'light';
             applyTheme(current === 'dark' ? 'light' : 'dark');
+          });
+        }
+
+        // ---------- PWA Service Worker ----------
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            console.log('SW registered', reg.scope);
+          }).catch(function(err) {
+            console.log('SW registration failed', err);
           });
         }
       })();

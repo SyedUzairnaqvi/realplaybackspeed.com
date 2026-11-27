@@ -159,6 +159,17 @@ async function fetchWithTimeout(
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+async function saveToKV(platform: any, videoId: string, title: string, durationSeconds: number) {
+  try {
+    const kv = platform?.env?.SESSION;
+    if (kv) {
+      await kv.put(`yt-duration:${videoId}`, JSON.stringify({ title, durationSeconds }), { expirationTtl: 86400 * 7 });
+    }
+  } catch {
+    /* KV unavailable, skip caching */
+  }
+}
+
 /** Try the youtubei/v1/player API with different client variants. */
 async function tryYouTubeiAPI(videoId: string): Promise<number | null> {
   const clients = [
@@ -213,13 +224,30 @@ async function tryYouTubeiAPI(videoId: string): Promise<number | null> {
   return null;
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, platform }) => {
   const videoId = url.searchParams.get('v')?.trim();
   if (!videoId || !YOUTUBE_ID_RE.test(videoId)) {
     return new Response(
       JSON.stringify({ error: 'Missing or invalid YouTube video ID' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
+  }
+
+  // Strategy 0: KV cache lookup
+  try {
+    const kv = (platform as any)?.env?.SESSION;
+    if (kv) {
+      const cached = await kv.get(`yt-duration:${videoId}`);
+      if (cached) {
+        const data = JSON.parse(cached);
+        return new Response(
+          JSON.stringify({ videoId, title: data.title || 'YouTube Video', durationSeconds: data.durationSeconds, cached: true }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+  } catch {
+    /* KV unavailable, proceed without cache */
   }
 
   const urls = [
@@ -245,6 +273,7 @@ export const GET: APIRoute = async ({ url }) => {
 
         const fromJson = extractLengthSeconds(html);
         if (fromJson != null && fromJson > 0) {
+          await saveToKV(platform, videoId, extractTitle(html) || 'YouTube Video', fromJson);
           return new Response(
             JSON.stringify({ videoId, title: extractTitle(html) || 'YouTube Video', durationSeconds: fromJson }),
             { status: 200, headers: { 'Content-Type': 'application/json' } }
@@ -253,6 +282,7 @@ export const GET: APIRoute = async ({ url }) => {
 
         const fromIso = extractIsoDuration(html);
         if (fromIso != null && fromIso > 0) {
+          await saveToKV(platform, videoId, extractTitle(html) || 'YouTube Video', fromIso);
           return new Response(
             JSON.stringify({ videoId, title: extractTitle(html) || 'YouTube Video', durationSeconds: fromIso }),
             { status: 200, headers: { 'Content-Type': 'application/json' } }
@@ -271,6 +301,7 @@ export const GET: APIRoute = async ({ url }) => {
   // Strategy 2: youtubei/v1/player API
   const ytDuration = await tryYouTubeiAPI(videoId);
   if (ytDuration != null && ytDuration > 0) {
+    await saveToKV(platform, videoId, 'YouTube Video', ytDuration);
     return new Response(
       JSON.stringify({ videoId, title: 'YouTube Video', durationSeconds: ytDuration }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
