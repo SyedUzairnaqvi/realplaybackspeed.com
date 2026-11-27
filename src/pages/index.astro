@@ -9,10 +9,9 @@ import Layout from '../layouts/Layout.astro';
   <!-- Hero Section -->
   <section class="hero-band">
     <div class="section-container hero-content" style="text-align: center; position: relative; z-index: 1;">
-      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-xs);">Calculate</div>
-      <h2 class="hero-subheading" style="font-size: var(--font-size-body-lg); font-weight: var(--font-weight-body-md); color: var(--color-body); margin: 0 0 var(--spacing-md); text-transform: uppercase; letter-spacing: 1px;">Playback Speed Calculator</h2>
+      <div class="eyebrow hero-eyebrow" data-i18n="hero.eyebrow" style="margin-bottom: var(--spacing-xs);">Free Online Tool</div>
       <h1 class="hero-title" data-i18n="hero.title" style="font-size: var(--font-size-display-xl); font-weight: var(--font-weight-display-xl); line-height: var(--line-height-display-xl); letter-spacing: var(--letter-spacing-display-xl); color: var(--color-ink); margin: 0 0 var(--spacing-md);">
-        Playback Speed Calculator
+        Real Playback Speed
       </h1>
       <p class="hero-desc" data-i18n="hero.desc" style="font-size: var(--font-size-body-lg); line-height: var(--line-height-body-lg); color: var(--color-body); max-width: 600px; margin: 0 auto var(--spacing-xl);">
         Calculate exact watch or listen duration, time saved, and required speed in real time. 
@@ -134,11 +133,22 @@ import Layout from '../layouts/Layout.astro';
               <div class="result-value result-positive" id="std-time-saved">00:00:00</div>
               <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;" id="std-time-saved-human">0s</div>
             </div>
-            <div class="card" style="text-align: center; padding: var(--spacing-md);">
-              <div class="result-label" data-i18n="calculator.result.percentage-saved">Percentage Saved</div>
-              <div class="result-value" id="std-percentage">0%</div>
-              <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
-            </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" style="font-size: var(--font-size-body-xs); color: var(--color-mute); text-transform: uppercase; letter-spacing: 1px;">Speed</div>
+                <div class="speed-gauge-wrap">
+                  <svg class="speed-gauge" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                    <path class="speed-gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
+                    <path id="std-gauge-fill" class="speed-gauge-fill" stroke="var(--color-link)" d="M 20 100 A 80 80 0 0 1 20 100" stroke-dasharray="251" stroke-dashoffset="251" />
+                  </svg>
+                  <div id="std-gauge-label" class="speed-gauge-label">1.0x</div>
+                </div>
+                <div id="std-mascot" class="speed-mascot">🐢</div>
+              </div>
+              <div class="card" style="text-align: center; padding: var(--spacing-md);">
+                <div class="result-label" data-i18n="calculator.result.percentage-saved">Percentage Saved</div>
+                <div class="result-value" id="std-percentage">0%</div>
+                <div style="font-size: var(--font-size-body-sm); color: var(--color-mute); margin-top: 4px;">of original time</div>
+              </div>
             <div class="card" style="text-align: center; padding: var(--spacing-md);">
               <div class="result-label" style="font-size: var(--font-size-body-sm);">Finish At (start now)</div>
               <div class="result-value" id="std-finish-time" style="font-size: var(--font-size-body-md); font-weight: 600; color: var(--color-link);">--:--</div>
@@ -668,8 +678,9 @@ import Layout from '../layouts/Layout.astro';
     }
   </script>
 
-  <!-- Toast Notification -->
-  <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <!-- Toast Notification -->
+    <div id="toast" style="display: none;" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <canvas id="confetti-canvas" width="0" height="0"></canvas>
 
   <!-- Keyboard Shortcuts Help Modal -->
   <div id="shortcuts-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: var(--spacing-lg);">
@@ -922,6 +933,118 @@ import Layout from '../layouts/Layout.astro';
       }, duration);
     }
 
+    // ---------- Confetti ----------
+    function confetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width || window.innerWidth;
+      canvas.height = rect.height || window.innerHeight;
+      const ctx = canvas.getContext('2d');
+      const particles = [];
+      const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+      const particleCount = 120;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 20,
+          vy: (Math.random() - 0.5) * 20 - 5,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 100 + Math.random() * 100,
+          rot: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = 0;
+        for (const p of particles) {
+          if (p.life <= 0) continue;
+          active++;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.5;
+          p.rot += p.rotSpeed;
+          p.life--;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.life / 100;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        }
+        if (active > 0) requestAnimationFrame(draw);
+        else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          canvas.width = 0;
+          canvas.height = 0;
+        }
+      }
+      draw();
+    }
+
+    // ---------- Sparkle trail ----------
+    function sparkle(x, y) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 600);
+    }
+
+    document.addEventListener('mousedown', (e) => {
+      sparkle(e.clientX, e.clientY);
+    });
+
+    // ---------- Speed gauge ----------
+    function updateGauge(speed) {
+      // Map speed 0.25x–4x to arc 180deg→0deg (right side of semi-circle)
+      const minSpeed = 0.25;
+      const maxSpeed = 4;
+      const t = Math.min(Math.max((speed - minSpeed) / (maxSpeed - minSpeed), 0), 1);
+      const radius = 80;
+      const circumference = 2 * Math.PI * radius;
+      const arcLength = circumference * t;
+      const el = document.getElementById('std-gauge-fill');
+      if (el) {
+        el.style.strokeDashoffset = 251 - arcLength;
+        // Color based on speed
+        if (speed < 1) el.style.stroke = '#3b82f6'; // slow = blue
+        else if (speed === 1) el.style.stroke = '#9ca3af'; // normal = gray
+        else if (speed < 2) el.style.stroke = '#10b981'; // fast = green
+        else el.style.stroke = '#ef4444'; // turbo = red
+      }
+      const label = document.getElementById('std-gauge-label');
+      if (label) label.textContent = speed.toFixed(2) + 'x';
+
+      // Mascot emoji based on speed
+      const mascot = document.getElementById('std-mascot');
+      if (mascot) {
+        let emoji = '🐢'; // slow
+        if (speed === 1) emoji = '🐌'; // normal
+        else if (speed < 2) emoji = '🐰'; // fast
+        else emoji = '🚀'; // turbo
+        mascot.textContent = emoji;
+        mascot.classList.remove('bounce');
+        void mascot.offsetWidth; // trigger reflow
+        mascot.classList.add('bounce');
+      }
+    }
+
+    // ---------- Speed chip color ----------
+    function speedChipClass(speed) {
+      if (speed < 1) return 'slow';
+      if (speed === 1) return 'normal';
+      if (speed < 2) return 'fast';
+      return 'turbo';
+    }
+
     // Copy to clipboard
     async function copyToClipboard(text) {
       try {
@@ -1014,6 +1137,20 @@ import Layout from '../layouts/Layout.astro';
       }
 
       updateStdPresetButtons();
+
+      // Confetti on calculation
+      confetti();
+      // Update speed gauge
+      updateGauge(stdState.speed);
+      // Pulse result cards
+      document.getElementById('std-new-duration').classList.add('pulse-result');
+      document.getElementById('std-time-saved').classList.add('pulse-result');
+      document.getElementById('std-percentage').classList.add('pulse-result');
+      setTimeout(() => {
+        document.getElementById('std-new-duration').classList.remove('pulse-result');
+        document.getElementById('std-time-saved').classList.remove('pulse-result');
+        document.getElementById('std-percentage').classList.remove('pulse-result');
+      }, 2000);
     }
 
     // Mode 1 event listeners
@@ -1226,6 +1363,7 @@ import Layout from '../layouts/Layout.astro';
       } else {
         speedEl.style.color = 'var(--color-ink)';
       }
+      confetti();
     }
 
     // Mode 2 event listeners
@@ -1346,6 +1484,7 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('batch-adjusted-human').textContent = formatDuration(totalAdjusted);
       document.getElementById('batch-saved').textContent = formatSeconds(totalTimeSaved);
       document.getElementById('batch-saved-human').textContent = formatDuration(totalTimeSaved);
+      confetti();
     }
 
     // Batch event listeners
