@@ -138,8 +138,8 @@
   --color-on-primary: #171717;
   --color-ink: #fafafa;
   --color-body: #a1a1a1;
-  --color-mute: #8f8f8f;
-  --color-faint: #666666;
+    --color-mute: #c0c0c0;
+    --color-faint: #666666;
   --color-hairline: #2e2e2e;
   --color-hairline-soft: #1a1a1a;
   --color-canvas: #0a0a0a;
@@ -170,7 +170,7 @@
     --color-on-primary: #171717;
     --color-ink: #fafafa;
     --color-body: #a1a1a1;
-    --color-mute: #8f8f8f;
+  --color-mute: #c0c0c0;
     --color-faint: #666666;
     --color-hairline: #2e2e2e;
     --color-hairline-soft: #1a1a1a;
