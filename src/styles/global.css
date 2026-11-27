@@ -864,9 +864,12 @@ html.is-fullscreen #calculator {
 }
 .speed-gauge-bg {
   fill: none;
-  stroke: var(--color-hairline);
+  stroke: #e4e4e7;
   stroke-width: 10;
   stroke-linecap: round;
+}
+[data-theme="dark"] .speed-gauge-bg {
+  stroke: #27272a;
 }
 .speed-gauge-fill {
   fill: none;

@@ -1004,19 +1004,19 @@ import Layout from '../layouts/Layout.astro';
 
     // ---------- Speed gauge ----------
     function updateGauge(speed) {
-      // Map speed 0.25x–4x to arc 180deg→0deg (right side of semi-circle)
+      // Map speed 0.25x–4x to arc progress 0→1 (semicircle arc)
       const minSpeed = 0.25;
       const maxSpeed = 4;
       const t = Math.min(Math.max((speed - minSpeed) / (maxSpeed - minSpeed), 0), 1);
       const radius = 80;
-      const circumference = 2 * Math.PI * radius;
-      const arcLength = circumference * t;
+      const pathLength = Math.PI * radius; // semicircle arc length = π * r
+      const arcLength = pathLength * t;
       const el = document.getElementById('std-gauge-fill');
       if (el) {
-        el.style.strokeDashoffset = 251 - arcLength;
-        // Color based on speed
+        el.style.strokeDashoffset = pathLength * (1 - t);
+        // Color based on speed - works in both light/dark
         if (speed < 1) el.style.stroke = '#3b82f6'; // slow = blue
-        else if (speed === 1) el.style.stroke = '#9ca3af'; // normal = gray
+        else if (speed === 1) el.style.stroke = '#6b7280'; // normal = medium gray
         else if (speed < 2) el.style.stroke = '#10b981'; // fast = green
         else el.style.stroke = '#ef4444'; // turbo = red
       }
@@ -2013,5 +2013,31 @@ import Layout from '../layouts/Layout.astro';
     calculateBatch();
 
     updateStdPresetButtons();
+
+    // ---------- Theme & Gauge persistence across MPA navigation ----------
+    document.addEventListener('astro:after-swap', () => {
+      // Re-apply theme
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+
+      // Update gauge for current mode
+      if (currentMode === 'standard') {
+        updateGauge(stdState.speed);
+      }
+    });
+
+    window.addEventListener('pageshow', () => {
+      // Re-apply theme on back/forward navigation
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    });
   </script>
 </Layout>
